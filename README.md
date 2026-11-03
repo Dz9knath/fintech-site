@@ -2,10 +2,10 @@
 
 Static marketing site for The Ultimate Project 3000 ("Send a reel. Get a trip."). Plain HTML, CSS and JS: no build step, no dependencies.
 
-- `index.html`, `site.css`, `site.js`: the designed landing page
+- `index.html`: the landing page, fully self-contained (styles and scripts are inline, so it renders the same wherever it is opened)
 - `demo.html`: the interactive Reel to Trip demo that every "try" action opens
 
-All prices shown are illustrative estimates from example data, not live prices or availability.
+All prices shown are illustrative estimates from example data, not live prices or availability. The Google Fonts need an internet connection; offline it falls back to system fonts.
 
 ## Run locally
 

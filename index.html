@@ -13,7 +13,308 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
-<link rel="stylesheet" href="site.css">
+<style>
+/* Ultimate Project 3000: marketing site. Tokens come straight from the Reel to Trip demo. */
+:root{
+  --bg:#F3F7F6;--ink:#13262D;--muted:#5B737B;--line:#D5E2E0;--card:#FFFFFF;--soft:#E8F1EF;--dot:#BFD7D3;
+  --coral:#F2603F;--coral-soft:#FFF3EF;--deep:#0B3C49;--teal:#1E9C8E;--sun:#F7C873;--sky:#3D5A80;
+  --on-deep:#FFFFFF;--on-coral:#FFFFFF;
+  --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"DM Sans",system-ui,sans-serif;
+  --r:28px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0A1B20;--ink:#E5F0EE;--muted:#93AEB4;--line:#21414A;--card:#11272E;--soft:#17333B;--dot:#21414A;
+  --coral:#FF7A5C;--coral-soft:#2A1F1D;--deep:#7FD3C7;--teal:#3CC4B3;--on-deep:#0A1B20;--on-coral:#1A0F0C;color-scheme:dark}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{max-width:100%}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.025em;margin:0;color:var(--deep);text-wrap:balance}
+h1{font-size:clamp(42px,6.4vw,78px);line-height:1}
+h1 em,h2 em{font-style:normal;color:var(--coral)}
+h2{font-size:clamp(30px,4.2vw,50px);line-height:1.04}
+h3{font-size:20px;line-height:1.15}
+p{margin:0}
+.lede{font-size:clamp(17px,1.6vw,20px);color:var(--muted);max-width:34em}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);background:var(--soft);border-radius:999px;padding:6px 12px}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--coral)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:8px}
+.skip{position:absolute;left:-999px;top:10px;background:var(--deep);color:var(--on-deep);padding:10px 16px;border-radius:12px;z-index:200}
+.skip:focus{left:10px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+section{position:relative}
+.pad{padding:96px 0}
+@media (max-width:700px){.pad{padding:64px 0}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:15px 26px;font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn.coral{background:var(--coral);color:var(--on-coral);box-shadow:0 10px 24px -8px color-mix(in srgb,var(--coral) 70%,transparent)}
+.btn.deep{background:var(--deep);color:var(--on-deep)}
+.btn.line{background:var(--card);border:1.5px solid var(--line);color:var(--deep)}
+.btn.line:hover{border-color:var(--deep)}
+.btn.sm{padding:10px 18px;font-size:14px}
+.btn.lg{padding:18px 32px;font-size:18px}
+.btn svg{width:18px;height:18px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
+.nav.scrolled{border-color:var(--line)}
+.nav-in{max-width:1180px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:28px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:800;font-size:20px;color:var(--deep);letter-spacing:-.02em}
+.logo{white-space:nowrap}
+@media (max-width:480px){.nav-in{padding:12px 16px;gap:12px}.logo{font-size:16px;gap:8px}.logo b{width:30px;height:30px}.menu{padding:8px 14px}}
+.logo b{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--deep)}
+.logo b svg{width:18px;height:18px}
+.logo em{font-style:normal;color:var(--coral)}
+.links{display:flex;gap:2px;margin-left:auto}
+.links a{text-decoration:none;font-weight:700;font-size:14.5px;color:var(--muted);padding:9px 14px;border-radius:999px;transition:color .2s,background .2s}
+.links a:hover{color:var(--ink);background:var(--soft)}
+.menu{display:none;margin-left:auto;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:9px 16px;font-weight:700;cursor:pointer}
+@media (max-width:900px){
+  .menu{display:block}.nav .btn.try{display:none}
+  .links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--bg);flex-direction:column;padding:10px 20px 20px;border-bottom:1px solid var(--line);margin:0}
+  .links.open{display:flex}.links a{padding:14px}
+  .links .mtry{display:inline-flex;margin-top:8px}}
+.links .mtry{display:none}
+@media (max-width:900px){.links .mtry{display:inline-flex}}
+
+/* hero */
+.hero{overflow:hidden;padding:56px 0 88px;background:
+  radial-gradient(60% 50% at 88% 8%,color-mix(in srgb,var(--coral) 20%,transparent),transparent 70%),
+  radial-gradient(50% 45% at 4% 90%,color-mix(in srgb,var(--teal) 18%,transparent),transparent 70%)}
+.hero:before{content:"";position:absolute;inset:0;background-image:radial-gradient(var(--dot) 1.6px,transparent 1.7px);background-size:22px 22px;-webkit-mask-image:radial-gradient(70% 60% at 70% 40%,#000,transparent 75%);mask-image:radial-gradient(70% 60% at 70% 40%,#000,transparent 75%);opacity:.9}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+@media (max-width:960px){.hero-grid{grid-template-columns:minmax(0,1fr)}.hero{padding-top:32px}}
+.hero h1{margin:18px 0 20px}
+.hero .actions{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0 22px}
+.paste{display:flex;gap:6px;align-items:center;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:6px 6px 6px 20px;max-width:520px;box-shadow:0 12px 30px -16px rgba(11,60,73,.35)}
+.paste:focus-within{border-color:var(--teal)}
+.paste input{flex:1;min-width:0;border:0;background:none;outline:none;font-size:15px}
+.paste input::placeholder{color:var(--muted)}
+.fine{font-size:13px;color:var(--muted);margin-top:12px}
+.stage{position:relative;display:grid;place-items:center;min-height:560px}
+.stage .glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--coral) 35%,transparent),transparent 65%);filter:blur(10px)}
+.phone{position:relative;width:min(300px,78vw);aspect-ratio:9/19;border-radius:46px;background:#0E0F12;padding:10px;box-shadow:0 40px 80px -20px rgba(11,60,73,.5),0 0 0 2px rgba(255,255,255,.06) inset;transform:rotate(3deg)}
+.scr{position:relative;width:100%;height:100%;border-radius:37px;overflow:hidden;background:#fff;color:#14181C;font-size:12.5px;line-height:1.4}
+.lay{position:absolute;inset:0;opacity:0;animation:fade 13.5s infinite}
+.lay.a{opacity:1;animation-delay:0s}.lay.b{animation-delay:4.5s}.lay.c{animation-delay:9s}
+@keyframes fade{0%,28%{opacity:1}34%,94%{opacity:0}100%{opacity:1}}
+.lay.a{animation-name:fadeA}
+@keyframes fadeA{0%,28%{opacity:1}34%,94%{opacity:0}100%{opacity:1}}
+.reel svg.bg{position:absolute;inset:0;width:100%;height:100%}
+.reel .bar{position:absolute;top:16px;left:16px;right:16px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;overflow:hidden}
+.reel .bar i{display:block;height:100%;background:#fff;width:0;animation:prog 4.5s linear infinite}
+@keyframes prog{to{width:100%}}
+.reel .side{position:absolute;right:12px;bottom:92px;display:grid;gap:14px;color:#fff;text-align:center;font-size:11px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7))}
+.reel .side svg{width:26px;height:26px;display:block;margin:0 auto 2px}
+.reel .cap{position:absolute;left:16px;right:70px;bottom:26px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.reel .cap b{display:block}
+.dm{display:flex;flex-direction:column;background:#fff}
+.dm .hd{padding:44px 16px 12px;border-bottom:1px solid #ECEEF0;display:flex;gap:10px;align-items:center}
+.dm .av{width:34px;height:34px;border-radius:50%;background:#0B3C49;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+.dm small{display:block;color:#8A9096;font-size:11px}
+.dm .th{padding:14px;display:flex;flex-direction:column;gap:9px}
+.bub{max-width:84%;background:#EFF1F3;border-radius:16px;padding:9px 12px}
+.bub.me{align-self:flex-end;background:none;padding:0}
+.bub.me svg{width:78px;height:130px;border-radius:12px;display:block}
+.bub.found{padding:0;overflow:hidden}
+.bub.found .mini{height:74px}
+.bub.found div:last-child{padding:9px 12px}
+.app{background:#F3F7F6;padding:44px 14px 14px}
+.app h4{margin:0;font-family:var(--display);font-weight:800;font-size:20px;color:#0B3C49}
+.app .mapbox{margin-top:10px;border-radius:14px;overflow:hidden;background:#E6EFEE}
+.app .card{margin-top:12px;background:#fff;border-radius:16px;padding:12px 14px;box-shadow:0 8px 24px -12px rgba(11,60,73,.35)}
+.app .card h5{margin:0;font-family:var(--display);font-weight:800;font-size:17px;color:#0B3C49}
+.app .card .sub{color:#5B737B;font-size:11px;margin-bottom:8px}
+.seg3{display:flex;background:#EFF1F3;border-radius:9px;padding:3px;gap:3px;margin-bottom:8px}
+.seg3 span{flex:1;text-align:center;border-radius:7px;padding:5px 0;font-size:11px;font-weight:700;color:#5B737B}
+.seg3 span.on{background:#fff;color:#0B3C49;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.app .r{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid #ECEEF0;font-size:11.5px}
+.app .r.t{border:0;font-size:13.5px;font-weight:700}
+.est{font-size:9px;text-transform:uppercase;letter-spacing:.05em;background:#E8F1EF;color:#5B737B;border-radius:4px;padding:1px 4px;margin-left:4px;vertical-align:1px;font-weight:700}
+.chipf{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:11px 15px;box-shadow:0 18px 36px -16px rgba(11,60,73,.4);font-size:13.5px;font-weight:700;color:var(--deep);display:flex;gap:10px;align-items:center;animation:bob 6s ease-in-out infinite;z-index:3}
+.chipf small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.chipf .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex:none}
+.chipf .ic svg{width:18px;height:18px}
+.chipf.one{left:-6%;top:16%}.chipf.two{right:-4%;top:44%;animation-delay:-2s}.chipf.three{left:2%;bottom:10%;animation-delay:-4s}
+@keyframes bob{50%{transform:translateY(-10px)}}
+@media (max-width:1100px){.chipf.one{left:-2%}.chipf.two{right:0}}
+@media (max-width:620px){.chipf.two{display:none}.chipf.one{left:0;top:6%}.chipf.three{left:0;bottom:4%}.stage{min-height:520px}}
+
+.t-teal{background:color-mix(in srgb,var(--teal) 17%,transparent);color:var(--teal)}
+.t-coral{background:color-mix(in srgb,var(--coral) 16%,transparent);color:var(--coral)}
+.t-sun{background:color-mix(in srgb,#E9A92A 20%,transparent);color:#C98A12}
+.t-blue{background:color-mix(in srgb,#2563C9 15%,transparent);color:#3B72D9}
+@media (prefers-color-scheme:dark){.t-sun{color:#F2BE55}.t-blue{color:#7AA5F0}}
+.chipf svg,.step .ico svg,.feat .ico svg,.perks svg,.btn svg,.heart svg{width:1em;height:1em}
+.chipf .ic svg{width:18px;height:18px}.step .ico svg{width:26px;height:26px}.feat .ico svg{width:24px;height:24px}.perks svg{width:22px;height:22px}.btn svg{width:18px;height:18px}.heart svg{width:18px;height:18px}
+.reel .side svg{width:26px;height:26px}
+
+/* shared section head */
+.head{max-width:680px;margin-bottom:48px}
+.head h2{margin:14px 0 14px}
+.head.center{text-align:center;margin-inline:auto}
+.head.center .lede{margin-inline:auto}
+
+/* how it works */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
+@media (max-width:960px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.steps{grid-template-columns:1fr}}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.step:hover{transform:translateY(-4px);box-shadow:0 24px 40px -24px rgba(11,60,73,.4)}
+.step:before{counter-increment:s;content:"0" counter(s);position:absolute;right:20px;top:14px;font-family:var(--display);font-weight:800;font-size:54px;color:var(--soft);line-height:1}
+.step .ico{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;margin-bottom:34px}
+.step .ico svg{width:26px;height:26px}
+.step p{color:var(--muted);margin-top:8px;font-size:15px}
+
+/* holiday finder */
+.finder{background:var(--deep);color:var(--on-deep);border-radius:44px;margin:0 16px;overflow:hidden}
+@media (min-width:1260px){.finder{margin:0 auto;max-width:1260px}}
+.finder .wrap{padding-top:88px;padding-bottom:88px}
+.finder h2,.finder .eyebrow{color:var(--on-deep)}
+.finder .eyebrow{background:rgba(255,255,255,.12)}
+.finder .eyebrow i{background:var(--sun)}
+.finder h2 em{color:var(--sun)}
+.finder .lede{color:color-mix(in srgb,var(--on-deep) 72%,transparent)}
+@media (prefers-color-scheme:dark){.finder{background:#11272E;border:1px solid var(--line)}.finder h2,.finder .eyebrow{color:var(--ink)}.finder .lede{color:var(--muted)}.finder .eyebrow{background:var(--soft)}}
+.fgrid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+@media (max-width:960px){.fgrid{grid-template-columns:minmax(0,1fr);gap:36px}}
+.perks{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px}
+.perks li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px}
+.perks svg{flex:none;width:22px;height:22px;margin-top:2px;color:var(--sun)}
+.form{background:var(--card);color:var(--ink);border-radius:30px;padding:28px;box-shadow:0 40px 70px -30px rgba(0,0,0,.5)}
+.levels{display:flex;background:var(--soft);border-radius:14px;padding:4px;gap:4px;margin-bottom:22px}
+.levels button{flex:1;border:0;background:none;border-radius:11px;padding:10px 6px;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;transition:background .2s,color .2s}
+.levels button[aria-selected=true]{background:var(--card);color:var(--deep);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.fld{margin-bottom:18px}
+.fld>label,.lbl{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px}
+.fld output{color:var(--deep);font-size:15px;letter-spacing:0;text-transform:none}
+input[type=range]{width:100%;accent-color:var(--coral);height:28px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input[type=date],input[type=number],select{width:100%;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--ink)}
+input[type=date]:focus,input[type=number]:focus,select:focus{outline:none;border-color:var(--teal)}
+.seg{display:flex;background:var(--soft);border-radius:12px;padding:3px;gap:3px}
+.seg button{flex:1;border:0;background:none;border-radius:9px;padding:9px 4px;font-weight:700;font-size:13.5px;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--card);color:var(--deep);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--deep);color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--deep);border-color:var(--deep);color:var(--on-deep)}
+.extra{display:none;border-top:1px dashed var(--line);padding-top:18px;margin-bottom:6px}
+.extra.show{display:block}
+.form .btn{width:100%}
+
+/* destinations */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.dgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media (max-width:1060px){.dgrid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:760px){.dgrid{grid-template-columns:repeat(2,1fr);gap:12px}}
+@media (max-width:480px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+.dest{position:relative;border-radius:26px;overflow:hidden;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;text-decoration:none;transition:transform .3s,box-shadow .3s}
+.dest:hover{transform:translateY(-6px);box-shadow:0 30px 46px -26px rgba(11,60,73,.55)}
+.dest[hidden]{display:none}
+.dest .cover{position:absolute;inset:0;z-index:2}
+.dest .pic{position:relative;aspect-ratio:4/4.4;overflow:hidden}
+.dest .pic svg{position:absolute;inset:0;width:100%;height:100%;transition:transform .6s}
+.dest:hover .pic svg{transform:scale(1.06)}
+.dest .pic:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(5,25,31,.7),transparent 55%)}
+.dest .nm{position:absolute;left:16px;right:16px;bottom:14px;z-index:2;color:#fff}
+.dest .nm b{display:block;font-family:var(--display);font-weight:800;font-size:22px;line-height:1.05;text-shadow:0 2px 10px rgba(0,0,0,.35)}
+.dest .nm span{font-size:13px;opacity:.9}
+.dest .bt{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.dest .bt small{display:block;color:var(--muted);font-size:12px}
+.dest .bt b{font-variant-numeric:tabular-nums}
+.heart{position:absolute;right:12px;top:12px;z-index:3;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);display:grid;place-items:center;cursor:pointer;transition:transform .2s;color:#13262D}
+.heart:hover{transform:scale(1.1)}
+.heart svg{width:18px;height:18px}
+.heart[aria-pressed=true]{background:var(--coral);color:#fff}
+.heart[aria-pressed=true] svg{fill:currentColor}
+
+/* profiles */
+.prof-top{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin-bottom:28px}
+.prof-top .fld{margin:0;min-width:200px}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media (max-width:1000px){.pgrid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.pgrid{grid-template-columns:minmax(0,1fr)}}
+.pc{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:24px;display:flex;flex-direction:column;gap:14px;position:relative;transition:transform .25s,border-color .25s}
+.pc:hover{transform:translateY(-4px);border-color:var(--teal)}
+.pc.pop{border-color:var(--coral);background:var(--coral-soft)}
+.pc .tag{position:absolute;right:16px;top:16px;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:var(--coral);color:var(--on-coral);border-radius:999px;padding:3px 10px}
+.pc .ps{font-family:var(--display);font-weight:800;font-size:40px;color:var(--deep);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.pc .bar{height:8px;border-radius:99px;background:var(--soft);overflow:hidden}
+.pc .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--coral));transition:width .6s cubic-bezier(.3,1.2,.5,1)}
+.pc ul{list-style:none;margin:0;padding:0;font-size:14px;display:grid;gap:7px}
+.pc li{display:flex;justify-content:space-between;gap:8px;color:var(--muted)}
+.pc li b{color:var(--ink);font-variant-numeric:tabular-nums;font-weight:500}
+.pc p{color:var(--muted);font-size:14px}
+.note{font-size:13px;color:var(--muted);margin-top:18px}
+
+/* map */
+.mapsec{background:var(--deep);color:var(--on-deep);border-radius:44px;margin:0 16px;overflow:hidden}
+@media (min-width:1260px){.mapsec{margin:0 auto;max-width:1260px}}
+@media (prefers-color-scheme:dark){.mapsec{background:#11272E;border:1px solid var(--line)}}
+.mapsec h2{color:var(--on-deep)}.mapsec h2 em{color:var(--sun)}
+.mapsec .lede{color:color-mix(in srgb,var(--on-deep) 72%,transparent)}
+.mapsec .eyebrow{background:rgba(255,255,255,.12);color:var(--on-deep)}
+.mapsec .eyebrow i{background:var(--sun)}
+@media (prefers-color-scheme:dark){.mapsec h2,.mapsec .eyebrow{color:var(--ink)}.mapsec .lede{color:var(--muted)}.mapsec .eyebrow{background:var(--soft)}}
+.mapsec{color:var(--on-deep)}
+@media (prefers-color-scheme:dark){.mapsec{color:var(--ink)}}
+.mapgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:stretch;margin-top:8px}
+@media (max-width:960px){.mapgrid{grid-template-columns:minmax(0,1fr)}}
+.maplist{background:rgba(255,255,255,.07);border-radius:30px;padding:22px;max-height:520px;overflow:auto}
+.mli{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid rgba(255,255,255,.12);font-size:14.5px;cursor:default}
+.mli i{width:10px;height:10px;border-radius:50%;flex:none}
+.mli span{flex:1}.mli small{display:block;opacity:.65;font-size:12px}
+.mli b{font-variant-numeric:tabular-nums}
+.mli:hover{background:rgba(255,255,255,.06);border-radius:10px}
+.mapbig .pin.hl{transform:scale(1.5);transform-box:fill-box;transform-origin:center bottom}
+.mapbig{border-radius:30px;background:rgba(255,255,255,.07);padding:20px;display:flex;align-items:center}
+.mapbig svg{display:block;width:100%;height:auto}
+.mapbig .dot{fill:rgba(255,255,255,.2)}
+.mapbig .pin{transition:transform .2s}
+.mapbig text{font:700 1.5px var(--body);fill:#fff;paint-order:stroke;stroke:rgba(11,60,73,.9);stroke-width:.35px}
+.colls{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 8px}
+.colls .chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff}
+.colls .chip[aria-pressed=true]{background:var(--sun);border-color:var(--sun);color:#13262D}
+@media (prefers-color-scheme:dark){.colls .chip{color:var(--ink)}}
+
+/* features */
+.fgrid2{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:960px){.fgrid2{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.fgrid2{grid-template-columns:minmax(0,1fr)}}
+.feat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px;transition:transform .25s,border-color .25s}
+.feat:hover{transform:translateY(-4px);border-color:var(--teal)}
+.feat .ico{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;margin-bottom:20px}
+.feat .ico svg{width:24px;height:24px}
+.feat p{color:var(--muted);margin-top:8px;font-size:15px}
+
+/* cta + footer */
+.cta{margin:0 16px;border-radius:44px;padding:92px 24px;text-align:center;color:#fff;background:linear-gradient(135deg,#0B3C49 0%,#1E9C8E 55%,#F2603F 130%);position:relative;overflow:hidden}
+@media (min-width:1260px){.cta{margin:0 auto;max-width:1260px}}
+.cta:before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.18) 1.6px,transparent 1.7px);background-size:22px 22px;-webkit-mask-image:radial-gradient(60% 70% at 50% 50%,#000,transparent);mask-image:radial-gradient(60% 70% at 50% 50%,#000,transparent)}
+.cta>*{position:relative}
+.cta h2{color:#fff;max-width:14em;margin:0 auto 16px}
+.cta h2 em{color:var(--sun)}
+.cta p{opacity:.88;max-width:30em;margin:0 auto 32px;font-size:18px}
+.cta .btn.coral{box-shadow:0 14px 30px -10px rgba(0,0,0,.4)}
+footer{padding:56px 0 40px;color:var(--muted);font-size:14px}
+.fin{display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;align-items:flex-start}
+footer nav{display:flex;gap:18px;flex-wrap:wrap}
+footer a{text-decoration:none}footer a:hover{color:var(--ink)}
+footer .legal{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);max-width:60em}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .rv,.mapbig .pin{opacity:1;transform:none}
+  .lay.b,.lay.c{display:none}.lay.a{opacity:1}}
+
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -47,7 +348,7 @@
 
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="logo" href="#top" aria-label="Ultimate Project 3000, home"><b><svg viewBox="0 0 24 24" fill="#F2603F"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4" fill="#0B3C49"/></svg></b>Ultimate Project <em>3000</em></a>
+    <a class="logo" href="#top" aria-label="Ultimate Project 3000, home"><b><svg width="18" height="18" viewBox="0 0 24 24" fill="#F2603F"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4" fill="#0B3C49"/></svg></b>Ultimate Project <em>3000</em></a>
     <button class="menu" id="menu" aria-expanded="false" aria-controls="links">Menu</button>
     <nav class="links" id="links" aria-label="Main">
       <a href="#how">How it works</a>
@@ -57,7 +358,7 @@
       <a href="#features">Features</a>
       <a class="btn coral sm mtry" href="demo.html">Try the demo</a>
     </nav>
-    <a class="btn coral sm try" href="demo.html">Try the demo <svg fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></a>
+    <a class="btn coral sm try" href="demo.html">Try the demo <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></a>
   </div>
 </header>
 
@@ -72,7 +373,7 @@
       <h1>Your next adventure starts with <em>a scroll.</em></h1>
       <p class="lede">Discover incredible destinations, find holidays that fit your budget and turn travel inspiration into real trips.</p>
       <div class="actions">
-        <a class="btn coral lg" href="demo.html">Find a place <svg fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></a>
+        <a class="btn coral lg" href="demo.html">Find a place <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></a>
         <a class="btn line lg" href="demo.html">Take me on a holiday</a>
       </div>
       <form class="paste" id="paste" action="demo.html">
@@ -91,9 +392,9 @@
             <svg class="bg"><use href="#santorini"/></svg>
             <div class="bar"><i></i></div>
             <div class="side">
-              <div><svg fill="none" stroke="currentColor" stroke-width="2"><use href="#i-heart"/></svg>48.2k</div>
-              <div><svg fill="none" stroke="currentColor" stroke-width="2"><use href="#i-chat"/></svg>612</div>
-              <div><svg fill="none" stroke="currentColor" stroke-width="2"><use href="#i-send"/></svg>Share</div>
+              <div><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-heart"/></svg>48.2k</div>
+              <div><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-chat"/></svg>612</div>
+              <div><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-send"/></svg>Share</div>
             </div>
             <div class="cap"><b>@aegean.wanders</b>Sunset in Oia never gets old #santorini #greece</div>
           </div>
@@ -120,9 +421,9 @@
           </div>
         </div>
       </div>
-      <div class="chipf one"><span class="ic t-coral"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-pin"/></svg></span><span>Oia, Santorini<small>94% match</small></span></div>
-      <div class="chipf two"><span class="ic t-teal"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-wallet"/></svg></span><span>€1,100 trip<small>estimated, 4 nights</small></span></div>
-      <div class="chipf three"><span class="ic t-sun"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-sun"/></svg></span><span>June is a great month<small>for Greece</small></span></div>
+      <div class="chipf one"><span class="ic t-coral"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-pin"/></svg></span><span>Oia, Santorini<small>94% match</small></span></div>
+      <div class="chipf two"><span class="ic t-teal"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-wallet"/></svg></span><span>€1,100 trip<small>estimated, 4 nights</small></span></div>
+      <div class="chipf three"><span class="ic t-sun"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-sun"/></svg></span><span>June is a great month<small>for Greece</small></span></div>
     </div>
   </div>
 </section>
@@ -132,10 +433,10 @@
   <div class="wrap">
     <div class="head rv"><span class="eyebrow"><i></i>How it works</span><h2>From a scroll to a <em>trip plan</em> in four steps</h2><p class="lede">No more screenshots lost in your camera roll. Send the video, get the place and what it will really cost.</p></div>
     <div class="steps">
-      <article class="step rv"><div class="ico t-coral"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-send"/></svg></div><h3>Share a reel</h3><p>Send an Instagram Reel or TikTok, or paste the link.</p></article>
-      <article class="step rv"><div class="ico t-teal"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-pin"/></svg></div><h3>We find the place</h3><p>The destination, hotel or landmark is detected, and you can correct it.</p></article>
-      <article class="step rv"><div class="ico t-sun"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-wallet"/></svg></div><h3>See the price</h3><p>A full estimate for transport, stay, food and activities.</p></article>
-      <article class="step rv"><div class="ico t-blue"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-route"/></svg></div><h3>Plan and save</h3><p>Compare profiles, build an itinerary and save it to a list.</p></article>
+      <article class="step rv"><div class="ico t-coral"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-send"/></svg></div><h3>Share a reel</h3><p>Send an Instagram Reel or TikTok, or paste the link.</p></article>
+      <article class="step rv"><div class="ico t-teal"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-pin"/></svg></div><h3>We find the place</h3><p>The destination, hotel or landmark is detected, and you can correct it.</p></article>
+      <article class="step rv"><div class="ico t-sun"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-wallet"/></svg></div><h3>See the price</h3><p>A full estimate for transport, stay, food and activities.</p></article>
+      <article class="step rv"><div class="ico t-blue"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-route"/></svg></div><h3>Plan and save</h3><p>Compare profiles, build an itinerary and save it to a list.</p></article>
     </div>
   </div>
 </section>
@@ -149,10 +450,10 @@
         <h2 style="margin:16px 0 16px">Got a budget? We'll find <em>where it goes furthest.</em></h2>
         <p class="lede">Tell us what you can spend, when you are free and what you are into. We rank destinations against it and never quietly go over budget.</p>
         <ul class="perks">
-          <li><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>Three search levels: just the essentials, or as picky as you like</li>
-          <li><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>Weather, style and activity filters with must-haves and no-gos</li>
-          <li><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>Each result shows why it matches and what the compromises are</li>
-          <li><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>Every price is labelled estimated or live</li>
+          <li><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>Three search levels: just the essentials, or as picky as you like</li>
+          <li><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>Weather, style and activity filters with must-haves and no-gos</li>
+          <li><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>Each result shows why it matches and what the compromises are</li>
+          <li><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>Every price is labelled estimated or live</li>
         </ul>
       </div>
       <form class="form rv" id="hform" action="demo.html">
@@ -174,7 +475,7 @@
           <div class="fld"><span class="lbl">Activities</span><div class="chips"><button type="button" class="chip" aria-pressed="false">Hiking</button><button type="button" class="chip" aria-pressed="false">Diving</button><button type="button" class="chip" aria-pressed="false">Museums</button><button type="button" class="chip" aria-pressed="false">Boat trips</button><button type="button" class="chip" aria-pressed="false">Food tours</button><button type="button" class="chip" aria-pressed="false">Festivals</button></div></div>
           <div class="fld"><span class="lbl">Getting there</span><div class="chips"><button type="button" class="chip" aria-pressed="false">Direct flights only</button><button type="button" class="chip" aria-pressed="false">Trains and buses</button><button type="button" class="chip" aria-pressed="false">Avoid overnight travel</button></div></div>
         </div>
-        <button class="btn coral lg" type="submit">Find my holiday <svg fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></button>
+        <button class="btn coral lg" type="submit">Find my holiday <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></button>
       </form>
     </div>
   </div>
@@ -199,7 +500,7 @@
     </div>
     <div class="pgrid" id="pgrid"></div>
     <p class="note">Estimated for one traveller departing Prague. These are illustrative, not live prices or availability.</p>
-    <div style="margin-top:26px"><a class="btn deep" href="demo.html">See a full trip breakdown <svg fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></a></div>
+    <div style="margin-top:26px"><a class="btn deep" href="demo.html">See a full trip breakdown <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></a></div>
   </div>
 </section>
 
@@ -216,7 +517,7 @@
       <div class="mapbig rv" id="mapbig"><svg id="bigmap" viewBox="0 -4 144 68" role="img" aria-label="World map with saved destinations as pins"></svg></div>
       <aside class="maplist rv" id="maplist" aria-live="polite"></aside>
     </div>
-    <div style="margin-top:28px"><a class="btn coral" href="demo.html">Open the map <svg fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></a></div>
+    <div style="margin-top:28px"><a class="btn coral" href="demo.html">Open the map <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></a></div>
   </div>
 </section>
 
@@ -225,12 +526,12 @@
   <div class="wrap">
     <div class="head center rv"><span class="eyebrow"><i></i>Everything in one place</span><h2>Built for the <em>whole trip</em></h2></div>
     <div class="fgrid2">
-      <article class="feat rv"><div class="ico t-coral"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-play"/></svg></div><h3>Find places from reels</h3><p>Paste a Reel or TikTok, upload a screenshot or type a place. Correct it if we get it wrong.</p></article>
-      <article class="feat rv"><div class="ico t-teal"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-wallet"/></svg></div><h3>Budget-first search</h3><p>Start from what you can spend and see where it goes, per person or for the whole group.</p></article>
-      <article class="feat rv"><div class="ico t-sun"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-sliders"/></svg></div><h3>Detailed filters</h3><p>Weather, style, accommodation, activities, transport and remote work, all optional.</p></article>
-      <article class="feat rv"><div class="ico t-blue"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-compare"/></svg></div><h3>Compare side by side</h3><p>Line up destinations and the four travel profiles to see exactly where the money goes.</p></article>
-      <article class="feat rv"><div class="ico t-coral"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-route"/></svg></div><h3>Itineraries</h3><p>Turn a saved place into a day-by-day plan with a running cost summary.</p></article>
-      <article class="feat rv"><div class="ico t-teal"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-share"/></svg></div><h3>Share and print</h3><p>Send a trip to friends, print it, or carry on planning on your phone.</p></article>
+      <article class="feat rv"><div class="ico t-coral"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-play"/></svg></div><h3>Find places from reels</h3><p>Paste a Reel or TikTok, upload a screenshot or type a place. Correct it if we get it wrong.</p></article>
+      <article class="feat rv"><div class="ico t-teal"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-wallet"/></svg></div><h3>Budget-first search</h3><p>Start from what you can spend and see where it goes, per person or for the whole group.</p></article>
+      <article class="feat rv"><div class="ico t-sun"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-sliders"/></svg></div><h3>Detailed filters</h3><p>Weather, style, accommodation, activities, transport and remote work, all optional.</p></article>
+      <article class="feat rv"><div class="ico t-blue"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-compare"/></svg></div><h3>Compare side by side</h3><p>Line up destinations and the four travel profiles to see exactly where the money goes.</p></article>
+      <article class="feat rv"><div class="ico t-coral"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-route"/></svg></div><h3>Itineraries</h3><p>Turn a saved place into a day-by-day plan with a running cost summary.</p></article>
+      <article class="feat rv"><div class="ico t-teal"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-share"/></svg></div><h3>Share and print</h3><p>Send a trip to friends, print it, or carry on planning on your phone.</p></article>
     </div>
   </div>
 </section>
@@ -239,20 +540,287 @@
 <section class="cta rv">
   <h2>Send a reel. <em>Get a trip.</em></h2>
   <p>See it work end to end in the interactive demo, from the reel to a priced, saved trip.</p>
-  <a class="btn coral lg" href="demo.html">Try the demo <svg fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></a>
+  <a class="btn coral lg" href="demo.html">Try the demo <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-arrow"/></svg></a>
 </section>
 </main>
 
 <footer>
   <div class="wrap">
     <div class="fin">
-      <a class="logo" href="#top"><b><svg viewBox="0 0 24 24" fill="#F2603F"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4" fill="#0B3C49"/></svg></b>Ultimate Project <em>3000</em></a>
+      <a class="logo" href="#top"><b><svg width="18" height="18" viewBox="0 0 24 24" fill="#F2603F"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4" fill="#0B3C49"/></svg></b>Ultimate Project <em>3000</em></a>
       <nav aria-label="Footer"><a href="#how">How it works</a><a href="#holiday">Holiday finder</a><a href="#destinations">Destinations</a><a href="#profiles">Profiles</a><a href="demo.html">Demo</a></nav>
     </div>
     <p class="legal">Demo with example data. All prices on this site are illustrative estimates for a traveller departing Prague, not live prices or availability. Destination art is illustrated.</p>
   </div>
 </footer>
 
-<script src="site.js"></script>
+<script>
+(function () {
+  'use strict';
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const eur = (v) => '€' + Math.round(v).toLocaleString('en-US');
+  const NS = 'http://www.w3.org/2000/svg';
+
+  /* Land mask from the demo: 144 x 60 grid, 4 cells per hex digit */
+  const MASK = '000003c034003fff00000006007ff80080008040007c6fe01ffe000000061dfffff7f80007ffffd43b381ff80001fe05ebfffffffffff3fffffffc3e1fc04007fd3fffffffffffff00fffffff51c1f00800f7ffffffffffffffe03ffffffc0600e00003e7ffffffffffffef801e07fffe07e0000003e7fffffffffff808000801ffff87e00000214fffffffffffe038000000ffffeff80000d1fffffffffffff0300000007ffffffc00003ffffffffffffff0000000003fffff4e00003ffffffffffffff0000000003fffffc000001fff5f7fffffffe0000000003fffff0000001ebe0effffffffc4000000003ffffe000000f86f6f3fffffff08000000001ffffc000000f029ff3fffffe208000000001ffffc0000000f007ffffffff1300000000007fff80000007f003ffffffff0400000000005ffe0000000ffeebffffffff8000000000003fc10000000fffffefffffff8000000000000f810000003ffffdf3ffffff00000000000007800000003ffffdfe1ffffe80000000000003880000007ffffeff0fe7e000000000000003d81800003ffffefe07c3d000000000000000780000007fffff780781e0800000000000000e0000007fffffe00301f0c0000000000000002800003fffff9003016000000000000000017f00001ffffff000010020000000000000007f80000fbffff000808000000000000000007ff000000fffe00001860000000000000000fff000000fffc00000ce0000000000000000fffc00000fff800000ce8c00000000000000ffff80000fff0000004083c0000000000000ffffc00007ff0000002001e0000000000000ffffc00007ff00000001a0800000000000007fff800007ff0000000000000000000000007fff000007ff100000000c000000000000001fff000007ff300000007e400000000000000fff000007fc300000007fe00000000000000fff000007fc60000003fff00000000000000ffc000003fc60000007fff00000000000000ff8000003f800000007fff80000000000001ff0000001f800000003fff80000000000001ff0000001f000000003fff80000000000001fe0000001c000000003c3f80000000000001f80000000000000000000f00000000000001f00000000000000000000200200000000003c00000000000000000000200400000000001c00000000000000000000000800000000003800000000000000000000001000000000003800000000000000000000000000000000003080000000000000000000000000000000001800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000200000000000600004400000000000000000400000000047ff1fffffff80000000000003e000005ffffffe7fffffffff000000101ffbf00007fffffffffffffffffe0';
+
+  /* Example catalogue, from the demo (illustrative estimates from Prague, EUR) */
+  const PLACES = {
+    santorini: { name: 'Oia, Santorini', short: 'Oia', country: 'Greece', lat: 36.46, lng: 25.38, fl: 260, stay: [70, 140, 260], day: [40, 70, 120], cats: ['islands'] },
+    machu: { name: 'Machu Picchu', short: 'Machu Picchu', country: 'Peru', lat: -13.16, lng: -72.54, fl: 1100, stay: [40, 90, 250], day: [40, 70, 130], cats: ['nature', 'adventure', 'culture'] },
+    inari: { name: 'Fushimi Inari, Kyoto', short: 'Fushimi Inari', country: 'Japan', lat: 34.97, lng: 135.77, fl: 850, stay: [45, 110, 260], day: [45, 75, 140], cats: ['culture', 'nature'] },
+    burj: { name: 'Burj Khalifa, Dubai', short: 'Burj Khalifa', country: 'UAE', lat: 25.2, lng: 55.27, fl: 380, stay: [60, 150, 350], day: [50, 90, 180], cats: ['cities'] },
+    taj: { name: 'Taj Mahal, Agra', short: 'Taj Mahal', country: 'India', lat: 27.18, lng: 78.04, fl: 520, stay: [25, 70, 200], day: [25, 45, 100], cats: ['culture'] },
+    plitvice: { name: 'Plitvice Lakes', short: 'Plitvice Lakes', country: 'Croatia', lat: 44.87, lng: 15.58, fl: 90, stay: [45, 100, 180], day: [30, 55, 95], cats: ['nature', 'adventure'] },
+    sagrada: { name: 'Sagrada Família, Barcelona', short: 'Sagrada Família', country: 'Spain', lat: 41.4, lng: 2.17, fl: 140, stay: [55, 110, 220], day: [35, 60, 110], cats: ['cities', 'culture'] },
+    szechenyi: { name: 'Széchenyi Baths, Budapest', short: 'Széchenyi Baths', country: 'Hungary', lat: 47.52, lng: 19.08, fl: 40, stay: [35, 75, 160], day: [25, 45, 90], cats: ['cities', 'wellness'] },
+    europa: { name: 'Europa-Park', short: 'Europa-Park', country: 'Germany', lat: 48.27, lng: 7.72, fl: 110, stay: [60, 150, 260], day: [75, 95, 140], cats: [] },
+    disney: { name: 'Disneyland Paris', short: 'Disneyland Paris', country: 'France', lat: 48.87, lng: 2.78, fl: 150, stay: [80, 160, 320], day: [90, 120, 170], cats: [] },
+    rijks: { name: 'Rijksmuseum, Amsterdam', short: 'Rijksmuseum', country: 'Netherlands', lat: 52.36, lng: 4.89, fl: 130, stay: [75, 150, 290], day: [45, 75, 130], cats: [] },
+    colosseum: { name: 'Colosseum, Rome', short: 'Colosseum', country: 'Italy', lat: 41.89, lng: 12.49, fl: 120, stay: [55, 115, 230], day: [35, 60, 110], cats: [] }
+  };
+  const SHOWN = ['santorini', 'machu', 'inari', 'burj', 'taj', 'plitvice', 'sagrada', 'szechenyi'];
+  const PROFILES = [
+    { name: 'Student', tier: 0, flight: 0.7, stay: 0.45, day: 0.7, personal: 10, blurb: 'Hostel dorms, cheapest transport, street food and free sights.' },
+    { name: 'Budget', tier: 0, flight: 1, stay: 1, day: 1, personal: 0, blurb: 'Affordable, practical rooms and simple meals.' },
+    { name: 'Standard', tier: 1, flight: 1.25, stay: 1, day: 1, personal: 0, blurb: 'Balanced comfort and value: 3-star stays, regular meals.', tag: 'Balanced' },
+    { name: 'Comfort+', tier: 2, flight: 2, stay: 1, day: 1, personal: 0, blurb: 'Premium stays, flexible fares and paid experiences.' }
+  ];
+  function estimate(k, pr, nights) {
+    const p = PLACES[k], days = nights + 1;
+    const transport = Math.round(p.fl * pr.flight);
+    const stay = Math.round(p.stay[pr.tier] * pr.stay * nights);
+    const daily = Math.round(p.day[pr.tier] * pr.day * days);
+    const personal = Math.round(pr.personal * days);
+    const tax = Math.round((transport + stay + daily + personal) * 0.08);
+    return { transport, stay, daily, personal, tax, total: transport + stay + daily + personal + tax };
+  }
+
+  /* ---------- illustrated scenes (viewBox 300 x 330) ---------- */
+  const svgWrap = (inner, defs) => '<svg viewBox="0 0 300 330" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' + (defs ? '<defs>' + defs + '</defs>' : '') + inner + '</svg>';
+  const grad = (id, stops) => '<linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1">' + stops.map((s) => '<stop offset="' + s[0] + '" stop-color="' + s[1] + '"/>').join('') + '</linearGradient>';
+  const SCENES = {
+    santorini: () => '<svg viewBox="0 0 300 330" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#santorini" width="300" height="330"/></svg>',
+    machu: () => svgWrap(
+      '<rect width="300" height="330" fill="url(#g-machu)"/><circle cx="220" cy="92" r="26" fill="#FFF3CF" opacity=".9"/>' +
+      '<g fill="#fff" opacity=".85"><ellipse cx="70" cy="86" rx="46" ry="10"/><ellipse cx="108" cy="78" rx="30" ry="9"/><ellipse cx="240" cy="150" rx="40" ry="8"/></g>' +
+      '<path d="M0 190 L50 140 L95 175 L150 120 L210 178 L260 138 L300 170 V330 H0Z" fill="#8DB5A6"/>' +
+      '<path d="M120 330 L170 150 L196 60 L214 150 L270 330Z" fill="#3F7261"/><path d="M196 60 L214 150 L240 250 L206 160Z" fill="#2F5B4B" opacity=".55"/>' +
+      '<path d="M0 250 Q90 215 170 240 T300 225 V330 H0Z" fill="#5E9477"/>' +
+      '<g fill="#D8D0B4"><rect x="86" y="236" width="70" height="9" rx="2"/><rect x="74" y="246" width="94" height="9" rx="2"/><rect x="60" y="256" width="120" height="9" rx="2"/><rect x="102" y="224" width="26" height="12" rx="2"/><rect x="132" y="228" width="18" height="8" rx="2"/></g>' +
+      '<path d="M0 285 Q100 262 190 282 T300 270 V330 H0Z" fill="#2F5B4B"/>',
+      grad('g-machu', [[0, '#9ED4E6'], [0.7, '#F7E6C6'], [1, '#FBE9D0']])),
+    inari: () => {
+      let g = '<rect width="300" height="330" fill="url(#g-inari)"/><circle cx="150" cy="120" r="48" fill="#FFD9A0" opacity=".8"/><path d="M0 170 Q70 130 150 160 T300 140 V330 H0Z" fill="#4A2133"/><path d="M138 330 L146 175 H154 L162 330Z" fill="#6B3042"/>';
+      for (let i = 7; i >= 0; i--) {
+        const s = Math.pow(0.8, i), h = 215 * s, w = 130 * s, bottom = 330 - (1 - s) * 120 - 4, top = bottom - h, cx = 150;
+        g += '<g fill="' + (i > 3 ? '#C23A2E' : '#E0452F') + '"><rect x="' + (cx - w / 2 - 14 * s) + '" y="' + top + '" width="' + (w + 28 * s) + '" height="' + 15 * s + '" rx="' + 3 * s + '"/><rect x="' + (cx - w / 2 + 4 * s) + '" y="' + (top + 34 * s) + '" width="' + (w - 8 * s) + '" height="' + 10 * s + '"/><rect x="' + (cx - w / 2) + '" y="' + top + '" width="' + 17 * s + '" height="' + h + '"/><rect x="' + (cx + w / 2 - 17 * s) + '" y="' + top + '" width="' + 17 * s + '" height="' + h + '"/></g><rect x="' + (cx - w / 2 - 14 * s) + '" y="' + top + '" width="' + (w + 28 * s) + '" height="' + 4 * s + '" fill="#2A1620"/>';
+      }
+      return svgWrap(g, grad('g-inari', [[0, '#3D5A80'], [0.45, '#EE8C5E'], [1, '#F7C873']]));
+    },
+    burj: () => svgWrap(
+      '<rect width="300" height="330" fill="url(#g-burj)"/><circle cx="215" cy="190" r="34" fill="#FFE2A0"/>' +
+      '<g fill="#12233F"><rect x="10" y="230" width="30" height="100"/><rect x="44" y="205" width="26" height="125"/><rect x="74" y="245" width="34" height="85"/><rect x="190" y="220" width="30" height="110"/><rect x="224" y="196" width="28" height="134"/><rect x="256" y="238" width="44" height="92"/></g>' +
+      '<path d="M146 40 L150 8 L154 40 L160 90 L168 150 L180 330 H120 L132 150 L140 90Z" fill="#0E1C36"/><path d="M150 8 L154 40 L160 90 L168 150 L180 330 H150Z" fill="#1B3358"/>' +
+      '<g fill="#F7C873" opacity=".85"><rect x="15" y="240" width="4" height="4"/><rect x="24" y="256" width="4" height="4"/><rect x="50" y="222" width="4" height="4"/><rect x="58" y="244" width="4" height="4"/><rect x="198" y="236" width="4" height="4"/><rect x="232" y="214" width="4" height="4"/><rect x="238" y="240" width="4" height="4"/><rect x="266" y="256" width="4" height="4"/></g>' +
+      '<rect y="290" width="300" height="40" fill="#0B1A33"/><path d="M0 306 H300 M0 318 H300" stroke="#F7C873" stroke-opacity=".25"/>',
+      grad('g-burj', [[0, '#1B2A49'], [0.55, '#E86A48'], [0.85, '#F7C873']])),
+    taj: () => svgWrap(
+      '<rect width="300" height="330" fill="url(#g-taj)"/><circle cx="60" cy="80" r="22" fill="#FFF1D6" opacity=".9"/>' +
+      '<g fill="#FBFBF8"><rect x="86" y="150" width="14" height="96"/><rect x="200" y="150" width="14" height="96"/><rect x="40" y="188" width="12" height="58"/><rect x="248" y="188" width="12" height="58"/><rect x="104" y="196" width="92" height="50"/><circle cx="150" cy="170" r="38"/><rect x="146" y="116" width="8" height="18"/><circle cx="93" cy="146" r="9"/><circle cx="207" cy="146" r="9"/><circle cx="46" cy="184" r="7"/><circle cx="254" cy="184" r="7"/></g>' +
+      '<path d="M134 246 V220 a16 16 0 0 1 32 0 V246Z" fill="#C9D6D6"/><rect x="0" y="246" width="300" height="12" fill="#E7D9C8"/>' +
+      '<rect y="258" width="300" height="72" fill="#8EC9D4"/><g fill="#FBFBF8" opacity=".35"><circle cx="150" cy="320" r="38"/><rect x="104" y="268" width="92" height="30"/></g>' +
+      '<g fill="#3F7261"><ellipse cx="20" cy="240" rx="9" ry="30"/><ellipse cx="280" cy="240" rx="9" ry="30"/></g>',
+      grad('g-taj', [[0, '#F6B8A3'], [0.8, '#FBE3CC'], [1, '#FBEBD0']])),
+    plitvice: () => svgWrap(
+      '<rect width="300" height="330" fill="url(#g-plit)"/>' +
+      '<path d="M0 150 Q60 100 130 140 T300 120 V330 H0Z" fill="#4E8A5E"/><path d="M0 190 Q90 150 170 185 T300 170 V330 H0Z" fill="#2F6B49"/>' +
+      '<rect x="40" y="200" width="150" height="34" rx="16" fill="#35BDB5"/><rect x="120" y="244" width="150" height="34" rx="16" fill="#4FD3C6"/><rect x="30" y="288" width="190" height="44" rx="18" fill="#2AA8AE"/>' +
+      '<g fill="#fff" opacity=".9"><rect x="150" y="216" width="8" height="30" rx="3"/><rect x="164" y="218" width="5" height="28" rx="2"/><rect x="100" y="258" width="8" height="32" rx="3"/><rect x="224" y="258" width="6" height="30" rx="2"/></g>' +
+      '<g fill="#1F4E36"><path d="M0 330 V250 l16 -42 16 42 V330Z"/><path d="M262 330 V240 l18 -46 20 46 V330Z"/><path d="M236 330 V270 l12 -30 12 30 V330Z"/></g>',
+      grad('g-plit', [[0, '#BFEAE0'], [1, '#EAF8EF']])),
+    sagrada: () => {
+      let st = '';
+      [[30, 40], [80, 90], [250, 60], [270, 120], [210, 30], [120, 24], [180, 70]].forEach((p) => { st += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="1.8" fill="#fff" opacity=".8"/>'; });
+      const spire = (x, top, w) => '<path d="M' + (x - w / 2) + ' 280 L' + (x - w / 2 + 2) + ' ' + (top + 40) + ' L' + x + ' ' + top + ' L' + (x + w / 2 - 2) + ' ' + (top + 40) + ' L' + (x + w / 2) + ' 280Z" fill="#E9B44C"/><path d="M' + x + ' ' + top + ' L' + (x + w / 2 - 2) + ' ' + (top + 40) + ' L' + (x + w / 2) + ' 280 H' + x + 'Z" fill="#C98F2A" opacity=".6"/><circle cx="' + x + '" cy="' + (top - 4) + '" r="5" fill="#F2603F"/>';
+      return svgWrap('<rect width="300" height="330" fill="url(#g-sag)"/><circle cx="238" cy="70" r="20" fill="#FFF3CF"/>' + st +
+        spire(70, 120, 34) + spire(112, 70, 34) + spire(188, 70, 34) + spire(230, 120, 34) + spire(150, 30, 40) +
+        '<rect x="40" y="270" width="220" height="60" fill="#B9822A"/><g fill="#7B531A"><rect x="64" y="284" width="16" height="30" rx="8"/><rect x="104" y="284" width="16" height="30" rx="8"/><rect x="142" y="280" width="16" height="34" rx="8"/><rect x="180" y="284" width="16" height="30" rx="8"/><rect x="220" y="284" width="16" height="30" rx="8"/></g>',
+        grad('g-sag', [[0, '#14213D'], [1, '#3D5A80']]));
+    },
+    szechenyi: () => svgWrap(
+      '<rect width="300" height="330" fill="url(#g-sz)"/>' +
+      '<rect x="30" y="140" width="240" height="120" fill="#F6C945"/><rect x="110" y="110" width="80" height="150" fill="#F2BC2C"/><path d="M120 110 a30 30 0 0 1 60 0Z" fill="#5FA391"/><rect x="146" y="64" width="8" height="18" fill="#5FA391"/>' +
+      '<path d="M60 140 a24 24 0 0 1 48 0Z M192 140 a24 24 0 0 1 48 0Z" fill="#5FA391"/>' +
+      '<g fill="#B88A12"><rect x="50" y="170" width="12" height="22" rx="6"/><rect x="78" y="170" width="12" height="22" rx="6"/><rect x="210" y="170" width="12" height="22" rx="6"/><rect x="238" y="170" width="12" height="22" rx="6"/><rect x="126" y="150" width="12" height="26" rx="6"/><rect x="162" y="150" width="12" height="26" rx="6"/><rect x="144" y="200" width="14" height="60" rx="7"/></g>' +
+      '<rect y="258" width="300" height="72" fill="#5CC8D6"/><path d="M0 280 Q40 270 80 280 T160 280 T240 280 T300 280 M0 304 Q40 294 80 304 T160 304 T240 304 T300 304" stroke="#fff" stroke-opacity=".5" fill="none" stroke-width="3"/>' +
+      '<g fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="5" stroke-linecap="round"><path d="M70 250 q-12 -18 0 -36 q12 -18 0 -36"/><path d="M230 250 q-12 -18 0 -36 q12 -18 0 -36"/></g>',
+      grad('g-sz', [[0, '#CFEAF0'], [1, '#FFF5DF']]))
+  };
+
+  /* ---------- dotted map ---------- */
+  const xy = (p) => [(p.lng + 180) / 2.5, (75 - p.lat) / 2.5];
+  function dotsMarkup() {
+    let i = 0, h = '';
+    for (let r = 0; r < 60; r++) for (let c = 0; c < 144; c += 4) {
+      const n = parseInt(MASK[i++], 16);
+      for (let b = 0; b < 4; b++) if (n & (8 >> b)) h += '<circle class="dot" cx="' + (c + b + 0.5) + '" cy="' + (r + 0.5) + '" r=".38"/>';
+    }
+    return h;
+  }
+  const DOTS = dotsMarkup();
+  function pin(k, s, color, label, extra, fs, left) {
+    const p = xy(PLACES[k]), x = p[0], y = p[1];
+    const text = label ? '<text x="' + (left ? x - s * 1.5 : x + s * 1.5) + '" y="' + (y - s * 0.7) + '"' + (left ? ' text-anchor="end"' : '') + (fs ? ' style="font-size:' + fs + 'px;stroke-width:' + fs * 0.24 + 'px"' : '') + '>' + PLACES[k].short.replace('Disneyland ', 'Disney ').replace('Széchenyi Baths', 'Széchenyi') + '</text>' : '';
+    return '<g class="pin' + (extra || '') + '" data-k="' + k + '"><path d="M' + (x - s * 0.7) + ' ' + (y - s * 0.8) + 'L' + x + ' ' + y + 'L' + (x + s * 0.7) + ' ' + (y - s * 0.8) + 'Z" fill="' + color + '"/><circle cx="' + x + '" cy="' + (y - s * 1.2) + '" r="' + s + '" fill="' + color + '" stroke="#fff" stroke-width="' + s * 0.2 + '"/>' + text + '</g>';
+  }
+  const GRAD_KEYS = ['sagrada', 'disney', 'rijks', 'szechenyi', 'colosseum'];
+  const BUCKET = ['machu', 'inari', 'burj', 'taj', 'plitvice', 'europa'];
+
+  function initMiniMaps() {
+    $$('svg[data-map]').forEach((svg) => {
+      const vb = svg.getAttribute('viewBox').split(' ').map(Number), s = Math.max(vb[2] / 38, 0.85);
+      let pins = '';
+      if (svg.dataset.pins === 'grad') pins = GRAD_KEYS.map((k) => pin(k, s, '#1E9C8E')).join('') + pin('santorini', s, '#F2603F');
+      if (svg.dataset.pin) pins = pin(svg.dataset.pin, s, '#F2603F');
+      svg.innerHTML = DOTS.replace(/class="dot"/g, 'fill="#BFD7D3"') + pins;
+    });
+  }
+
+  function initBigMap() {
+    const svg = $('#bigmap'), box = $('#mapbig'), list = $('#maplist');
+    const all = Object.keys(PLACES);
+    const EUROPE = ['sagrada', 'disney', 'rijks', 'szechenyi', 'colosseum', 'europa', 'plitvice', 'santorini'];
+    const VBS = { all: [0, -4, 144, 68], grad: [58, 3, 28, 14.5], bucket: [0, -4, 144, 68] };
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const std = PROFILES[2];
+    let vb = VBS.all.slice(), current = 'all', raf = 0;
+
+    function draw() {
+      const set = current === 'grad' ? GRAD_KEYS : current === 'bucket' ? BUCKET : all;
+      const s = vb[2] / 70, zoomed = vb[2] < 100, fs = zoomed ? 0.54 : 2.5;
+      const pins = set.map((k) => pin(k, s, BUCKET.includes(k) ? '#F7C873' : '#3CC4B3', current === 'grad' || !EUROPE.includes(k), '', fs, k === 'sagrada' || (!zoomed && k === 'burj'))).join('');
+      svg.setAttribute('viewBox', vb.join(' '));
+      svg.innerHTML = DOTS + '<g>' + pins + '</g>';
+      $$('.pin', svg).forEach((g) => { g.style.transitionDelay = '0ms'; });
+    }
+    function renderList() {
+      const set = current === 'grad' ? GRAD_KEYS : current === 'bucket' ? BUCKET : all;
+      list.innerHTML = '<h3 style="color:inherit;font-size:18px;margin-bottom:6px">' + (current === 'grad' ? 'Grad Trip' : current === 'bucket' ? 'Bucket list' : 'All saves') + '</h3><p style="opacity:.7;font-size:13px;margin-bottom:10px">4 nights, Standard, estimated</p>' +
+        set.map((k) => '<div class="mli" data-k="' + k + '"><i style="background:' + (BUCKET.includes(k) ? '#F7C873' : '#3CC4B3') + '"></i><span>' + PLACES[k].short + '<small>' + PLACES[k].country + '</small></span><b>' + eur(estimate(k, std, 4).total) + '</b></div>').join('');
+    }
+    function go(next) {
+      current = next;
+      renderList();
+      const to = VBS[next].slice(), from = vb.slice();
+      cancelAnimationFrame(raf);
+      if (reduce) { vb = to; draw(); return; }
+      const t0 = performance.now(), ms = 800;
+      const step = (now) => {
+        const t = Math.min(1, (now - t0) / ms), e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        vb = from.map((v, i) => v + (to[i] - v) * e);
+        draw();
+        if (t < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    }
+    $$('#colls .chip').forEach((b) => b.addEventListener('click', () => {
+      $$('#colls .chip').forEach((x) => x.setAttribute('aria-pressed', x === b));
+      go(b.dataset.c);
+    }));
+    list.addEventListener('mouseover', (e) => {
+      const row = e.target.closest('.mli'); if (!row) return;
+      $$('.pin', svg).forEach((g) => g.classList.toggle('hl', g.dataset.k === row.dataset.k));
+    });
+    list.addEventListener('mouseleave', () => $$('.pin', svg).forEach((g) => g.classList.remove('hl')));
+    draw(); renderList();
+    return box;
+  }
+
+  /* ---------- destinations ---------- */
+  function initDestinations() {
+    const cats = [['all', 'All'], ['islands', 'Islands'], ['cities', 'Cities'], ['nature', 'Nature'], ['culture', 'Culture'], ['adventure', 'Adventure'], ['wellness', 'Wellness']];
+    const grid = $('#dgrid'), bar = $('#dfilters');
+    const std = PROFILES[2];
+    grid.innerHTML = SHOWN.map((k) => {
+      const p = PLACES[k], e = estimate(k, std, 4);
+      return '<article class="dest rv" data-cats="' + p.cats.join(' ') + '"><div class="pic">' + SCENES[k]() + '<div class="nm"><b>' + p.short + '</b><span>' + p.country + '</span></div></div>' +
+        '<div class="bt"><div><small>4 nights, Standard</small><b>' + eur(e.total) + '</b> <span class="est" style="font-size:9px;text-transform:uppercase;letter-spacing:.05em;background:var(--soft);color:var(--muted);border-radius:4px;padding:1px 5px;font-weight:700">est</span></div><span aria-hidden="true" style="color:var(--coral);font-weight:700">View ›</span></div>' +
+        '<a class="cover" href="demo.html" aria-label="' + p.name + ', ' + p.country + '"></a>' +
+        '<button class="heart" type="button" aria-pressed="false" aria-label="Save ' + p.short + '"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-heart"/></svg></button></article>';
+    }).join('');
+    bar.innerHTML = cats.map((c, i) => '<button type="button" class="chip" aria-pressed="' + (i === 0) + '" data-c="' + c[0] + '">' + c[1] + '</button>').join('');
+    bar.addEventListener('click', (e) => {
+      const b = e.target.closest('.chip'); if (!b) return;
+      $$('.chip', bar).forEach((x) => x.setAttribute('aria-pressed', x === b));
+      $$('.dest', grid).forEach((d) => { d.hidden = !(b.dataset.c === 'all' || d.dataset.cats.split(' ').includes(b.dataset.c)); });
+    });
+    grid.addEventListener('click', (e) => {
+      const h = e.target.closest('.heart'); if (!h) return;
+      h.setAttribute('aria-pressed', h.getAttribute('aria-pressed') !== 'true');
+    });
+  }
+
+  /* ---------- profiles ---------- */
+  function initProfiles() {
+    const sel = $('#pdest'), nights = $('#pn'), grid = $('#pgrid');
+    sel.innerHTML = SHOWN.map((k) => '<option value="' + k + '">' + PLACES[k].name + '</option>').join('');
+    function render() {
+      const k = sel.value, n = +nights.value;
+      const es = PROFILES.map((p) => estimate(k, p, n)), max = Math.max.apply(null, es.map((e) => e.total));
+      grid.innerHTML = PROFILES.map((p, i) => {
+        const e = es[i];
+        return '<article class="pc' + (p.tag ? ' pop' : '') + '">' + (p.tag ? '<span class="tag">' + p.tag + '</span>' : '') + '<h3>' + p.name + '</h3><div class="ps">' + eur(e.total) + '</div>' +
+          '<div class="bar"><i style="width:' + Math.round(e.total / max * 100) + '%"></i></div><p>' + p.blurb + '</p><ul>' +
+          '<li>Transport <b>' + eur(e.transport) + '</b></li><li>Accommodation <b>' + eur(e.stay) + '</b></li><li>Food, local travel, activities <b>' + eur(e.daily) + '</b></li>' +
+          (e.personal ? '<li>Personal spending <b>' + eur(e.personal) + '</b></li>' : '') + '<li>Taxes and extras <b>' + eur(e.tax) + '</b></li></ul></article>';
+      }).join('');
+    }
+    sel.addEventListener('change', render); nights.addEventListener('change', render); render();
+  }
+
+  /* ---------- holiday form ---------- */
+  function initForm() {
+    const budget = $('#hb'), out = $('#hbo'), mode = $('#hmode');
+    const modeLabel = () => { const group = mode.children[1].getAttribute('aria-pressed') === 'true'; $('label[for=hb]').firstChild.textContent = group ? 'Total group budget ' : 'Budget per person '; budget.max = group ? 10000 : 2500; out.textContent = eur(budget.value); };
+    budget.addEventListener('input', () => { out.textContent = eur(budget.value); });
+    [mode, $('#hprof')].forEach((g) => g.addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      Array.from(g.children).forEach((x) => x.setAttribute('aria-pressed', x === b));
+      if (g === mode) modeLabel();
+    }));
+    $$('.chips', $('#hform')).forEach((g) => g.addEventListener('click', (e) => {
+      const b = e.target.closest('.chip'); if (b) b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true');
+    }));
+    $$('.levels button').forEach((b) => b.addEventListener('click', () => {
+      const l = +b.dataset.level;
+      $$('.levels button').forEach((x) => x.setAttribute('aria-selected', x === b));
+      $('#ex1').classList.toggle('show', l >= 1); $('#ex2').classList.toggle('show', l >= 2);
+    }));
+  }
+
+  /* ---------- chrome ---------- */
+  function initChrome() {
+    const nav = $('#nav'), links = $('#links'), menu = $('#menu');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+    onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+    menu.addEventListener('click', () => { const o = links.classList.toggle('open'); menu.setAttribute('aria-expanded', o); });
+    links.addEventListener('click', (e) => { if (e.target.closest('a')) { links.classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); } });
+  }
+  function initReveal(mapBox) {
+    const els = $$('.rv');
+    if (!('IntersectionObserver' in window)) { els.forEach((e) => e.classList.add('in')); mapBox.classList.add('in'); return; }
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach((e) => io.observe(e));
+  }
+
+  initMiniMaps();
+  const mapBox = initBigMap();
+  initDestinations(); initProfiles(); initForm(); initChrome();
+  initReveal(mapBox);
+})();
+
+</script>
 </body>
 </html>
