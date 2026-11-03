@@ -31,8 +31,11 @@ h2{font:700 clamp(2rem,4.6vw,3.6rem)/1.02 var(--disp);font-variation-settings:'w
 
 /* progress + bar */
 .prog{position:fixed;left:0;top:0;height:3px;width:100%;background:var(--coral);transform:scaleX(0);transform-origin:0 50%;z-index:60}
-.bar{position:sticky;top:0;z-index:50;height:var(--bar);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gut);background:rgba(243,247,246,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s}
+.bar{position:sticky;top:0;z-index:50;transition:transform .35s cubic-bezier(.3,1,.3,1),border-color .3s;height:var(--bar);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gut);background:rgba(243,247,246,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s}
 .bar.stuck{border-color:var(--line)}
+.bar.away{transform:translateY(-100%)}
+.bar-hidden .sphone-col{top:0!important}
+.sphone-col{transition:top .35s}
 .logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;white-space:nowrap}
 .mark{width:34px;height:34px;border-radius:10px;background:var(--deep);display:grid;place-items:center;flex:none}
 .wm{font:600 1.05rem var(--disp);font-variation-settings:'wdth' 90}
@@ -362,6 +365,22 @@ h2{font:700 clamp(2rem,4.6vw,3.6rem)/1.02 var(--disp);font-variation-settings:'w
  .flip{transition:none}
 }
 
+.from{display:flex;align-items:center;gap:.6rem;margin-top:1rem;font-size:.95rem;color:var(--mute)}
+.originsel{font:600 .95rem var(--body);color:var(--deep);background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:.45rem 2rem .45rem 1rem;appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%230B3C49' stroke-width='2'%3E%3Cpath d='m1 1 5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .8rem center}
+.originsel:hover{border-color:var(--deep)}
+.budget .from{margin:0;color:#B9D3D0}
+.budget .originsel{background-color:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}
+.budget .originsel option{color:var(--ink)}
+.stamp i.q{font-size:1.5rem}
+.demo{background:var(--deep);color:#fff;padding:clamp(3.5rem,8vw,6rem) var(--gut) clamp(2rem,5vw,4rem)}
+.dhead{max-width:1280px;margin:0 auto 1.8rem;display:flex;flex-direction:column;align-items:flex-start;gap:.9rem}
+.dhead h2{color:#fff}
+.dhead p{max-width:46ch;color:#B9D3D0}
+.dhead .ghost{border-color:#fff;color:#fff}
+.dhead .ghost:hover{background:#fff;color:var(--deep)}
+.dframe{max-width:1280px;margin:0 auto;border-radius:26px;overflow:hidden;background:#fff;box-shadow:0 30px 70px rgba(0,0,0,.35)}
+.dframe iframe{display:block;width:100%;height:min(92vh,980px);min-height:640px;border:0}
+
 </style>
 </head>
 <body>
@@ -398,7 +417,7 @@ h2{font:700 clamp(2rem,4.6vw,3.6rem)/1.02 var(--disp);font-variation-settings:'w
     <a href="#postcards">Postcards</a>
     <a href="#pass">Boarding pass</a>
     <a href="#how">How it works</a>
-    <a class="btn solid sm magnetic" href="demo.html">Try the demo</a>
+    <a class="btn solid sm magnetic" href="#demo">Try the demo</a>
   </nav>
 </header>
 
@@ -409,14 +428,15 @@ h2{font:700 clamp(2rem,4.6vw,3.6rem)/1.02 var(--disp);font-variation-settings:'w
     <h1 id="headline" aria-label="Send a reel. Get a trip."><span class="hl" aria-hidden="true">Send a reel.</span><span class="hl" aria-hidden="true">Get a trip.</span></h1>
     <p class="lede"><strong>Your next adventure starts with a scroll.</strong> Discover incredible destinations, find holidays that fit your budget and turn travel inspiration into real trips.</p>
     <div class="cta-row">
-      <a class="btn solid lg magnetic" href="demo.html">Find a place</a>
-      <a class="btn ghost lg" href="demo.html">Take me on a holiday</a>
+      <a class="btn solid lg magnetic burst" href="#demo">Find a place</a>
+      <a class="btn ghost lg" href="#demo">Take me on a holiday</a>
     </div>
-    <form class="paste" action="demo.html">
+    <form class="paste" action="#demo">
       <label class="vh" for="reelurl">Reel or TikTok link</label>
       <input id="reelurl" type="text" inputmode="url" placeholder="Paste a Reel or TikTok link" autocomplete="off">
       <button class="btn deep sm" type="submit">Find the place</button>
     </form>
+    <label class="from" for="origin1"><span>Flying from</span><select id="origin1" class="originsel" aria-label="Flying from"></select></label>
   </div>
 
   <div class="stage" id="stage">
@@ -453,9 +473,10 @@ h2{font:700 clamp(2rem,4.6vw,3.6rem)/1.02 var(--disp);font-variation-settings:'w
           <div class="stp"><span id="trlbl">Travellers</span><div><button type="button" data-s="tr" data-d="-1" aria-label="Fewer travellers">−</button><output id="trout" aria-labelledby="trlbl">2</output><button type="button" data-s="tr" data-d="1" aria-label="More travellers">+</button></div></div>
           <div class="stp"><span id="nilbl">Nights</span><div><button type="button" data-s="ni" data-d="-1" aria-label="Fewer nights">−</button><output id="niout" aria-labelledby="nilbl">4</output><button type="button" data-s="ni" data-d="1" aria-label="More nights">+</button></div></div>
         </div>
+        <label class="from" for="origin2"><span>Flying from</span><select id="origin2" class="originsel" aria-label="Flying from"></select></label>
         <div class="seg" id="bprof" role="group" aria-label="Travel profile"></div>
         <div class="verdict" id="verdict" aria-live="polite"></div>
-        <a class="btn coral lg" id="bgo" href="demo.html">Take me there</a>
+        <a class="btn coral lg" id="bgo" href="#demo">Take me there</a>
       </div>
       <div class="bmapbox">
         <svg id="bmap" viewBox="0 -4 144 68" role="img" aria-label="World map. Destinations within budget are highlighted."></svg>
@@ -486,7 +507,7 @@ h2{font:700 clamp(2rem,4.6vw,3.6rem)/1.02 var(--disp);font-variation-settings:'w
     <div class="dpick" id="dpick" role="group" aria-label="Destination"></div>
     <div class="ticket" id="ticket">
       <div class="tmain">
-        <div class="route"><div><small>From</small><b>Prague</b></div><div class="line" aria-hidden="true"><span class="plane"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-send"/></svg></span></div><div class="to"><small>To</small><b id="tto">Oia</b></div></div>
+        <div class="route"><div><small>From</small><b id="tfrom">Prague</b></div><div class="line" aria-hidden="true"><span class="plane"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-send"/></svg></span></div><div class="to"><small>To</small><b id="tto">Oia</b></div></div>
         <div class="classes" id="classes" role="tablist" aria-label="Travel profile"></div>
         <p class="tblurb" id="tblurb"></p>
         <div class="lines" id="tlines"></div>
@@ -495,10 +516,10 @@ h2{font:700 clamp(2rem,4.6vw,3.6rem)/1.02 var(--disp);font-variation-settings:'w
         <small id="tfor">1 traveller, 4 nights</small>
         <div class="tot"><i id="ttot">€0</i><em>est</em></div>
         <svg class="bc" id="bc" viewBox="0 0 120 40" aria-hidden="true" preserveAspectRatio="none"></svg>
-        <a class="btn solid sm" href="demo.html">Open in the demo</a>
+        <a class="btn solid sm" href="#demo">Open in the demo</a>
       </div>
     </div>
-    <p class="fine">Estimated for one traveller departing Prague. Illustrative, not live prices or availability.</p>
+    <p class="fine">Estimated for one traveller flying from <span id="finecity">Prague</span>. Illustrative, not live prices or availability.</p>
   </div>
 </section>
 
@@ -515,8 +536,8 @@ h2{font:700 clamp(2rem,4.6vw,3.6rem)/1.02 var(--disp);font-variation-settings:'w
       <div class="phone sphone" id="sphone" data-step="0" aria-hidden="true">
         <div class="scr">
           <div class="ss s0"><svg class="bg"><use href="#santorini"/></svg><div class="rside"><span><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-heart"/></svg>48.2k</span><span><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-chat"/></svg>612</span><span class="share"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><use href="#i-send"/></svg>Share</span></div><div class="rcap"><b>@aegean.wanders</b>Sunset in Oia never gets old #santorini #greece</div></div>
-          <div class="ss s1"><div class="dmh"><i>UP</i><div><b>Ultimate Project 3000</b><small>Business account</small></div></div><div class="dmt"><div class="b me"><svg width="78" height="130"><use href="#santorini"/></svg></div><div class="b typ"><i></i><i></i><i></i></div><div class="b ans">Found it: <b>Oia, Santorini</b><br>Greece</div><div class="b ans2">Trip from Prague, 4 nights: about <b id="dmprice">€1,300</b> (estimated)</div></div></div>
-          <div class="ss s2"><h4>Oia, Santorini</h4><p class="sub">Greece, from your reel</p><div class="seg3"><span>Budget</span><span class="on">Standard</span><span>Comfort+</span></div><div class="r"><span>Flights from Prague <em>est</em></span><b data-n="0" id="n1">€0</b></div><div class="r"><span>Stay and daily costs, 4 nights <em>est</em></span><b data-n="0" id="n2">€0</b></div><div class="r"><span>Taxes and fees <em>est</em></span><b data-n="0" id="n3">€0</b></div><div class="r t"><span>Total, 1 traveller</span><b data-n="0" id="n4">€0</b></div></div>
+          <div class="ss s1"><div class="dmh"><i>UP</i><div><b>Ultimate Project 3000</b><small>Business account</small></div></div><div class="dmt"><div class="b me"><svg width="78" height="130"><use href="#santorini"/></svg></div><div class="b typ"><i></i><i></i><i></i></div><div class="b ans">Found it: <b>Oia, Santorini</b><br>Greece</div><div class="b ans2">Trip for 4 nights: about <b id="dmprice">€1,300</b> (estimated)</div></div></div>
+          <div class="ss s2"><h4>Oia, Santorini</h4><p class="sub">Greece, from your reel</p><div class="seg3"><span>Budget</span><span class="on">Standard</span><span>Comfort+</span></div><div class="r"><span>Flights <em>est</em></span><b data-n="0" id="n1">€0</b></div><div class="r"><span>Stay and daily costs, 4 nights <em>est</em></span><b data-n="0" id="n2">€0</b></div><div class="r"><span>Taxes and fees <em>est</em></span><b data-n="0" id="n3">€0</b></div><div class="r t"><span>Total, 1 traveller</span><b data-n="0" id="n4">€0</b></div></div>
           <div class="ss s3"><h4>Grad Trip</h4><p class="sub">5 places, 4 nights, Standard</p><div id="sl"></div></div>
         </div>
       </div>
@@ -524,18 +545,21 @@ h2{font:700 clamp(2rem,4.6vw,3.6rem)/1.02 var(--disp);font-variation-settings:'w
   </div>
 </section>
 
-<!-- CLOSE -->
-<section class="close">
-  <h2>Send a reel. Get a trip.</h2>
-  <p>Try the whole thing in the interactive demo, from the reel to a priced, saved trip.</p>
-  <a class="btn deep lg magnetic burst" id="burst" href="demo.html">Try the demo</a>
-  <div class="burstbox" id="burstbox" aria-hidden="true"></div>
+<!-- DEMO -->
+<section class="demo" id="demo">
+  <div class="dhead">
+    <h2>Now try it yourself.</h2>
+    <p>This is the real interactive demo, running right here. Paste a reel, pick a profile and build a trip.</p>
+    <a class="btn ghost sm" href="demo.html">Open it full screen</a>
+  </div>
+  <div class="dframe"><iframe id="demoframe" title="Ultimate Project 3000 interactive demo" data-src="demo.html?embed=1" loading="lazy"></iframe></div>
 </section>
+<div class="burstbox" id="burstbox" aria-hidden="true"></div>
 </main>
 
 <footer class="foot">
   <span>Ultimate Project 3000</span>
-  <span>Demo with example data. Every price on this site is an illustrative estimate for a traveller departing Prague, not a live price or availability. Illustrations are drawn, not photographs.</span>
+  <span>Demo with example data. Every price on this site is an illustrative estimate for a traveller departing from the city you pick, not a live price or availability. Illustrations are drawn, not photographs.</span>
 </footer>
 <script>
 window.UP = (function () {
@@ -671,15 +695,33 @@ window.UP = (function () {
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var NS = 'http://www.w3.org/2000/svg';
   var ALL = Object.keys(PLACES);
-  var PRAGUE = { lat: 50.08, lng: 14.44 };
+  var ORIGINS = {
+    prague: { n: 'Prague', lat: 50.08, lng: 14.44 }, berlin: { n: 'Berlin', lat: 52.52, lng: 13.4 }, london: { n: 'London', lat: 51.5, lng: -0.12 },
+    madrid: { n: 'Madrid', lat: 40.42, lng: -3.7 }, warsaw: { n: 'Warsaw', lat: 52.23, lng: 21.01 }, newyork: { n: 'New York', lat: 40.71, lng: -74.0 }
+  };
+  var PRAGUE = ORIGINS.prague;
+  function hav(a, b) {
+    var R = Math.PI / 180, dl = (b.lat - a.lat) * R, dn = (b.lng - a.lng) * R;
+    var x = Math.sin(dl / 2) * Math.sin(dl / 2) + Math.cos(a.lat * R) * Math.cos(b.lat * R) * Math.sin(dn / 2) * Math.sin(dn / 2);
+    return 6371 * 2 * Math.asin(Math.sqrt(x));
+  }
+  // Flights scale with distance relative to the Prague baseline; illustrative only
+  function est(k, pr, n) {
+    var e = estimate(k, pr, n), o = PRAGUE;
+    if (o === ORIGINS.prague) return e;
+    var base = PLACES[k].fl * pr.flight, ratio = Math.min(2.6, Math.max(0.35, (hav(o, PLACES[k]) + 150) / (hav(ORIGINS.prague, PLACES[k]) + 150)));
+    var t = Math.round(30 + (base - 30) * ratio);
+    var tax = Math.round((t + e.stay + e.daily + e.personal) * 0.08);
+    return { transport: t, stay: e.stay, daily: e.daily, personal: e.personal, tax: tax, total: t + e.stay + e.daily + e.personal + tax };
+  }
   var TIER = ['#F7C873', '#1E9C8E', '#3D5A80', '#F2603F'];
 
   /* ---------- shared state ---------- */
-  var S = { prof: 2, nights: 4, tr: 2, budget: 1200, dest: 'santorini' };
+  var S = { origin: 'prague', prof: 2, nights: 4, tr: 2, budget: 1200, dest: 'santorini' };
   var subs = [];
   function set(patch) { Object.keys(patch).forEach(function (k) { S[k] = patch[k]; }); subs.forEach(function (f) { f(); }); }
   function breakdown(k) {
-    var e = estimate(k, PROFILES[S.prof], S.nights);
+    var e = est(k, PROFILES[S.prof], S.nights);
     var food = Math.round(e.daily * 0.4), loc = Math.round(e.daily * 0.15);
     return { e: e, lines: [['Flights', e.transport], ['Stay', e.stay], ['Food', food], ['Local transport', loc], ['Activities', e.daily - food - loc], ['Personal spending', e.personal], ['Taxes and fees', e.tax]] };
   }
@@ -713,11 +755,15 @@ window.UP = (function () {
   var ICON = function (id) { return '<svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><use href="#' + id + '"/></svg>'; };
 
   /* ---------- bar, progress, menu ---------- */
-  var bar = $('#bar'), prog = $('#prog');
+  var bar = $('#bar'), prog = $('#prog'), lastY = 0;
   function onScroll() {
     var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
     prog.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
     bar.classList.toggle('stuck', h.scrollTop > 8);
+    var y = h.scrollTop, away = y > 120 && y > lastY + 2 && !menu.classList.contains('open') && !bar.contains(document.activeElement);
+    if (y < lastY - 2 || y <= 120) away = false; else if (Math.abs(y - lastY) <= 2) away = bar.classList.contains('away');
+    bar.classList.toggle('away', away); document.documentElement.classList.toggle('bar-hidden', away);
+    lastY = y;
   }
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
   var burger = $('#burger'), menu = $('#menu');
@@ -829,7 +875,7 @@ window.UP = (function () {
       var k = REELS[cur].k;
       drawMap(k);
       $('#ptname').textContent = PLACES[k].name;
-      roll($('#ptprice'), estimate(k, PROFILES[2], 4).total, 900);
+      roll($('#ptprice'), est(k, PROFILES[2], 4).total, 900);
       first = false;
     }
     $('#rnext').addEventListener('click', function () { goto(cur + 1, true); });
@@ -852,6 +898,7 @@ window.UP = (function () {
     phone.addEventListener('pointerup', endDrag); phone.addEventListener('pointercancel', endDrag);
     var onscreen = true;
     if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { onscreen = en[0].isIntersecting; }).observe($('#stage'));
+    window.__heroRedraw = function () { drawMap(REELS[cur].k); roll($('#ptprice'), est(REELS[cur].k, PROFILES[2], 4).total, 900); };
     goto(0);
     if (!reduced) timer = setInterval(function () { if (onscreen && !document.hidden && !interacted) goto(cur + 1); }, 6500);
     window.addEventListener('resize', function () { var vb = fit(REELS[cur].k); hm.setAttribute('viewBox', vb.join(' ')); });
@@ -859,8 +906,9 @@ window.UP = (function () {
 
   /* ---------- ticker ---------- */
   (function () {
-    var one = ALL.map(function (k) { return '<span>' + PLACES[k].short + '<b>' + eur(estimate(k, PROFILES[2], 4).total) + '</b></span>'; }).join('');
+    var one = ALL.map(function (k) { return '<span>' + PLACES[k].short + '<b>' + eur(est(k, PROFILES[2], 4).total) + '</b></span>'; }).join('');
     $('#ticker').innerHTML = one + one;
+    subs.push(function () { var o = ALL.map(function (k) { return '<span>' + PLACES[k].short + '<b>' + eur(est(k, PROFILES[2], 4).total) + '</b></span>'; }).join(''); var t = $('#ticker'); if (t._o !== PRAGUE) { t._o = PRAGUE; t.innerHTML = o + o; } });
   })();
 
   /* ---------- budget map ---------- */
@@ -871,8 +919,8 @@ window.UP = (function () {
     var z = el('div', 'bzoom'); z.setAttribute('role', 'group'); z.setAttribute('aria-label', 'Map view');
     z.innerHTML = '<button type="button" data-z="world" aria-pressed="true">World</button><button type="button" data-z="europe" aria-pressed="false">Europe</button>';
     box.insertBefore(z, bm);
-    var pa = xy(PRAGUE);
     function pins() {
+      var pa = xy(PRAGUE);
       var w = VB[zoom][2], s = w / 96;
       $('#bhome').innerHTML = '<circle class="home" cx="' + pa[0] + '" cy="' + pa[1] + '" r="' + s * 0.55 + '"/>';
       $('#bpins').innerHTML = ALL.map(function (k) { return pin(k, s, '#F2603F', false, ''); }).join('');
@@ -885,7 +933,7 @@ window.UP = (function () {
       });
       paint();
     }
-    function cost(k) { return estimate(k, PROFILES[S.prof], S.nights).total; }
+    function cost(k) { return est(k, PROFILES[S.prof], S.nights).total; }
     function showTip(k, g) {
       var r = g.getBoundingClientRect(), b = box.getBoundingClientRect();
       tip.innerHTML = '<b>' + PLACES[k].name + '</b>' + eur(cost(k)) + ' each, estimated';
@@ -944,6 +992,7 @@ window.UP = (function () {
       $$('button', seg).forEach(function (b) { b.setAttribute('aria-pressed', +b.getAttribute('data-i') === S.prof); });
       paint();
     });
+    window.__budgetPins = pins;
     syncRange(); pins();
     subs[subs.length - 1]();
   })();
@@ -958,10 +1007,10 @@ window.UP = (function () {
       c.innerHTML =
         '<div class="flip">' +
         '<button type="button" class="face front" aria-label="' + p.name + '. Flip the postcard to see the price breakdown."><span class="art">' + SCENES[k]() + '</span><span class="glare"></span>' +
-        '<span class="stamp"><i data-t></i><small>est per person</small></span><span class="pcname"><b>' + p.short + '</b><small>' + p.country + '</small></span></button>' +
+        '<span class="stamp"><i class="q">€?</i><small>flip for price</small></span><span class="pcname"><b>' + p.short + '</b><small>' + p.country + '</small></span></button>' +
         '<div class="face back" inert><h3>' + p.name + '</h3><small data-sub></small><ul>' +
         '<li data-l="0"><span>Flights</span><b></b></li><li data-l="1"><span>Stay</span><b></b></li><li data-l="2"><span>Food</span><b></b></li><li data-l="3"><span>Local transport</span><b></b></li><li data-l="4"><span>Activities</span><b></b></li><li data-l="5"><span>Personal spending</span><b></b></li><li data-l="6"><span>Taxes and fees</span><b></b></li><li class="t"><span>Total</span><b data-tot></b></li></ul>' +
-        '<div class="backact"><button type="button" class="unflip">Flip back</button><a class="btn solid sm" href="demo.html">Plan it in the demo</a></div></div></div>';
+        '<div class="backact"><button type="button" class="unflip">Flip back</button><a class="btn solid sm" href="#demo">Plan it in the demo</a></div></div></div>';
       strip.appendChild(c);
       var fl = $('.flip', c), front = $('.front', c), back = $('.back', c);
       function toggle(on) {
@@ -988,9 +1037,8 @@ window.UP = (function () {
     function paint() {
       $$('.pc', strip).forEach(function (c) {
         var k = c.getAttribute('data-k'), b = breakdown(k);
-        roll($('[data-t]', c), b.e.total, 700);
         roll($('[data-tot]', c), b.e.total, 700);
-        $('[data-sub]', c).textContent = PROFILES[S.prof].name + ', ' + S.nights + ' nights, 1 traveller from Prague';
+        $('[data-sub]', c).textContent = PROFILES[S.prof].name + ', ' + S.nights + ' nights, 1 traveller from ' + PRAGUE.n;
         b.lines.forEach(function (l, i) {
           var li = $('[data-l="' + i + '"]', c); li.style.display = l[1] === 0 ? 'none' : '';
           roll($('b', li), l[1], 600);
@@ -1049,13 +1097,14 @@ window.UP = (function () {
   /* ---------- scroll story ---------- */
   (function () {
     var ph = $('#sphone'), cards = $$('.stp-card'), shown = -1, mobile = window.matchMedia('(max-width:860px)');
-    var b = estimate('santorini', PROFILES[2], 4);
+    var b = est('santorini', PROFILES[2], 4);
     $('#dmprice').textContent = eur(b.total);
     var sl = $('#sl');
     sl.innerHTML = ['sagrada', 'szechenyi', 'plitvice', 'santorini', 'inari'].map(function (k, i) {
-      return '<div style="--i:' + i + '"><span style="display:block;width:10cqw;height:10cqw;border-radius:2.5cqw;overflow:hidden;flex:none">' + SCENES[k]() + '</span>' + PLACES[k].short + '<b>' + eur(estimate(k, PROFILES[2], 4).total) + '</b></div>';
+      return '<div style="--i:' + i + '"><span style="display:block;width:10cqw;height:10cqw;border-radius:2.5cqw;overflow:hidden;flex:none">' + SCENES[k]() + '</span>' + PLACES[k].short + '<b>' + eur(est(k, PROFILES[2], 4).total) + '</b></div>';
     }).join('');
     $$('#sl svg').forEach(function (s) { s.style.cssText = 'width:100%;height:100%'; });
+    window.__storyRefresh = function () { var q = est('santorini', PROFILES[2], 4); targets = { n1: q.transport, n2: q.stay + q.daily + q.personal, n3: q.tax, n4: q.total }; $$('#sl b').forEach(function (n, i) { n.textContent = eur(est(['sagrada', 'szechenyi', 'plitvice', 'santorini', 'inari'][i], PROFILES[2], 4).total); }); if (shown === 2) Object.keys(targets).forEach(function (id) { roll($('#' + id), targets[id], 600); }); };
     var targets = { n1: b.transport, n2: b.stay + b.daily + b.personal, n3: b.tax, n4: b.total };
     function activate(i) {
       if (i === shown) return; shown = i;
@@ -1076,6 +1125,26 @@ window.UP = (function () {
     make(); mobile.addEventListener('change', make);
   })();
 
+  /* ---------- origin city ---------- */
+  (function () {
+    var sels = $$('.originsel');
+    sels.forEach(function (s) { s.innerHTML = Object.keys(ORIGINS).map(function (k) { return '<option value="' + k + '">' + ORIGINS[k].n + '</option>'; }).join(''); });
+    sels.forEach(function (s) { s.addEventListener('change', function () { set({ origin: s.value }); }); });
+    var seen = 'prague';
+    subs.push(function () {
+      if (S.origin === seen) return;
+      seen = S.origin; PRAGUE = ORIGINS[S.origin];
+      sels.forEach(function (s) { s.value = S.origin; });
+      $('#tfrom').textContent = PRAGUE.n; $('#finecity').textContent = PRAGUE.n;
+      $('#heromap').setAttribute('aria-label', 'Map showing the flight from ' + PRAGUE.n + ' to the current reel destination');
+      $$('[data-sub]').forEach(function (n) { n.textContent = PROFILES[S.prof].name + ', ' + S.nights + ' nights, 1 traveller from ' + PRAGUE.n; });
+      if (window.__heroRedraw) window.__heroRedraw();
+      if (window.__budgetPins) window.__budgetPins();
+      var t = est('santorini', PROFILES[2], 4); $('#dmprice').textContent = eur(t.total);
+      if (window.__storyRefresh) window.__storyRefresh();
+    });
+  })();
+
   /* ---------- magnetic buttons ---------- */
   if (!reduced && window.matchMedia('(hover:hover)').matches) {
     var mags = $$('.magnetic');
@@ -1089,20 +1158,31 @@ window.UP = (function () {
   }
 
   /* ---------- closing CTA: pin burst, then the demo ---------- */
-  var burst = $('#burst'), bb = $('#burstbox');
-  burst.addEventListener('click', function (e) {
-    if (reduced || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
-    e.preventDefault();
-    var r = burst.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, href = burst.href;
-    var cols = ['#F7C873', '#0B3C49', '#fff', '#1E9C8E', '#13262D'];
-    for (var i = 0; i < 18; i++) {
-      var n = el('div', 'bp', '<svg viewBox="0 0 24 24" width="26" height="26" fill="' + cols[i % cols.length] + '"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5" fill="#F2603F"/></svg>');
-      n.style.left = cx + 'px'; n.style.top = cy + 'px'; bb.appendChild(n);
-      var a = (i / 18) * Math.PI * 2 + Math.random() * 0.3, d = 140 + Math.random() * 220;
-      n.animate([{ transform: 'translate(0,0) scale(.3) rotate(0)', opacity: 1 }, { transform: 'translate(' + Math.cos(a) * d + 'px,' + (Math.sin(a) * d - 60) + 'px) scale(1.1) rotate(' + (Math.random() * 90 - 45) + 'deg)', opacity: 0 }], { duration: 650, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' });
-    }
-    setTimeout(function () { window.location.href = href; }, 620);
+  var bb = $('#burstbox');
+  function go() {
+    var d = $('#demo'); d.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+    var f = $('#demoframe'); if (f && !f.src) f.src = f.getAttribute('data-src');
+  }
+  // load the demo frame when it nears the viewport, or right away on a demo click
+  var fr = $('#demoframe');
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (en, o) { if (en[0].isIntersecting) { if (!fr.src) fr.src = fr.getAttribute('data-src'); o.disconnect(); } }, { rootMargin: '600px' }).observe($('#demo')); else fr.src = fr.getAttribute('data-src');
+  $$('a[href="#demo"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      e.preventDefault(); menu.classList.remove('open'); burger.setAttribute('aria-expanded', 'false');
+      if (reduced || !a.classList.contains('burst')) { go(); return; }
+      var r = a.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      var cols = ['#F7C873', '#0B3C49', '#F2603F', '#1E9C8E', '#13262D'];
+      for (var i = 0; i < 18; i++) {
+        var n = el('div', 'bp', '<svg viewBox="0 0 24 24" width="26" height="26" fill="' + cols[i % cols.length] + '"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5" fill="#fff"/></svg>');
+        n.style.left = cx + 'px'; n.style.top = cy + 'px'; bb.appendChild(n);
+        var ang = (i / 18) * Math.PI * 2 + Math.random() * 0.3, dist = 120 + Math.random() * 200;
+        n.animate([{ transform: 'translate(0,0) scale(.3)', opacity: 1 }, { transform: 'translate(' + Math.cos(ang) * dist + 'px,' + (Math.sin(ang) * dist - 50) + 'px) scale(1.1) rotate(' + (Math.random() * 90 - 45) + 'deg)', opacity: 0 }], { duration: 650, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' }).onfinish = function () { this.effect.target.remove(); };
+      }
+      setTimeout(go, 350);
+    });
   });
+  $$('form.paste').forEach(function (f) { f.addEventListener('submit', function (e) { e.preventDefault(); go(); }); });
 })();
 
 </script>
