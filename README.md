@@ -1,6 +1,6 @@
 # Ultimate Project 3000: website
 
-Static marketing site for The Ultimate Project 3000 ("Send a reel. Get a trip."). Plain HTML, CSS and JS: no build step, no dependencies.
+Interactive marketing site for The Ultimate Project 3000 ("Send a reel. Get a trip."). Plain HTML, CSS and JS: no build step, no dependencies. Try the reel stack, budget map, postcards, boarding pass and scroll story. Every "try" action opens the demo.
 
 - `index.html`: the landing page, fully self-contained (styles and scripts are inline, so it renders the same wherever it is opened)
 - `demo.html`: the interactive Reel to Trip demo that every "try" action opens
