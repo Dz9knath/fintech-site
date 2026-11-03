@@ -297,7 +297,7 @@ const GRAD=["sagrada","disney","rijks","szechenyi","colosseum"];
 const VB={all:[0,-7.5,144,74.9],grad:[63,3.5,26,13.52]};
 const STEPS=["Watch the reel and tap Share","Tap Send to DM the business account","Get the reply and open the link","Compare trip estimates","Save it to Grad Trip","Take me on a holiday"];
 const cost=(k,t,n)=>{const p=P[k];return Math.round(p.fl*FLIGHT[t]+n*(p.stay[t]+p.day[t]))};
-const eur=v=>"€"+v.toLocaleString("en-US");
+const eur=v=>"$"+Math.round(v*1.1).toLocaleString("en-US");
 const short=k=>P[k].name.split(",")[0];
 const $=id=>document.getElementById(id);
 let S,timers=[],maxStep=0;
