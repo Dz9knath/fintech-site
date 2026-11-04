@@ -1,22 +1,28 @@
-# Ultimate Project 3000: website
+# Reel 2 Real: website
 
-Two prototypes live here: the classic scrolling site (`index.html`) and a Reels-style one where the demo advances with every swipe (`reels/index.html`, served at `/reels/`).
+Marketing site and interactive prototypes for **Reel 2 Real** ("Send a Reel. Get a trip."). Plain HTML, CSS and JS: no build step, no dependencies. Each page is self-contained.
 
-Interactive marketing site for The Ultimate Project 3000 ("Send a reel. Get a trip."). Plain HTML, CSS and JS: no build step, no dependencies. Try the reel stack, the budget map, the price-guessing game, the holiday matcher and the REEL 2 REAL poster maker, and read the About, Pricing, FAQ and waitlist sections. Every "try" action opens the demo.
+| Path | What it is |
+|---|---|
+| `/` (`index.html`) | Main site: a Reels-style flow. Scroll through a Reel, the share sheet, saved lists, the map, pricing and the final ticket. Includes About, Pricing (draft), FAQ and waitlist. |
+| `/darkroom/` | Second prototype, a different concept: the story is a roll of film that scrolls sideways. Develop a Reel by holding a button, price it, circle what fits your budget, then make your own print from a local photo. |
+| `/classic/` | The previous site, kept unchanged in function. |
+| `/demo.html` | Embedded Reel to Trip demo. |
 
-- `index.html`: the landing page, fully self-contained (styles and scripts are inline, so it renders the same wherever it is opened)
-- `demo.html`: the interactive Reel to Trip demo that every "try" action opens
+## What is simulated
 
-All prices are in US dollars and are illustrative estimates from example data, not live prices or availability. Illustrations are drawn, not photos. REEL 2 REAL posters are made in your browser; photos never leave the device, and visits are not verified. Wall entries are fictional demos. The Google Fonts need an internet connection; offline it falls back to system fonts.
+Instagram and TikTok are drawn mock-ups, not integrations. Destination detection is chosen by the visitor; there is no AI on these pages. Prices are US-dollar estimates from a placeholder table, not live prices. Tickets are samples and nothing is booked. Pricing plans and team bios are placeholders. Illustrations are drawn, not photos. There is no login and no XP.
+
+Photos added in the Darkroom print maker stay in the browser. Google Fonts need an internet connection; offline the site falls back to system fonts.
 
 ## Run locally
 
-Open `index.html` in a browser, or run `python3 -m http.server 8000` in this folder and go to http://localhost:8000.
+`python3 -m http.server 8000` in this folder, then open http://localhost:8000 (`/darkroom/` and `/classic/` are subfolders).
 
 ## Hosting
 
-Served with GitHub Pages: Settings, Pages, Deploy from a branch, `main` / root.
+GitHub Pages: Settings, Pages, Deploy from a branch, `main` / root. After a deploy, hard-refresh (Ctrl/Cmd+Shift+R) to bypass the cache.
 
 ## Waitlist
 
-The form saves sign-ups in the visitor's browser only. To collect them for real, set `WAITLIST_ENDPOINT` (near the top of the waitlist code in each page) to a URL that accepts a JSON POST `{email, origin, at}`.
+Sign-ups are saved in the visitor's browser only. To collect them, set `WAITLIST_ENDPOINT` (a constant in each page's script) to a URL that accepts a JSON POST `{email, from}`.
