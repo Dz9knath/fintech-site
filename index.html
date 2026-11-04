@@ -655,6 +655,70 @@ h2{font:600 clamp(2.1rem,4.8vw,3.9rem)/1.02 var(--disp);font-variation-settings:
  .hline path{stroke-dashoffset:0}
 }
 
+/* ---- about / pricing / faq / waitlist ---- */
+[data-rv]{opacity:0;transform:translateY(26px) scale(.98);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--d,0)*90ms)}
+[data-rv].in{opacity:1;transform:none}
+.about,.pricing,.faq,.waitlist{padding:clamp(3.5rem,8vw,6.5rem) var(--gut)}
+.about{background:#E8EEDD}
+.abgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem;margin-top:2.4rem}
+.abc{background:#fff;border-radius:var(--r);padding:1.6rem;box-shadow:0 14px 34px rgba(23,23,23,.07)}
+.abc h3,.plan h3{font:600 1.45rem var(--disp);margin-bottom:.5rem}
+.abc p{color:var(--grey)}
+.team{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.6rem;margin-top:2.2rem}
+.tm{display:flex;align-items:center;gap:.8rem}
+.tm b{display:block}.tm small{color:var(--grey)}
+.av{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;font:600 1.4rem var(--disp)}
+.av.sage{background:var(--sage)}
+.teamnote{font:500 1.5rem var(--hand);color:var(--sage-d)}
+.pricing{background:var(--cream)}
+.billing{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.8rem 0 1.4rem}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem;align-items:stretch}
+.plan{position:relative;background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:1.8rem;display:flex;flex-direction:column;gap:1rem;transition:transform .3s cubic-bezier(.3,1.4,.5,1),box-shadow .3s}
+.plan:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(23,23,23,.12)}
+.plan.best{background:var(--ink);color:#fff;border-color:var(--ink)}
+.plan.best li::before{background:var(--coral)}
+.pill{position:absolute;top:-.8rem;left:1.6rem;background:var(--coral);color:var(--ink);font-weight:700;font-size:.78rem;padding:.25rem .8rem;border-radius:99px}
+.pr{display:flex;align-items:baseline;gap:.5rem}
+.pr b{font:600 3.2rem/1 var(--disp)}
+.pr span{color:var(--grey);font-size:.9rem}.plan.best .pr span{color:#c9c9c2}
+.plan ul{list-style:none;display:grid;gap:.6rem;flex:1}
+.plan li{padding-left:1.5rem;position:relative}
+.plan li::before{content:"";position:absolute;left:0;top:.5em;width:.65rem;height:.65rem;border-radius:50%;background:var(--sage)}
+.plan .btn{align-self:flex-start}
+.plan.best .btn.coral{color:var(--ink)}
+.faq{background:var(--sand)}
+.faqw{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(1.5rem,5vw,4rem);align-items:start}
+.faqh{position:sticky;top:calc(var(--bar) + 1.5rem)}
+.faql{display:grid;gap:.7rem}
+.faql details{background:#fff;border-radius:18px;padding:0 1.3rem;box-shadow:0 8px 22px rgba(23,23,23,.05)}
+.faql summary{list-style:none;cursor:pointer;padding:1.1rem 2rem 1.1rem 0;font:600 1.1rem var(--body);position:relative}
+.faql summary::-webkit-details-marker{display:none}
+.faql summary::after{content:"";position:absolute;right:.2rem;top:50%;width:.7rem;height:.7rem;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:translateY(-70%) rotate(45deg);transition:transform .3s}
+.faql details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.faql details p{color:var(--grey);padding-bottom:1.2rem;max-width:60ch;animation:fqin .35s ease both}
+@keyframes fqin{from{opacity:0;transform:translateY(-6px)}}
+.faql summary:focus-visible{outline:3px solid var(--coral);outline-offset:2px;border-radius:8px}
+.finalsec{color:#fff;font-weight:600;text-underline-offset:4px}
+.waitlist{background:var(--coral);color:var(--ink);position:relative;overflow:hidden}
+.wlw{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.5rem,5vw,4rem);align-items:center}
+.waitlist .sub{color:#3a1a12}
+.wlf{background:var(--cream);border-radius:26px;padding:1.8rem;box-shadow:12px 12px 0 var(--ink);display:grid;gap:.5rem}
+.wlf label{font-weight:600;font-size:.88rem;margin-top:.4rem}
+.wlrow{display:flex;gap:.6rem;flex-wrap:wrap}
+.wlrow input{flex:1 1 220px;min-width:0}
+.wlf input,.wlf select{font:500 1rem var(--body);padding:.85rem 1rem;border-radius:14px;border:1.5px solid var(--line);background:#fff}
+.wlf input:focus-visible,.wlf select:focus-visible{outline:3px solid var(--coral);outline-offset:1px}
+.wlerr{color:#B3261E;font-weight:600;min-height:1.3em}
+.wlnote{font-size:.82rem;color:var(--grey)}
+.wlok{background:var(--cream);border-radius:26px;padding:2rem;box-shadow:12px 12px 0 var(--ink);text-align:center;display:grid;justify-items:center;gap:.8rem;animation:pop .6s cubic-bezier(.3,1.4,.5,1) both}
+.wlok h3{font:600 2.2rem var(--disp)}
+.wlok p{color:var(--grey);max-width:34ch}
+.wlt{width:64px;height:64px;border-radius:50%;background:var(--coral);display:grid;place-items:center}
+@media (max-width:900px){.abgrid,.plans{grid-template-columns:1fr}.faqw,.wlw{grid-template-columns:1fr}.faqh{position:static}}
+@media (prefers-reduced-motion:reduce){[data-rv]{opacity:1;transform:none;transition:none}}
+[hidden]{display:none!important}
+
 </style>
 </head>
 <body>
@@ -700,10 +764,10 @@ h2{font:600 clamp(2.1rem,4.8vw,3.9rem)/1.02 var(--disp);font-variation-settings:
     <a href="#map">Your map</a>
     <a href="#features">Features</a>
     <a href="#matcher">Holiday matcher</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
     <span class="navend">
-      <button type="button" class="hud" id="hud" aria-haspopup="dialog" aria-label="Open your passport"><span class="ring"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17"/><circle class="arc" id="hudarc" cx="20" cy="20" r="17" pathLength="100"/></svg><b id="hudlvl">1</b></span><span class="hudx"><i id="hudxp">0 XP</i></span></button>
-      <button type="button" class="loginbtn" id="loginbtn">Log in</button>
-      <a class="btn coral sm magnetic" href="#demo">Get started</a>
+      <a class="btn coral sm magnetic" href="#waitlist">Join the waitlist</a>
     </span>
   </nav>
 </header>
@@ -827,7 +891,7 @@ h2{font:600 clamp(2.1rem,4.8vw,3.9rem)/1.02 var(--disp);font-variation-settings:
   <div class="wrap gwrap">
     <div class="ghead">
       <h2>Think you know what a trip costs?</h2>
-      <p class="sub">Five rounds. Drag the slider to your best guess, lock it in, and see how close you got. Sharp guesses earn XP.</p>
+      <p class="sub">Five rounds. Drag the slider to your best guess, lock it in, and see how close you got. Beat the estimate to rank up.</p>
       <div class="gstats"><span>Round <b id="grd">1</b> of 5</span><span>Score <b id="gsc">0</b></span><span>Streak <b id="gst">0</b></span></div>
     </div>
     <div class="gcard" id="gcard"></div>
@@ -887,6 +951,69 @@ h2{font:600 clamp(2.1rem,4.8vw,3.9rem)/1.02 var(--disp);font-variation-settings:
   </div>
 </section>
 
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap">
+    <h2>We built this for the saved-Reel graveyard.</h2>
+    <p class="sub">Everyone has a folder of places they swore they would visit. Project 3000 turns that folder into a map, a price and a plan, so someday gets a date.</p>
+    <div class="abgrid">
+      <article class="abc" data-rv><h3>Honest prices</h3><p>Every number is labelled estimated or live, with a timestamp. We never dress a guess up as a quote.</p></article>
+      <article class="abc" data-rv><h3>Your photos stay yours</h3><p>The poster maker runs in your browser. Your pictures are never uploaded, and we don't claim to verify a visit.</p></article>
+      <article class="abc" data-rv><h3>Built to be used</h3><p>Send a Reel, see the trip, save it. No forms, no spreadsheets, no twenty open tabs.</p></article>
+    </div>
+    <div class="team" aria-label="The team">
+      <div class="tm" data-rv><span class="av">C</span><div><b>Caden</b><small>Lead developer</small></div></div>
+      <div class="tm" data-rv><span class="av sage">D</span><div><b>Dz9knath</b><small>Developer</small></div></div>
+      <p class="teamnote">Two builders, one very full camera roll.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <h2>Start free. Pay when you plan like a pro.</h2>
+    <p class="sub">Draft pricing for the waitlist. Nothing is charged today, and plans can change before launch.</p>
+    <div class="billing" role="group" aria-label="Billing period"><button type="button" class="chip" data-b="m" aria-pressed="true">Monthly</button><button type="button" class="chip" data-b="y" aria-pressed="false">Yearly, 2 months free</button></div>
+    <div class="plans">
+      <article class="plan" data-rv>
+        <h3>Explorer</h3><p class="pr"><b data-m="0" data-y="0">$0</b><span>forever</span></p>
+        <ul><li>10 saved Reels a month</li><li>Destination and trip estimate</li><li>One collection</li><li>REEL 2 REAL posters</li></ul>
+        <a class="btn ghost" href="#waitlist">Join the waitlist</a>
+      </article>
+      <article class="plan best" data-rv>
+        <span class="pill">Most chosen in our heads</span>
+        <h3>Traveller</h3><p class="pr"><b data-m="6" data-y="5">$6</b><span>per month</span></p>
+        <ul><li>Unlimited saved Reels</li><li>Holiday matcher with your dates</li><li>Unlimited collections</li><li>Price-drop alerts when live prices ship</li></ul>
+        <a class="btn coral" href="#waitlist">Join the waitlist</a>
+      </article>
+      <article class="plan" data-rv>
+        <h3>Crew</h3><p class="pr"><b data-m="12" data-y="10">$12</b><span>per month, up to 6 people</span></p>
+        <ul><li>Everything in Traveller</li><li>Shared collections for the group</li><li>Vote on the next destination</li><li>Split the total trip cost</li></ul>
+        <a class="btn ghost" href="#waitlist">Join the waitlist</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="wrap faqw">
+    <div class="faqh"><h2>Questions, answered straight.</h2><p class="sub">Can't see yours? Join the waitlist and reply to the welcome email.</p></div>
+    <div class="faql" id="faql">
+      <details><summary>What is Project 3000?</summary><p>An app that turns the Instagram Reels and TikToks you save into places on a map, each with an estimated trip price. This website is a prototype that shows how it will feel.</p></details>
+      <details><summary>How does it find the place in a Reel?</summary><p>In the finished app, AI will read the caption, tags and visuals, then show you its best guess and how sure it is. In this prototype the examples are scripted, so nothing here is real recognition yet.</p></details>
+      <details><summary>Are the prices live?</summary><p>No. Everything on this site is an illustrative estimate in US dollars from example data. In the app, each price will say whether it is live or estimated, and when it was fetched.</p></details>
+      <details><summary>Does it work with Instagram and TikTok?</summary><p>That is the plan: you share a Reel to Project 3000 from the share sheet. The connection is not live in this prototype.</p></details>
+      <details><summary>Is it free?</summary><p>There will be a free plan. The paid plans on this page are drafts and can change before launch.</p></details>
+      <details><summary>Where do my photos go?</summary><p>Nowhere. The REEL 2 REAL maker edits your picture inside your browser and nothing is uploaded. Posters do not prove you visited a place, and we don't say they do.</p></details>
+      <details><summary>Can I book flights and hotels?</summary><p>Not directly. You will see the cost and the links out. Booking stays with the airlines and hotels.</p></details>
+      <details><summary>When can I get in?</summary><p>There is no launch date yet. Waitlist members hear first, and we will email only about launch.</p></details>
+    </div>
+  </div>
+</section>
+
 <!-- FINAL -->
 <section class="final" id="final">
   <div class="fcollage" id="fcollage" aria-hidden="true"></div>
@@ -894,6 +1021,24 @@ h2{font:600 clamp(2.1rem,4.8vw,3.9rem)/1.02 var(--disp);font-variation-settings:
     <h2>That Reel you saved six months ago? It's time.</h2>
     <p>Start turning your travel inspiration into actual adventures.</p>
     <a class="btn coral lg magnetic burst" href="#demo">Start building your travel map</a>
+    <a class="finalsec" href="#waitlist">or join the waitlist</a>
+  </div>
+</section>
+
+
+<!-- WAITLIST -->
+<section class="waitlist" id="waitlist">
+  <div class="wrap wlw">
+    <div class="wlh"><h2>Be first on the plane.</h2><p class="sub">Join the waitlist and we'll email you when Project 3000 opens. One email at launch, nothing else.</p></div>
+    <form class="wlf" id="wlf" novalidate>
+      <label for="wle">Email</label>
+      <div class="wlrow"><input id="wle" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required><button class="btn solid lg" type="submit">Join the waitlist</button></div>
+      <label for="wlo">Where do you fly from?</label>
+      <select id="wlo" aria-label="Where do you fly from?"></select>
+      <p class="wlerr" id="wlerr" role="alert"></p>
+      <p class="wlnote">Prototype note: this form saves your email in this browser only. Nothing is sent until the waitlist is connected.</p>
+    </form>
+    <div class="wlok" id="wlok" hidden><span class="wlt"><svg width="34" height="34" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg></span><h3>You're on the list.</h3><p id="wlokp"></p><button type="button" class="btn ghost sm" id="wlagain">Add another email</button></div>
   </div>
 </section>
 
@@ -909,15 +1054,13 @@ h2{font:600 clamp(2.1rem,4.8vw,3.9rem)/1.02 var(--disp);font-variation-settings:
 </main>
 
 <footer class="foot">
-  <span>Project 3000</span>
+  <span>Project 3000 · <a href="reels/">Try the Reels-style prototype</a></span>
   <span>Discover it. Save it. Map it. Go. This is a prototype with example data. Every price is an illustrative estimate in US dollars, not a live price or availability. Instagram integration, AI recognition and booking are not live. Illustrations are drawn, not photographs.</span>
 </footer>
 
 <!-- overlays -->
 <canvas id="confetti" aria-hidden="true"></canvas>
 <div class="toasts" id="toasts" aria-live="polite"></div>
-<aside class="drawer" id="passport" role="dialog" aria-modal="false" aria-label="Your passport" hidden></aside>
-<dialog id="logind" class="dlg"><form method="dialog"><h3>Accounts are coming</h3><p>This prototype has no sign-in. Your progress is saved in this browser only. Want to see the product instead?</p><div class="dact"><a class="btn coral sm" href="#demo" id="loginGo">Open the demo</a><button class="btn ghost sm" value="x">Close</button></div></form></dialog>
 <div class="r2r" id="r2r" role="dialog" aria-modal="true" aria-label="Reel 2 Real poster maker" hidden></div>
 <dialog id="plight" class="dlg wide"></dialog>
 <div class="burstbox" id="burstbox" aria-hidden="true"></div>
@@ -1185,75 +1328,21 @@ window.UP = (function () {
 
 (function () {
   'use strict';
-  var UP = window.UP, $ = UP.$, $$ = UP.$$;
+  var UP = window.UP, $ = UP.$;
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var KEY = 'up3000.v3';
-  var LEVELS = [['Daydreamer', 0], ['Window Seat', 40], ['Backpacker', 110], ['Jet Setter', 200], ['Globetrotter', 320], ['Trailblazer', 480], ['Legend', 700]];
-  var BADGES = [
-    { id: 'saw', name: 'I saw it', desc: 'Flick through the example Reels', xp: 10, stage: 'I SAW IT' },
-    { id: 'saved', name: 'I saved it', desc: 'Save a destination to your map', xp: 20, stage: 'I SAVED IT' },
-    { id: 'planned', name: 'I planned it', desc: 'Run the Holiday Matcher', xp: 30, stage: 'I PLANNED IT' },
-    { id: 'went', name: 'I went', desc: 'Try the live demo at the bottom', xp: 30, stage: 'I WENT' },
-    { id: 'real', name: 'I made it real', desc: 'Create a REEL 2 REAL poster', xp: 80, stage: 'I MADE IT REAL' },
-    { id: 'explorer', name: 'Map explorer', desc: 'Peek at 5 pins on your map', xp: 20 },
-    { id: 'budget', name: 'Budget boss', desc: 'Drag the budget slider', xp: 10 },
-    { id: 'collector', name: 'Collector', desc: 'Have 9 places saved', xp: 30 },
-    { id: 'globe', name: 'Globe collector', desc: 'Save places in 6 countries', xp: 30 },
-    { id: 'sharp', name: 'Sharp eye', desc: 'Guess a trip price within 10%', xp: 30 },
-    { id: 'streak', name: 'Hot streak', desc: 'Three close guesses in a row', xp: 40 },
-    { id: 'rounds', name: 'Trip sense', desc: 'Finish a five-round game', xp: 25 },
-    { id: 'wall', name: 'On the wall', desc: 'Add your poster to the proof wall', xp: 30 },
-    { id: 'shared', name: 'Show-off', desc: 'Download or share a poster', xp: 20 }
-  ];
-  var st = { xp: 0, done: {}, n: {}, saved: null };
-  function load() { try { var j = JSON.parse(localStorage.getItem(KEY) || 'null'); if (j && typeof j === 'object') st = { xp: j.xp | 0, done: j.done || {}, n: j.n || {}, saved: j.saved || null }; } catch (e) { /* storage unavailable, progress stays in memory */ } }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) { /* storage unavailable, progress stays in memory */ } }
+  var KEY = 'up3000.v3', st = { saved: null };
+  function load() { try { var j = JSON.parse(localStorage.getItem(KEY) || 'null'); if (j && typeof j === 'object') st.saved = j.saved || null; } catch (e) { /* storage unavailable, saved places stay in memory */ } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) { /* storage unavailable, saved places stay in memory */ } }
   load();
-  function level() { var l = 0; LEVELS.forEach(function (v, i) { if (st.xp >= v[1]) l = i; }); return l; }
-  function prog() { var l = level(), a = LEVELS[l][1], b = LEVELS[l + 1] ? LEVELS[l + 1][1] : null; return b == null ? 1 : (st.xp - a) / (b - a); }
-  var subs = [];
-  function paintHud() {
-    var l = level();
-    $('#hudlvl').textContent = l + 1; $('#hudxp').textContent = st.xp + ' XP';
-    $('#hudarc').style.strokeDashoffset = String(100 - prog() * 100);
-    var h = $('#hud'); h.classList.remove('pop'); void h.offsetWidth; h.classList.add('pop');
-    subs.forEach(function (f) { f(); });
-  }
-  function toast(title, desc, xp, icon) {
+  function toast(title, desc, _x, icon) {
     var box = $('#toasts'), t = document.createElement('div'); t.className = 'toast';
-    t.innerHTML = '<span class="ti"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#' + (icon || 'i-trophy') + '"/></svg></span><div><b></b><small></small></div><em>+' + xp + ' XP</em>';
+    t.innerHTML = '<span class="ti"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#' + (icon || 'i-check') + '"/></svg></span><div><b></b><small></small></div>';
     $('b', t).textContent = title; $('small', t).textContent = desc;
     box.appendChild(t);
     while (box.children.length > 3) box.removeChild(box.firstChild);
-    setTimeout(function () { t.classList.add('out'); setTimeout(function () { t.remove(); }, 400); }, 4200);
+    setTimeout(function () { t.classList.add('out'); setTimeout(function () { t.remove(); }, 400); }, 3600);
   }
-  function gain(n, from) {
-    if (!n) return;
-    var l0 = level(); st.xp += n; save(); paintHud();
-    if (from) float('+' + n + ' XP', from);
-    if (level() > l0) {
-      toast('Level ' + (level() + 1) + ': ' + LEVELS[level()][0], 'Your passport just levelled up', 0, 'i-trophy');
-      var t = $('#toasts').lastChild; if (t) $('em', t).remove();
-      confetti({ n: 90 });
-    }
-  }
-  function float(text, from) {
-    if (reduced) return;
-    var r = from && from.getBoundingClientRect ? from.getBoundingClientRect() : { left: innerWidth / 2, top: innerHeight / 2, width: 0 };
-    var f = document.createElement('div'); f.className = 'xpfloat'; f.textContent = text;
-    f.style.left = (r.left + r.width / 2) + 'px'; f.style.top = r.top + 'px';
-    document.body.appendChild(f); setTimeout(function () { f.remove(); }, 1200);
-  }
-  function award(id, from) {
-    if (st.done[id]) return false;
-    var b = BADGES.filter(function (x) { return x.id === id; })[0]; if (!b) return false;
-    st.done[id] = Date.now(); save();
-    toast(b.name, b.desc, b.xp, 'i-trophy'); gain(b.xp, from);
-    if (b.stage) confetti({ n: 40 });
-    return true;
-  }
-  function bump(key, by) { st.n[key] = (st.n[key] || 0) + (by == null ? 1 : by); save(); return st.n[key]; }
-
+  var noop = function () { return false; };
   /* ---------- confetti ---------- */
   var cv = $('#confetti'), cx = cv.getContext('2d'), parts = [], running = false;
   function size() { cv.width = innerWidth * Math.min(2, devicePixelRatio || 1); cv.height = innerHeight * Math.min(2, devicePixelRatio || 1); }
@@ -1281,34 +1370,13 @@ window.UP = (function () {
     if (parts.length) requestAnimationFrame(tick); else { running = false; cx.clearRect(0, 0, cv.width, cv.height); }
   }
 
-  /* ---------- passport drawer ---------- */
-  var dr = $('#passport'), lastFocus = null;
-  function build() {
-    var l = level(), nxt = LEVELS[l + 1], done = BADGES.filter(function (b) { return st.done[b.id]; }).length;
-    var stages = BADGES.filter(function (b) { return b.stage; });
-    dr.innerHTML =
-      '<div class="dhd"><div><small>Your passport</small><h3>Level ' + (l + 1) + ': ' + LEVELS[l][0] + '</h3></div><button type="button" class="dx" aria-label="Close passport"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><use href="#i-x"/></svg></button></div>' +
-      '<div class="xpbar"><i style="width:' + Math.round(prog() * 100) + '%"></i></div><p class="xpl">' + st.xp + ' XP' + (nxt ? ' · ' + (nxt[1] - st.xp) + ' to ' + nxt[0] : ' · top level') + '</p>' +
-      '<h4>Your journey</h4><ol class="jr">' + stages.map(function (b) { return '<li class="' + (st.done[b.id] ? 'ok' : '') + '"><span>' + (st.done[b.id] ? '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg>' : '') + '</span><div><b>' + b.stage + '</b><small>' + b.desc + '</small></div></li>'; }).join('') + '</ol>' +
-      '<h4>Badges <span>' + done + ' of ' + BADGES.length + '</span></h4><div class="bgs">' + BADGES.map(function (b) { return '<div class="bg ' + (st.done[b.id] ? 'ok' : '') + '" title="' + b.desc + '"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><use href="#i-trophy"/></svg><b>' + b.name + '</b><small>' + b.desc + '</small></div>'; }).join('') + '</div>' +
-      '<button type="button" class="reset">Reset my progress</button><p class="xpl">Progress is stored in this browser only.</p>';
-    $('.dx', dr).addEventListener('click', close);
-    $('.reset', dr).addEventListener('click', function () { if (confirm('Reset your XP, badges and saved places?')) { st = { xp: 0, done: {}, n: {}, saved: null }; save(); paintHud(); location.reload(); } });
-  }
-  function open() { lastFocus = document.activeElement; build(); dr.hidden = false; requestAnimationFrame(function () { dr.classList.add('open'); }); $('.dx', dr).focus(); }
-  function close() { dr.classList.remove('open'); setTimeout(function () { dr.hidden = true; }, 300); if (lastFocus) lastFocus.focus(); }
-  $('#hud').addEventListener('click', function () { if (dr.hidden) open(); else close(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !dr.hidden) close(); });
-  document.addEventListener('pointerdown', function (e) { if (!dr.hidden && !dr.contains(e.target) && !$('#hud').contains(e.target)) close(); });
-  subs.push(function () { if (!dr.hidden) build(); });
 
   UP.game = {
-    award: award, gain: gain, bump: bump, float: float, confetti: confetti, toast: toast,
-    has: function (id) { return !!st.done[id]; }, n: function (k) { return st.n[k] || 0; },
+    award: noop, gain: noop, bump: function () { return 0; }, float: noop, has: noop, n: function () { return 0; },
+    confetti: confetti, toast: toast,
     savedList: function () { return st.saved; }, setSaved: function (arr) { st.saved = arr; save(); },
-    onChange: function (f) { subs.push(f); }
+    onChange: function () {}
   };
-  paintHud();
 })();
 
 (function () {
@@ -1381,10 +1449,11 @@ window.UP = (function () {
     bar.classList.toggle('away', away); lastY = y;
   }
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  // aiming the pointer at the top edge brings the header back, like pulling down a shade
+  document.addEventListener('mousemove', function (e) { if (e.clientY <= 56 && bar.classList.contains('away')) bar.classList.remove('away'); }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', function (e) { if (e.clientY <= 4 && bar.classList.contains('away')) bar.classList.remove('away'); });
   burger.addEventListener('click', function () { var o = menu.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
   $$('#menu a').forEach(function (a) { a.addEventListener('click', function () { menu.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }); });
-  $('#loginbtn').addEventListener('click', function () { var d = $('#logind'); if (d.showModal) d.showModal(); else d.setAttribute('open', ''); });
-  $('#loginGo').addEventListener('click', function () { $('#logind').close(); });
 
   /* ---------- origin selects ---------- */
   var osels = $$('.originsel').filter(function (s) { return s.id !== 'mseg'; });
@@ -2098,7 +2167,7 @@ window.UP = (function () {
   function chips(list, cur, attr) { return list.map(function (x) { var v = Array.isArray(x) ? x[0] : x, t = Array.isArray(x) ? x[1] : x; return '<button type="button" class="chip" ' + attr + '="' + String(v).replace(/"/g, '&quot;') + '" aria-pressed="' + (cur === v) + '">' + t + '</button>'; }).join(''); }
   function build() {
     var dl = '<datalist id="r2rcities">' + Object.keys(PLACES).filter(function (k) { return PLACES[k].city; }).map(function (k) { return '<option value="' + PLACES[k].city + '">'; }).join('') + '</datalist>';
-    modal.innerHTML = '<div class="r2rtop"><div class="r2rlogo"><b>REEL 2 REAL</b><small>From saved Reel to real-life memory.</small></div><div class="r2rjourney" aria-hidden="true"><span class="' + (G.has('saw') ? 'on' : '') + '">Saw it</span><span class="' + (G.has('saved') ? 'on' : '') + '">Saved it</span><span class="' + (G.has('planned') ? 'on' : '') + '">Planned it</span><span class="' + (G.has('went') ? 'on' : '') + '">Went</span><span class="' + (view === 'done' ? 'on' : '') + '">Made it real</span></div><button type="button" class="r2x" aria-label="Close"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><use href="#i-x"/></svg></button></div>' +
+    modal.innerHTML = '<div class="r2rtop"><div class="r2rlogo"><b>REEL 2 REAL</b><small>From saved Reel to real-life memory.</small></div><button type="button" class="r2x" aria-label="Close"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><use href="#i-x"/></svg></button></div>' +
       '<div class="r2rmain ' + view + '" id="r2rmain"></div>' + dl;
     $('.r2x', modal).addEventListener('click', close);
     paintView();
@@ -2215,7 +2284,7 @@ window.UP = (function () {
     });
   }
   function end() {
-    view = 'done'; var j = $('.r2rjourney span:last-child', modal); if (j) j.classList.add('on');
+    view = 'done'; 
     G.award('real', $('#cv')); G.confetti({ n: 140, x: innerWidth * 0.5, y: innerHeight * 0.4 });
     var main = $('#r2rmain'); main.className = 'r2rmain done';
     main.innerHTML = '<div class="donewrap"><div class="cvwrap big"><canvas id="cv" aria-label="Your finished poster"></canvas></div><div class="donetxt"><h2 class="made">YOU MADE IT REAL.</h2><p>From a Reel you saved to a place you actually experienced. That’s what Project 3000 is all about.</p>' +
@@ -2306,6 +2375,51 @@ window.UP = (function () {
     var m = /#r2r=([^&]+)/.exec(location.hash); if (!m) return;
     try { var p = JSON.parse(decodeURIComponent(escape(atob(m[1])))); setTimeout(function () { G.toast('Opened a shared memory', 'The link carries text only. Add your own photo to make it yours.', 0, 'i-pin'); var n = $('#toasts').lastChild; if (n) { var em = $('em', n); if (em) em.remove(); } open({ dest: String(p.d || ''), country: String(p.c || ''), year: +p.y || new Date().getFullYear(), headline: String(p.h || HEADLINES[0]), tpl: T[p.t] ? p.t : 'editorial' }); }, 800); } catch (e) { /* ignore a malformed link */ }
   })();
+})();
+
+(function () {
+  'use strict';
+  var UP = window.UP, $ = UP.$, $$ = UP.$$, A = UP.app, reduced = A.reduced;
+  /* set to a URL (for example a Cloud Function) to POST sign-ups as JSON; empty keeps them in this browser */
+  var WAITLIST_ENDPOINT = '';
+  var KEY = 'up3000.waitlist';
+
+  // scroll reveals with a small stagger inside each group
+  $$('[data-rv]').forEach(function (n) { var sibs = $$('[data-rv]', n.parentNode); n.style.setProperty('--d', sibs.indexOf(n)); A.inView(n, function () { n.classList.add('in'); }, true, '-8% 0px'); });
+
+  // billing toggle: prices roll to their new value
+  var bill = $('.billing');
+  if (bill) bill.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    $$('button', bill).forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+    var k = b.getAttribute('data-b');
+    $$('.pr b').forEach(function (p) { var to = +p.getAttribute('data-' + k); if (p._v == null) p._v = +p.textContent.replace(/\D/g, ''); A.roll(p, to, 500, function (v) { return '$' + Math.round(v); }); });
+    $$('.pr span').forEach(function (s) { if (/per month/.test(s.textContent) && k === 'y') s.textContent = s.textContent.replace('per month', 'per month, billed yearly'); else s.textContent = s.textContent.replace(', billed yearly', ''); });
+  });
+
+  // one FAQ open at a time
+  var fl = $('#faql');
+  if (fl) fl.addEventListener('toggle', function (e) { if (e.target.open) $$('details', fl).forEach(function (d) { if (d !== e.target) d.open = false; }); }, true);
+
+  // waitlist
+  var sel = $('#wlo');
+  Object.keys(UP.ORIGINS).forEach(function (k) { var op = document.createElement('option'); op.value = op.textContent = UP.ORIGINS[k].n; sel.appendChild(op); });
+  var other = document.createElement('option'); other.value = other.textContent = 'Somewhere else'; sel.appendChild(other);
+  var f = $('#wlf'), ok = $('#wlok'), er = $('#wlerr');
+  function store(rec) { try { var l = JSON.parse(localStorage.getItem(KEY) || '[]'); if (!l.some(function (x) { return x.email === rec.email; })) l.push(rec); localStorage.setItem(KEY, JSON.stringify(l)); return true; } catch (e) { return false; } }
+  f.addEventListener('submit', function (e) {
+    e.preventDefault(); var em = $('#wle').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { er.textContent = 'Enter an email like name@example.com.'; $('#wle').focus(); return; }
+    er.textContent = ''; var rec = { email: em, origin: sel.value, at: new Date().toISOString() }, btn = $('button', f); btn.disabled = true;
+    var done = function (sent) {
+      btn.disabled = false; f.hidden = true; ok.hidden = false;
+      $('#wlokp').textContent = sent ? 'We will email ' + em + ' when Project 3000 opens.' : 'Saved in this browser as ' + em + '. The waitlist is not connected yet, so nothing was sent.';
+      UP.game.confetti({ n: 90, x: innerWidth * 0.5, y: innerHeight * 0.55 });
+    };
+    if (WAITLIST_ENDPOINT) fetch(WAITLIST_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(rec) }).then(function (r) { if (!r.ok) throw new Error('bad status'); done(true); }).catch(function () { btn.disabled = false; er.textContent = 'That did not go through. Try again in a moment.'; });
+    else { store(rec); done(false); }
+  });
+  $('#wlagain').addEventListener('click', function () { ok.hidden = true; f.hidden = false; f.reset(); $('#wle').focus(); });
 })();
 
 </script>
