@@ -47,9 +47,6 @@ a{color:inherit}
 .stage{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:clamp(1rem,4vw,4.5rem);padding:0 var(--gut)}
 .bg{position:absolute;inset:0;background:radial-gradient(60% 50% at 18% 20%,color-mix(in srgb,var(--c1) 38%,transparent),transparent 70%),radial-gradient(55% 55% at 85% 80%,color-mix(in srgb,var(--c2) 42%,transparent),transparent 70%),var(--night);z-index:0}
 .bg::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.4px);background-size:26px 26px;mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent)}
-.decor{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.dc{position:absolute;width:clamp(70px,9vw,128px);aspect-ratio:3/4;border-radius:16px;overflow:hidden;opacity:.28;filter:saturate(.9);transform:translate3d(calc(var(--mx,0)*var(--k)*1px),calc(var(--my,0)*var(--k)*1px),0) rotate(var(--r));box-shadow:0 18px 40px rgba(0,0,0,.4);animation:bob 7s ease-in-out infinite alternate;animation-delay:var(--d)}
-.dc svg{width:100%;height:100%;display:block}
 @keyframes bob{to{translate:0 -14px}}
 .ex,.side{position:relative;z-index:2;height:min(64svh,520px)}
 .exi,.sdi{position:absolute;left:0;right:0;top:50%;opacity:0;transform:translateY(-50%);pointer-events:none;will-change:translate,opacity}
@@ -325,7 +322,7 @@ a{color:inherit}
   .stage{display:block;padding:0}
   .phonewrap{position:absolute;left:0;right:0;top:48px;height:var(--ph);display:grid;place-items:center}
   .ex{position:absolute;left:0;right:0;bottom:0;height:128px;padding:0 var(--gut)}
-  .side,.decor,.exi .row,.exi .chip{display:none}
+  .side,.exi .row,.exi .chip{display:none}
   .exi{top:0;transform:none}
   .exi h2{font-size:1.45rem;max-width:none}.exi p{font-size:.9rem;margin-top:.35rem;max-width:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .exi .note{display:none}.step{font-size:1.1rem;margin-bottom:0}
@@ -421,7 +418,7 @@ a{color:inherit}
 <main>
 <div class="story" id="story" style="--n:7">
   <div class="stage" id="stage">
-    <div class="bg" aria-hidden="true"><div class="decor" id="decor"></div></div>
+    <div class="bg" aria-hidden="true"></div>
 
     <aside class="ex" id="ex" aria-live="polite">
       <section class="exi"><span class="step">1 of 7</span><h2>You saved it. That was the easy part.</h2><p>Every Reel you save is a trip you meant to take. Pick one on the phone, then scroll like you would on Reels: each swipe moves the demo one step forward.</p><span class="note"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-down"/></svg>Swipe up, or tap share on the phone</span></section>
@@ -863,7 +860,7 @@ window.UP = (function () {
     var y = window.scrollY, st = stops(), t = null, j;
     if (dir > 0) { for (j = 0; j < st.length; j++) if (st[j] > y + 4) { t = st[j]; break; } }
     else { for (j = st.length - 1; j >= 0; j--) if (st[j] < y - 4) { t = st[j]; break; } }
-    if (t != null) animateTo(t);
+    if (t != null) { animateTo(t); rest = t; }
   }
   function innerScroll(node, dy) {
     for (; node && node !== document.body; node = node.parentNode) {
@@ -872,6 +869,19 @@ window.UP = (function () {
     }
     return false;
   }
+  /* whatever moves the page (scrollbar, trackpad, touch), a partial move always finishes: any movement away from a resting step goes on to the next one in that direction */
+  var rest = 0, idle = 0;
+  function settle() {
+    if (paging) { idle = setTimeout(settle, 120); return; }
+    var y = window.scrollY, st = stops(), d = y - rest, t = null, j, near = st[0];
+    st.forEach(function (v) { if (Math.abs(v - y) < Math.abs(near - y)) near = v; });
+    if (Math.abs(y - near) < 3) { rest = near; return; }
+    if (Math.abs(d) < 14) t = rest;
+    else if (d > 0) { for (j = 0; j < st.length; j++) if (st[j] > rest + 4) { t = st[j]; break; } if (t == null) t = near; if (t > y + innerHeight * 1.2) t = near; }
+    else { for (j = st.length - 1; j >= 0; j--) if (st[j] < rest - 4) { t = st[j]; break; } if (t == null) t = near; if (t < y - innerHeight * 1.2) t = near; }
+    animateTo(t); rest = t;
+  }
+  window.addEventListener('scroll', function () { clearTimeout(idle); idle = setTimeout(settle, 140); }, { passive: true });
   var lastWheel = 0, lastAbs = 0;
   window.addEventListener('wheel', function (e) {
     if (e.ctrlKey || e.metaKey || Math.abs(e.deltaY) < Math.abs(e.deltaX) || !matchMedia('(pointer:fine)').matches) return;
@@ -905,11 +915,6 @@ window.UP = (function () {
     $('#rtA').innerHTML = IATA[S.origin] + '<small>' + UP.ORIGINS[S.origin].n + '</small>'; $('#rtB').innerHTML = IATA[k] + '<small>' + p.city + '</small>';
   }
   $('#rtabs').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b || b.dataset.k === S.k) return; S.k = b.dataset.k; S.kyoto = false; paintReel(true); });
-  // drifting postcards behind everything, nudged by the pointer
-  var dec = $('#decor');
-  [['inari', 3, -9, -8, 18], ['amalfi', 24, 90, 6, 26], ['santorini', 86, -8, 7, 22], ['machu', 91, 84, -6, 30], ['bali', 60, 92, 4, 16], ['plitvice', -2, 82, -9, 24]].forEach(function (c, n) {
-    var a = el('div', 'dc', SC[c[0]]()); a.style.cssText = 'left:' + c[1] + '%;top:' + c[2] + '%;--r:' + c[3] + 'deg;--k:' + c[4] + ';--d:-' + n * 1.1 + 's'; dec.appendChild(a);
-  });
   var stage = $('#stage');
   if (!reduced) stage.addEventListener('pointermove', function (e) { if (e.pointerType === 'touch') return; stage.style.setProperty('--mx', ((e.clientX / innerWidth) - 0.5).toFixed(3)); stage.style.setProperty('--my', ((e.clientY / innerHeight) - 0.5).toFixed(3)); });
   // aside: a library of saved Reels turns into pins on a slowly turning globe (drawn on a canvas from the same dot map as "My map")
