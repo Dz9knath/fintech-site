@@ -388,7 +388,7 @@ body:not(.h) .stamp{right:2%}body:not(.h) .tray{overflow:hidden}
  <h2 class="rv">Questions</h2>
  <div class="faqs rv" style="--i:1" id="faqs">
   <details><summary>Is Reel 2 Real available yet?</summary><p>No. This site is a prototype of the idea. Join the waitlist and we’ll tell you when there is something to try.</p></details>
-  <details><summary>Does it connect to Instagram or TikTok?</summary><p>Not here. The Reels on this page are drawn examples. The plan is to let you share a Reel into the app.</p></details>
+  <details><summary>Does it work with Instagram?</summary><p>For now it works with Instagram. TikTok integration is coming soon. The Reels on this page are drawn examples.</p></details>
   <details><summary>Are the prices real?</summary><p>They’re estimates from a placeholder table, in US dollars. Real prices would be labelled live, with the time they were fetched.</p></details>
   <details><summary>Does it book anything?</summary><p>No. The ticket in this prototype is a sample.</p></details>
   <details><summary>What happens to my photo?</summary><p>It stays in your browser. Nothing is uploaded.</p></details>
@@ -933,7 +933,7 @@ window.UP = (function () {
       if (!list.some(function (x) { return x.email === em; })) list.push({ email: em, from: wlo.value, at: new Date().toISOString() });
       localStorage.setItem('up3000.waitlist', JSON.stringify(list));
     } catch (x) { saved = false; }
-    if (WAITLIST_ENDPOINT) { fetch(WAITLIST_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: em, from: wlo.value }) }).catch(function () { }); }
+    if (WAITLIST_ENDPOINT) { fetch(WAITLIST_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ name: '', email: em, instagram: '', source: 'darkroom', at: new Date().toISOString() }) }).catch(function () { }); }
     flash.classList.remove('go'); void flash.offsetWidth; flash.classList.add('go');
     $('#wl').hidden = true; $('#wlok').hidden = false;
     $('#wlnote').textContent = WAITLIST_ENDPOINT ? 'We’ll write when it’s ready.' : (saved ? 'Prototype note: your email is stored only in this browser. It hasn’t been sent anywhere.' : 'Prototype note: this browser blocked storage, so nothing was saved.');

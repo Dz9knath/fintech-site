@@ -367,6 +367,19 @@ a{color:inherit}
   .billing{margin:.8rem 0}
 }
 
+.wlf .opt{font-weight:400;color:#62625D}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+/* intro: one screen that says what this is before the demo starts */
+.intro{position:relative;z-index:3;min-height:100svh;display:grid;place-items:center;text-align:center;padding:5rem var(--gut) 4rem;background:radial-gradient(60% 50% at 50% 45%,rgba(255,107,74,.2),transparent 70%),var(--night)}
+.intro-in{display:grid;gap:1.1rem;justify-items:center}
+.intro-k{font:500 1.5rem var(--hand);color:var(--c1)}
+.intro h1{font:600 clamp(3.4rem,13vw,10rem)/.9 var(--disp);font-variation-settings:'opsz' 144,'SOFT' 40;letter-spacing:-.03em}
+.intro-l{color:var(--mute);font-size:clamp(1.05rem,2vw,1.4rem);max-width:30ch}
+.intro-go{margin-top:.6rem}
+.intro-cue{position:absolute;left:50%;bottom:1.4rem;transform:translateX(-50%);background:none;border:0;color:var(--paper);opacity:.7;cursor:pointer}
+@media (pointer:coarse){.intro{scroll-snap-align:start}}
+.lib i.in{animation:libin .55s var(--ease) both}@keyframes libin{from{transform:translateY(-130%);opacity:0}}
+
 </style>
 </head>
 <body data-s="0">
@@ -416,6 +429,10 @@ a{color:inherit}
 </header>
 
 <main>
+<section class="intro" id="intro" aria-label="Reel 2 Real">
+  <div class="intro-in"><p class="intro-k">Instagram Reels, turned into trips</p><h1>Reel 2 Real</h1><p class="intro-l">Share a Reel you saved. Get the place, the price and a plan.</p><button type="button" class="btn coral intro-go" id="introGo">See how it works</button></div>
+  <button type="button" class="intro-cue" id="introCue" aria-label="Scroll to the demo"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><use href="#i-down"/></svg></button>
+</section>
 <div class="story" id="story" style="--n:7">
   <div class="stage" id="stage">
     <div class="bg" aria-hidden="true"></div>
@@ -493,7 +510,7 @@ a{color:inherit}
     </div></div>
 
     <aside class="side" id="side" aria-hidden="true">
-      <div class="sdi"><div class="card"><h3>Where saved Reels go</h3><div class="lib" id="lib" aria-hidden="true"></div><canvas class="globe" id="globe" role="img" aria-label="A globe where each saved Reel becomes a pin"></canvas><small>Each saved Reel becomes a pin on your own globe.</small></div></div>
+      <div class="sdi"><div class="card"><h3>Where saved Reels go</h3><div class="lib" id="lib" aria-hidden="true"></div><canvas class="globe" id="globe" role="img" aria-label="A globe where each saved Reel becomes a pin"></canvas></div></div>
       <div class="sdi"><div class="card"><h3>Same share sheet</h3><p class="fm">No new app to open. No link to copy. Send it, and you're done.</p></div></div>
       <div class="sdi"><div class="card"><h3>What it reads</h3><ul class="reads"><li style="--i:0"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg><div><b>Caption</b><span id="rdCap">"Ten thousand gates at dawn"</span></div></li><li style="--i:1"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg><div><b>Tags</b><span id="rdTags">#kyoto #fushimiinari #japan</span></div></li><li style="--i:2"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg><div><b>Scenery</b><span id="rdScen">Red gates on a forested hill</span></div></li></ul></div></div>
       <div class="sdi"><div class="card"><h3>Where the money goes</h3><div class="bar2" id="sbar"></div><div class="leg" id="sleg"></div></div></div>
@@ -522,25 +539,25 @@ a{color:inherit}
   <div class="billing" role="group" aria-label="Billing period"><button type="button" data-b="m" aria-pressed="true">Monthly</button><button type="button" data-b="y" aria-pressed="false">Yearly, 2 months free</button></div>
   <div class="plans">
     <article class="card plan" data-rv><h3>Explorer</h3><p class="price"><b data-m="0" data-y="0">$0</b><span>forever</span></p><ul><li>10 saved Reels a month</li><li>Destination and trip estimate</li><li>One collection</li></ul><a class="btn line" href="#waitlist">Join the waitlist</a></article>
-    <article class="card plan best" data-rv><span class="pill">Most chosen in our heads</span><h3>Traveller</h3><p class="price"><b data-m="6" data-y="5">$6</b><span>per month</span></p><ul><li>Unlimited saved Reels</li><li>Holiday matcher with your dates</li><li>Unlimited collections</li><li>Price-drop alerts when live prices ship</li></ul><a class="btn coral" href="#waitlist">Join the waitlist</a></article>
+    <article class="card plan best" data-rv><span class="pill">Most chosen in our heads</span><h3>Traveller</h3><p class="price"><b data-m="6" data-y="5">$6</b><span>per month</span></p><ul><li>Ad-free</li><li>Unlimited saved Reels</li><li>Holiday matcher with your dates</li><li>Unlimited collections</li><li>Price-drop alerts when live prices ship</li></ul><a class="btn coral" href="#waitlist">Join the waitlist</a></article>
     <article class="card plan" data-rv><h3>Crew</h3><p class="price"><b data-m="12" data-y="10">$12</b><span>per month, up to 6 people</span></p><ul><li>Everything in Traveller</li><li>Shared collections for the group</li><li>Vote on the next destination</li><li>Split the total trip cost</li></ul><a class="btn line" href="#waitlist">Join the waitlist</a></article>
   </div>
 </section>
 
-<section class="sec" id="faq"><div class="faqw"><div class="faqh"><h2>Questions, answered straight.</h2><p class="lead">Can't see yours? Join the waitlist and reply to the welcome email.</p></div>
+<section class="sec" id="faq"><div class="faqw"><div class="faqh"><h2>Questions, answered straight.</h2><p class="lead">Can't see yours? Join the waitlist and ask us there.</p></div>
   <div class="faql" id="faql">
-    <details><summary>What is Reel 2 Real?</summary><p>An app that turns the Instagram Reels and TikToks you save into places on a map, each with an estimated trip price. This website is a prototype that shows how it will feel.</p></details>
-    <details><summary>How does it find the place in a Reel?</summary><p>In the finished app, AI will read the caption, tags and visuals, then show you its best guess and how sure it is. In this prototype the examples are scripted, so nothing here is real recognition yet.</p></details>
-    <details><summary>Are the prices live?</summary><p>No. Everything here is an illustrative estimate in US dollars from example data. In the app, each price will say whether it is live or estimated, and when it was fetched.</p></details>
-    <details><summary>Does it work with Instagram and TikTok?</summary><p>That is the plan: you share a Reel to Reel 2 Real from the share sheet. The connection is not live in this prototype.</p></details>
-    <details><summary>Is it free?</summary><p>There will be a free plan. The paid plans on this page are drafts and can change before launch.</p></details>
+    <details><summary>What is Reel 2 Real?</summary><p>An app that turns the Instagram Reels you save into places on a map, each with an estimated trip price. This website is a prototype that shows how it will feel.</p></details>
+    <details><summary>How does it find the place in a Reel?</summary><p>In the finished app, AI will read the caption, tags and visuals, then show you its best guess and how sure it is.</p></details>
+    <details><summary>Are the prices live?</summary><p>Each price says whether it is live or estimated, and where it was fetched from.</p></details>
+    <details><summary>Does it work with Instagram?</summary><p>For now it works with Instagram. TikTok integration is coming soon.</p></details>
+    <details><summary>Is it free?</summary><p>Yes, there is a free plan available. The paid plans are ad-free and include unlimited saves.</p></details>
     <details><summary>Can I book flights and hotels?</summary><p>Not directly. You will see the cost and the links out. Booking stays with the airlines and hotels.</p></details>
-    <details><summary>When can I get in?</summary><p>There is no launch date yet. Waitlist members hear first, and we will email only about launch.</p></details>
+    <details><summary>When can I get in?</summary><p>Launch is Tuesday, 10 November 2026. Waitlist members will hear from us first, and you can follow our social media for updates.</p></details>
   </div></div>
 </section>
 
 <section class="sec wl" id="waitlist"><div class="wlin"><div><h2>Be first on the plane.</h2><p class="lead">Join the waitlist and we'll email you when Reel 2 Real opens. One email at launch, nothing else.</p></div>
-  <div><form class="wlf" id="wlf" novalidate><label for="wle">Email</label><div class="wlrow"><input id="wle" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required><button class="btn" type="submit">Join the waitlist</button></div><label for="wlo">Where do you fly from?</label><select id="wlo"></select><p class="wlerr" id="wlerr" role="alert"></p><p class="wlnote">Prototype note: this form saves your email in this browser only. Nothing is sent until the waitlist is connected.</p></form>
+  <div><form class="wlf" id="wlf" novalidate><label for="wln">First name</label><input id="wln" type="text" autocomplete="given-name" maxlength="60" placeholder="Alex"><label for="wle">Email</label><div class="wlrow"><input id="wle" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required><button class="btn" type="submit">Join the waitlist</button></div><label for="wli">Instagram handle <span class="opt">(optional)</span></label><input id="wli" type="text" autocapitalize="none" autocomplete="off" maxlength="40" placeholder="@yourname"><input class="hp" type="text" name="website" id="wlhp" tabindex="-1" autocomplete="off" aria-hidden="true"><p class="wlerr" id="wlerr" role="alert"></p><p class="wlnote" id="wlnote"></p></form>
   <div class="wlok" id="wlok" hidden><span class="t"><svg width="34" height="34" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg></span><h3>You're on the list.</h3><p id="wlokp"></p><button type="button" class="btn line sm" id="wlagain" style="color:var(--night);border-color:var(--night)">Add another email</button></div></div></div></section>
 
 <footer class="foot">
@@ -841,14 +858,15 @@ window.UP = (function () {
     y = Math.max(0, Math.min(maxY(), y)); var y0 = window.scrollY, d = y - y0;
     if (Math.abs(d) < 2) return;
     if (reduced) { window.scrollTo(0, y); return; }
-    var t0 = performance.now(), dur = Math.min(850, 380 + Math.abs(d) * 0.14); paging = true;
+    var t0 = performance.now(), dur = Math.min(1400, 760 + Math.abs(d) * 0.2); paging = true;
     (function step(t) { var p = Math.min(1, (t - t0) / dur), e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; window.scrollTo(0, y0 + d * e); if (p < 1) requestAnimationFrame(step); else setTimeout(function () { paging = false; }, 50); })(t0);
   }
-  function go(i) { i = Math.max(0, Math.min(N - 1, i)); animateTo(i * innerHeight); }
+  function base() { return $('#story').offsetTop; }
+  function go(i) { i = Math.max(0, Math.min(N - 1, i)); animateTo(base() + i * innerHeight); }
   /* every resting place: the 7 demo steps, then each section; a section taller than the screen gets extra stops */
   function stops() {
     var H = innerHeight, out = [], i, mx = maxY();
-    for (i = 0; i < N; i++) out.push(i * H);
+    out.push(0); for (i = 0; i < N; i++) out.push(base() + i * H);
     $$('.tail .sec').forEach(function (sec) {
       var top = sec.getBoundingClientRect().top + window.scrollY, h = sec.offsetHeight, k = 0;
       out.push(top); while (top + (k + 1) * H * 0.9 + H * 0.45 < top + h) { k++; out.push(top + k * H * 0.9); }
@@ -924,7 +942,7 @@ window.UP = (function () {
     var land = [], m = UP.MASK, ix = 0, r, c, b, n;
     for (r = 0; r < 60; r++) for (c = 0; c < 144; c += 4) { n = parseInt(m[ix++], 16); for (b = 0; b < 4; b++) if (n & (8 >> b)) land.push([(75 - (r + 0.5) * 2.5) * Math.PI / 180, ((c + b + 0.5) * 2.5 - 180) * Math.PI / 180]); }
     var pts = keys.map(function (k) { return [PL[k].lat * Math.PI / 180, PL[k].lng * Math.PI / 180]; });
-    var PERIOD = 10600, FIRST = 700, GAP = 1000, TILT = 0.38, lam = 0.5, last = 0, t0 = 0, raf = 0, W = 176, dpr = Math.min(2, window.devicePixelRatio || 1);
+    var PERIOD = 11600, FIRST = 800, GAP = 900, BACK = 8000, BGAP = 260, TILT = 0.38, lam = 0.5, last = 0, t0 = 0, raf = 0, W = 176, dpr = Math.min(2, window.devicePixelRatio || 1), state = [];
     cv.width = W * dpr; cv.height = W * dpr;
     function proj(la, lo) { var d = lo - lam, cl = Math.cos(la); return [cl * Math.sin(d), Math.cos(TILT) * Math.sin(la) - Math.sin(TILT) * cl * Math.cos(d), Math.sin(TILT) * Math.sin(la) + Math.cos(TILT) * cl * Math.cos(d)]; }
     function draw(t, still) {
@@ -936,23 +954,33 @@ window.UP = (function () {
       ctx.fillStyle = 'rgba(255,255,255,.55)';
       for (i = 0; i < land.length; i++) { p = proj(land[i][0], land[i][1]); if (p[2] > 0.05) ctx.fillRect(cx + p[0] * R - 0.7, cy - p[1] * R - 0.7, 1.5, 1.5); }
       keys.forEach(function (k, j) {
-        var born = still ? 0 : FIRST + j * GAP + 250; if (!still && t < born) return;
+        var born = still ? 0 : FIRST + j * GAP + 250, gone = BACK + j * BGAP; if (!still && (t < born || t > gone + 350)) return;
         p = proj(pts[j][0], pts[j][1]); if (p[2] <= 0.02) return; x = cx + p[0] * R; y = cy - p[1] * R;
-        var age = still ? 9999 : t - born;
+        var age = still ? 9999 : t - born, fade = still ? 1 : Math.max(0, Math.min(1, (gone + 350 - t) / 350));
+        ctx.globalAlpha = fade;
         if (age < 800) { ctx.strokeStyle = 'rgba(255,107,74,' + (1 - age / 800).toFixed(2) + ')'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x, y, 4 + age / 800 * 16, 0, 7); ctx.stroke(); }
-        ctx.fillStyle = '#FF6B4A'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(x, y, age < 250 ? 2 + age / 250 * 2.6 : 4.6, 0, 7); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#FF6B4A'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(x, y, age < 250 ? 2 + age / 250 * 2.6 : 4.6, 0, 7); ctx.fill(); ctx.stroke(); ctx.globalAlpha = 1;
+      });
+    }
+    function setThumbs(t) {
+      thumbs.forEach(function (th, k) {
+        var out = t >= FIRST + k * GAP && t < BACK + k * BGAP, st = out ? 1 : 0;
+        if (state[k] === st) return;
+        th.classList.remove('in'); th.classList.toggle('gone', out);
+        if (!out && state[k] === 1) { void th.offsetWidth; th.classList.add('in'); } // the fresh six scroll in from above
+        state[k] = st;
       });
     }
     function frame(now) {
       raf = requestAnimationFrame(frame);
       var dt = Math.min(50, now - last); last = now; var t = (now - t0) % PERIOD, latest = -1, j;
-      for (j = 0; j < keys.length; j++) if (t >= FIRST + j * GAP) latest = j;
-      thumbs.forEach(function (th, k) { th.classList.toggle('gone', t >= FIRST + k * GAP && t < PERIOD - 500); });
+      for (j = 0; j < keys.length; j++) if (t >= FIRST + j * GAP && t < BACK) latest = j;
+      setThumbs(t);
       if (latest >= 0 && t < FIRST + latest * GAP + 900) { var d = pts[latest][1] - lam; d = Math.atan2(Math.sin(d), Math.cos(d)); lam += d * (1 - Math.exp(-dt / 240)); } else lam += dt * 0.00022;
       draw(t, false);
     }
     return {
-      start: function () { if (reduced) { thumbs.forEach(function (t) { t.classList.add('gone'); }); lam = 0.4; draw(0, true); return; } if (raf) return; t0 = last = performance.now(); raf = requestAnimationFrame(frame); },
+      start: function () { if (reduced) { lam = 0.4; draw(0, true); return; } if (raf) return; t0 = last = performance.now(); raf = requestAnimationFrame(frame); },
       stop: function () { cancelAnimationFrame(raf); raf = 0; }
     };
   })();
@@ -1106,7 +1134,7 @@ window.UP = (function () {
   var top = $('#top'), lastY = 0, tick = false;
   function onScroll() {
     var y = window.scrollY, dy = y - lastY;
-    P = Math.max(0, Math.min(N - 1, y / innerHeight));
+    P = Math.max(0, Math.min(N - 1, (y - base()) / innerHeight));
     if (y <= 40) top.classList.remove('away');
     else if (dy > 1 && !top.querySelector(':focus-visible')) top.classList.add('away');
     else if (dy < -1) top.classList.remove('away');
@@ -1121,7 +1149,9 @@ window.UP = (function () {
   $$('.top a[href^="#"], .gobtns a[href^="#"], .exi a[href^="#"], .tail a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) { var t = $(a.getAttribute('href')); if (!t) return; e.preventDefault(); animateTo(t.getBoundingClientRect().top + window.scrollY); });
   });
-  $('.wm').addEventListener('click', function (e) { e.preventDefault(); go(0); });
+  $('.wm').addEventListener('click', function (e) { e.preventDefault(); animateTo(0); });
+  $('#introGo').addEventListener('click', function () { go(0); });
+  $('#introCue').addEventListener('click', function () { go(0); });
 
   /* ---------- tail: manifesto, reveals, pricing, faq, waitlist ---------- */
   var man = $('#manifest'), words = man.textContent.trim().split(/\s+/); man.innerHTML = words.map(function (w) { return '<span>' + w + '</span>'; }).join(' ');
@@ -1137,17 +1167,23 @@ window.UP = (function () {
   });
   var fl = $('#faql'); fl.addEventListener('toggle', function (e) { if (e.target.open) $$('details', fl).forEach(function (d) { if (d !== e.target) d.open = false; }); }, true);
   /* set to a URL (for example a Cloud Function) to POST sign-ups as JSON; empty keeps them in this browser */
-  var WAITLIST_ENDPOINT = '', KEY = 'up3000.waitlist', wsel = $('#wlo');
-  Object.keys(UP.ORIGINS).forEach(function (k) { var op = el('option'); op.value = op.textContent = UP.ORIGINS[k].n; wsel.appendChild(op); }); var oo = el('option'); oo.value = oo.textContent = 'Somewhere else'; wsel.appendChild(oo);
+  var WAITLIST_ENDPOINT = '', KEY = 'up3000.waitlist';
   var wf = $('#wlf'), wok = $('#wlok'), wer = $('#wlerr');
+  $('#wlnote').textContent = WAITLIST_ENDPOINT ? 'One email at launch. Nothing else.' : 'Prototype note: the waitlist is not connected yet, so your details are saved in this browser only.';
   function store(rec) { try { var l = JSON.parse(localStorage.getItem(KEY) || '[]'); if (!l.some(function (x) { return x.email === rec.email; })) l.push(rec); localStorage.setItem(KEY, JSON.stringify(l)); } catch (e) { /* storage unavailable: the sign-up still shows as received for this prototype */ } }
   wf.addEventListener('submit', function (e) {
     e.preventDefault(); var em = $('#wle').value.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { wer.textContent = 'Enter an email like name@example.com.'; $('#wle').focus(); return; }
-    wer.textContent = ''; var rec = { email: em, origin: wsel.value, at: new Date().toISOString() }, btn = $('button', wf); btn.disabled = true;
-    function done(sent) { btn.disabled = false; wf.hidden = true; wok.hidden = false; $('#wlokp').textContent = sent ? 'We will email ' + em + ' when Reel 2 Real opens.' : 'Saved in this browser as ' + em + '. The waitlist is not connected yet, so nothing was sent.'; }
-    if (WAITLIST_ENDPOINT) fetch(WAITLIST_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(rec) }).then(function (r) { if (!r.ok) throw new Error('bad status'); done(true); }).catch(function () { btn.disabled = false; wer.textContent = 'That did not go through. Try again in a moment.'; });
-    else { store(rec); done(false); }
+    if ($('#wlhp').value) { wer.textContent = ''; wf.hidden = true; wok.hidden = false; return; } // hidden trap field: bots fill it, people never see it
+    wer.textContent = ''; var ig = $('#wli').value.trim().replace(/^@+/, ''), nm = $('#wln').value.trim();
+    var rec = { name: nm, email: em, instagram: ig, source: 'main', at: new Date().toISOString() }, btn = $('button', wf); btn.disabled = true;
+    function done(sent) { btn.disabled = false; wf.hidden = true; wok.hidden = false; $('#wlokp').textContent = sent ? (nm ? nm + ', we' : 'We') + ' will email ' + em + ' when Reel 2 Real opens.' : 'Saved in this browser as ' + em + '. The waitlist is not connected yet, so nothing was sent.'; }
+    store(rec);
+    if (!WAITLIST_ENDPOINT) { done(false); return; }
+    /* a Google Apps Script web app only answers cross-origin posts opaquely, so success means the request was sent */
+    fetch(WAITLIST_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(rec) })
+      .then(function () { done(true); })
+      .catch(function () { btn.disabled = false; wer.textContent = 'That did not go through. Check your connection and try again.'; });
   });
   $('#wlagain').addEventListener('click', function () { wok.hidden = true; wf.hidden = false; wf.reset(); $('#wle').focus(); });
 

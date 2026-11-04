@@ -25,4 +25,4 @@ GitHub Pages: Settings, Pages, Deploy from a branch, `main` / root. After a depl
 
 ## Waitlist
 
-Sign-ups are saved in the visitor's browser only. To collect them, set `WAITLIST_ENDPOINT` (a constant in each page's script) to a URL that accepts a JSON POST `{email, from}`.
+Sign-ups are sent to a Google Sheet through a small Google Apps Script. Setup takes about 5 minutes: see `waitlist/README.md`. Until `WAITLIST_ENDPOINT` is set (a constant in the scripts of `/` and `/darkroom/`), sign-ups are saved in the visitor's own browser only, and the form says so.
