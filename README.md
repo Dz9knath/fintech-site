@@ -4,9 +4,9 @@ Marketing site and interactive prototypes for **Reel 2 Real** ("Send a Reel. Get
 
 | Path | What it is |
 |---|---|
-| `/` (`index.html`) | Main site: a Reels-style flow. Scroll through a Reel, the share sheet, saved lists, the map, pricing and the final ticket. Includes About, Pricing (draft), FAQ and waitlist. |
+| `/` (`index.html`) | Main site: a Reels-style flow. Scrolling moves the demo through the Reel, the share sheet, the trip price, the map, the holiday finder and the final ticket. Includes About, Pricing (draft), FAQ and waitlist. |
 | `/darkroom/` | Second prototype, a different concept: the story is a roll of film that scrolls sideways. Develop a Reel by holding a button, price it, circle what fits your budget, then make your own print from a local photo. |
-| `/classic/` | The previous site, kept unchanged in function. |
+| `/classic/` | The original first version of the site, kept as an archive (only the product name was updated; it still shows euro prices). |
 | `/demo.html` | Embedded Reel to Trip demo. |
 
 ## What is simulated

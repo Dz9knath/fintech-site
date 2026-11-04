@@ -1,0 +1,439 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Reel to Trip Demo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
+<style>
+/* Layout: phone on the left (the viewer drives it by tapping), progress list on the right; stacks on phones */
+:root{--bg:#F3F7F6;--ink:#13262D;--muted:#5B737B;--line:#D5E2E0;--card:#FFFFFF;--coral:#F2603F;--deep:#0B3C49;--teal:#1E9C8E;
+  --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"DM Sans",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1B20;--ink:#E5F0EE;--muted:#93AEB4;--line:#21414A;--card:#11272E;--coral:#FF7A5C;--deep:#7FD3C7;--teal:#3CC4B3;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0A1B20;--ink:#E5F0EE;--muted:#93AEB4;--line:#21414A;--card:#11272E;--coral:#FF7A5C;--deep:#7FD3C7;--teal:#3CC4B3;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-wrap:wrap;gap:40px;align-items:center;justify-content:center}
+button{font:inherit;color:inherit}
+/* the phone is a simulated device with its own fixed palette */
+.phone{width:320px;max-width:100%;aspect-ratio:9/19;border-radius:42px;background:#0E0F12;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.screen{position:relative;width:100%;height:100%;border-radius:33px;overflow:hidden;overflow:clip;background:#fff;color:#14181C;font-size:13px;line-height:1.4}
+.scene{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.scene.on{opacity:1;visibility:visible}
+[data-act]{cursor:pointer}
+.toast{position:absolute;left:50%;top:42px;transform:translate(-50%,-80px);background:#0B3C49;color:#fff;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700;transition:transform .35s;white-space:nowrap;z-index:40}
+.toast.show{transform:translate(-50%,0)}
+/* reel */
+.reel{background:#000}
+.reel svg.art{position:absolute;inset:0;width:100%;height:100%}
+.bar{position:absolute;top:14px;left:14px;right:14px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#fff;animation:prog 12s linear infinite}
+@keyframes prog{to{width:100%}}
+.actions{position:absolute;right:10px;bottom:90px;display:grid;gap:14px;color:#fff;text-align:center;font-size:11px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7))}
+.actions>div{padding:4px}
+.actions svg{width:26px;height:26px;display:block;margin:0 auto 2px}
+.cap{position:absolute;left:14px;right:64px;bottom:22px;color:#fff;font-size:12.5px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.cap b{display:block;font-size:13px}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;padding:14px 14px 22px;transform:translateY(105%);transition:transform .4s ease;z-index:5;box-shadow:0 -6px 20px rgba(0,0,0,.12)}
+.sheet.up{transform:none}
+.grab{width:36px;height:4px;background:#D0D4D8;border-radius:2px;margin:0 auto 12px}
+.search{background:#EFF1F3;border-radius:10px;padding:8px 10px;color:#8A9096;margin-bottom:14px}
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;font-size:11px}
+.people>div{padding:4px}
+.av{width:52px;height:52px;border-radius:50%;margin:0 auto 4px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:18px;background:#0B3C49}
+.av.picked{outline:3px solid #F2603F;outline-offset:2px}
+.send{margin-top:14px;background:#3B82F6;color:#fff;border-radius:10px;padding:10px;text-align:center;font-weight:700;opacity:.4}
+.send.ready{opacity:1}
+/* DM */
+.dm{display:flex;flex-direction:column}
+.dmhead{display:flex;align-items:center;gap:10px;padding:40px 14px 10px;border-bottom:1px solid #ECEEF0}
+.dmhead .av{width:34px;height:34px;margin:0;font-size:12px}
+.dmhead small{display:block;color:#8A9096;font-size:11px}
+.thread{flex:1;padding:12px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.msg{max-width:82%;padding:8px 11px;border-radius:16px;background:#EFF1F3;opacity:0;transform:translateY(8px);transition:.3s}
+.msg.show{opacity:1;transform:none}
+.msg[hidden]{display:none}
+.msg.me{align-self:flex-end;background:transparent;padding:0}
+.msg.me svg{width:84px;height:140px;border-radius:12px;display:block}
+.typing{display:flex;gap:4px;padding:12px}
+.typing i{width:6px;height:6px;border-radius:50%;background:#9AA0A6;animation:blink 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:.25}}
+.found{padding:0;overflow:hidden}
+.found svg{display:block;width:100%;background:#E6EFEE}
+.found div{padding:8px 11px}
+.link{color:#2563EB;text-decoration:underline;padding:2px 4px;margin:-2px -4px;display:inline-block}
+/* app */
+.app{background:#F3F7F6;display:flex;flex-direction:column}
+.apphead{padding:38px 16px 6px;font-family:var(--display);font-weight:800;font-size:20px;color:#0B3C49}
+.apphead small{display:block;font-family:var(--body);font-weight:400;font-size:11.5px;color:#5B737B}
+.askbar{margin:0 12px 8px;display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #D5E2E0;border-radius:12px;padding:9px 12px;color:#5B737B}
+.askbar svg{width:16px;height:16px;flex:none}
+.map{margin:0 12px;border-radius:14px;background:#E6EFEE;overflow:hidden;flex:none}
+.map svg{display:block;width:100%;aspect-ratio:50/26}
+.dot{fill:#BFD7D3}
+.drop{animation:drop .5s cubic-bezier(.3,1.5,.6,1) both}
+@keyframes drop{from{transform:translateY(-6px);opacity:0}}
+.pop{animation:pop .4s ease both}
+@keyframes pop{from{opacity:0;transform:scale(.2)}}
+.pinlabel{font:700 1.1px var(--body);fill:#0B3C49}
+.below{flex:1;overflow:auto;padding:8px 12px 14px}
+.views{display:flex;gap:6px;margin:8px 12px 0}
+.views button{border:1px solid #D5E2E0;background:#fff;border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:700;color:#5B737B;cursor:pointer}
+.views button.sel{background:#0B3C49;border-color:#0B3C49;color:#fff}
+.citem{cursor:pointer}
+.citem small{color:#5B737B}
+.type{font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;color:#1E9C8E;font-weight:700}
+.coll h4{margin:0;font-family:var(--display);font-weight:800;font-size:16px;color:#0B3C49}
+.coll small{color:#5B737B}
+.citem{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #E3ECEA;font-size:12px}
+.citem i{width:9px;height:9px;border-radius:50%;background:#1E9C8E;flex:none}
+.citem i.c{background:#F2603F}
+.citem span{flex:1}
+.citem b{font-variant-numeric:tabular-nums}
+.tipline{color:#5B737B;font-size:12px}
+.place{position:absolute;left:0;right:0;bottom:0;top:42%;background:#fff;border-radius:18px 18px 0 0;padding:12px 16px;transform:translateY(105%);transition:transform .45s ease;box-shadow:0 -6px 20px rgba(0,0,0,.1);z-index:10;display:flex;flex-direction:column}
+.place.up{transform:none}
+.place h3{font-family:var(--display);font-weight:800;font-size:18px;line-height:1.15;margin:0;padding-right:32px;color:#0B3C49;text-wrap:balance}
+.close{position:absolute;right:12px;top:10px;width:26px;height:26px;border-radius:50%;background:#EFF1F3;border:0;display:grid;place-items:center;font-size:14px;line-height:1}
+.sub{color:#5B737B;font-size:11.5px;margin-bottom:8px}
+.seg{display:flex;background:#EFF1F3;border-radius:9px;padding:3px;gap:3px;margin-bottom:6px}
+.seg button{flex:1;border:0;background:none;border-radius:7px;padding:5px 0;font-size:11.5px;font-weight:700;color:#5B737B}
+.seg button.sel{background:#fff;color:#0B3C49;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.row{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid #ECEEF0;font-size:12px}
+.row b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.row.tot{border:0;font-size:14px}
+.est{font-size:9px;text-transform:uppercase;letter-spacing:.05em;background:#E8F1EF;color:#5B737B;border-radius:4px;padding:1px 4px;margin-left:4px;vertical-align:1px}
+.watch{display:flex;align-items:center;gap:8px;width:100%;border:0;background:#F3F7F6;border-radius:10px;padding:6px 10px;margin-bottom:8px;font-size:12px;font-weight:700;color:#0B3C49;cursor:pointer;text-align:left}
+.watch .th{width:22px;height:34px;border-radius:5px;flex:none;overflow:hidden;display:grid;place-items:center;color:#fff;font-size:10px}
+.watch small{font-weight:400;color:#5B737B}
+.viewer{position:absolute;inset:0;background:#000;z-index:35;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.viewer.on{opacity:1;visibility:visible}
+.viewer svg.art{position:absolute;inset:0;width:100%;height:100%}
+.viewer .vbg{position:absolute;inset:0}
+.viewer .close{top:34px;z-index:2;background:rgba(255,255,255,.85)}
+.viewer .vtitle{position:absolute;left:16px;right:16px;top:45%;color:#fff;font-family:var(--display);font-weight:800;font-size:26px;line-height:1.1;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.pbtns{display:flex;gap:6px;margin-top:auto;padding-top:8px}
+.pbtns>*{flex:1;text-align:center;border-radius:9px;padding:8px 4px;font-weight:700;font-size:12px;border:0;text-decoration:none}
+.b-maps{background:#0B3C49;color:#fff}
+.b-save{background:#F2603F;color:#fff}
+.b-share{background:#EFF1F3;color:#14181C}
+.picker{z-index:20}
+.picker h4,.holiday h4{margin:0 0 10px;font-family:var(--display);font-weight:800;font-size:17px;color:#0B3C49}
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:#F3F7F6;border:0;border-radius:10px;padding:10px;margin-bottom:6px}
+.opt .sw{width:30px;height:30px;border-radius:8px;flex:none}
+.opt small{display:block;color:#5B737B}
+.holiday{position:absolute;inset:30px 0 0;background:#fff;border-radius:18px 18px 0 0;padding:16px;transform:translateY(105%);transition:transform .4s ease;z-index:30;overflow:auto;box-shadow:0 -6px 20px rgba(0,0,0,.12)}
+.holiday.up{transform:none}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#5B737B;margin-bottom:4px}
+.field output{float:right;font-weight:700;color:#0B3C49;font-size:13px;text-transform:none;letter-spacing:0}
+input[type=range]{width:100%;accent-color:#F2603F}
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+input[type=date]{width:100%;font:inherit;font-size:12px;border:1px solid #D5E2E0;border-radius:8px;padding:6px;background:#fff;color:#14181C;color-scheme:light}
+.find{width:100%;border:0;border-radius:10px;padding:10px;background:#F2603F;color:#fff;font-weight:700}
+.err{color:#C2412D;font-size:12px;margin:6px 0 0}
+.res{margin-top:12px;display:grid;gap:8px}
+.r{cursor:pointer;border:1px solid #E3ECEA;border-radius:12px;padding:10px 12px;animation:pop .35s ease both}
+.r.best{border-color:#F2603F;background:#FFF3EF}
+.r .top{display:flex;justify-content:space-between;gap:8px;font-weight:700}
+.r .badge{font-size:10px;font-weight:700;color:#fff;background:#F2603F;border-radius:4px;padding:1px 6px;margin-right:6px}
+.r p{margin:3px 0 0;font-size:11.5px;color:#5B737B}
+.r:hover{border-color:#F2603F}
+.r .go{display:block;margin-top:4px;font-size:11px;font-weight:700;color:#F2603F}
+/* side panel */
+.side{flex:1 1 300px;max-width:380px;display:grid;gap:14px}
+h1{font-family:var(--display);font-weight:800;font-size:30px;line-height:1.1;margin:0;letter-spacing:-.02em;text-wrap:balance}
+h1 em{font-style:normal;color:var(--coral)}
+.lede{margin:0;color:var(--muted)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.steps li{display:flex}
+.steps button{flex:1;display:flex;gap:12px;align-items:center;padding:8px 10px;border-radius:10px;color:var(--muted);background:none;border:1px solid transparent;text-align:left;cursor:pointer}
+.steps button:disabled{cursor:default}
+.steps button:not(:disabled):hover{border-color:var(--line)}
+.steps li.now button{background:var(--card);color:var(--ink);border-color:var(--line)}
+.steps li.done button{color:var(--ink)}
+.n{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--line);color:var(--ink)}
+.steps li.now .n{background:var(--coral);color:#fff}
+.steps li.done .n{background:var(--teal);color:#fff}
+.restart{justify-self:start;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer}
+.fine{font-size:12px;color:var(--muted);margin:0}
+.back{justify-self:start;font-size:13px;font-weight:700;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+button:focus-visible,a:focus-visible,input:focus-visible,[data-act]:focus-visible{outline:2px solid #1E9C8E;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important;transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3D5A80"/><stop offset=".45" stop-color="#EE8C5E"/><stop offset=".62" stop-color="#F7C873"/></linearGradient>
+    <symbol id="santorini" viewBox="0 0 90 160" preserveAspectRatio="xMidYMid slice">
+      <rect width="90" height="160" fill="url(#sky)"/>
+      <circle cx="30" cy="92" r="9" fill="#FFE2A0"/>
+      <rect y="96" width="90" height="64" fill="#1F4E79"/>
+      <path d="M90 70 L60 78 L48 95 L40 115 L42 160 L90 160Z" fill="#8C6A5A"/>
+      <g fill="#FBFBF8"><rect x="58" y="74" width="12" height="9"/><rect x="72" y="70" width="14" height="10"/><rect x="52" y="86" width="10" height="8"/><rect x="64" y="85" width="15" height="9"/><rect x="47" y="98" width="12" height="9"/><rect x="61" y="97" width="12" height="9"/><rect x="75" y="94" width="13" height="10"/><rect x="45" y="110" width="14" height="10"/><rect x="62" y="110" width="11" height="9"/></g>
+      <g fill="#2563C9"><path d="M72 70a7 7 0 0 1 14 0z"/><path d="M64 85a5 5 0 0 1 10 0z"/><path d="M47 98a5 5 0 0 1 10 0z"/></g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <div class="phone" aria-label="Interactive phone demo">
+    <div class="screen" id="screen"></div>
+  </div>
+  <div class="side">
+    <a class="back" href="index.html">← Back to the site</a>
+    <h1>Send a reel. <em>Get a trip.</em></h1>
+    <p class="lede">Tap inside the phone to move through the demo. Click a finished step to go back to it.</p>
+    <ol class="steps" id="steps"></ol>
+    <button class="restart" id="restart">Restart demo</button>
+    <p class="fine">Demo with example data. Prices are illustrative estimates from Prague.</p>
+  </div>
+</div>
+
+<template id="tpl">
+  <div class="toast" id="toast"></div>
+
+  <section class="scene reel on" id="s-reel">
+    <svg class="art" aria-hidden="true"><use href="#santorini"/></svg>
+    <div class="bar"><i></i></div>
+    <div class="actions">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>48.2k</div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2-5.4A8.4 8.4 0 1 1 21 11.5z"/></svg>612</div>
+      <div data-act="share" id="a-share" role="button" tabindex="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>Share</div>
+    </div>
+    <div class="cap"><b>@aegean.wanders</b>Sunset in Oia never gets old #santorini #greece</div>
+    <div class="sheet" id="sheet">
+      <div class="grab"></div>
+      <div class="search">Search</div>
+      <div class="people">
+        <div><div class="av" style="background:#A78BFA">MK</div>Maya</div>
+        <div><div class="av picked" id="appAv">UP</div>Reel 2 Real</div>
+        <div><div class="av" style="background:#34D399">JD</div>Jonas</div>
+      </div>
+      <div class="send ready" data-act="send" id="a-send" role="button" tabindex="0">Send</div>
+    </div>
+  </section>
+
+  <section class="scene dm" id="s-dm">
+    <div class="dmhead"><div class="av">UP</div><div><b>Reel 2 Real</b><small>Business account · Travel</small></div></div>
+    <div class="thread">
+      <div class="msg me"><svg aria-label="Shared reel"><use href="#santorini"/></svg></div>
+      <div class="msg typing"><i></i><i></i><i></i></div>
+      <div class="msg found"><svg viewBox="68 4 28 18" id="miniMap"></svg><div><b>Found it: Oia, Santorini</b><br>Greece · 94% match</div></div>
+      <div class="msg" id="dmCost"></div>
+      <div class="msg">Open it in the app: <span class="link" data-act="open" id="a-open" role="button" tabindex="0">up3000.app/t/oia</span></div>
+    </div>
+  </section>
+
+  <section class="scene app" id="s-app">
+    <div class="apphead">Your map<small id="appSub"></small></div>
+    <div class="askbar" data-act="holiday" id="a-holiday" role="button" tabindex="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Take me on a holiday…</div>
+    <div class="map"><svg id="bigMap"></svg></div>
+    <div class="views" id="views"></div>
+    <div class="below" id="below"></div>
+
+    <div class="place" id="place">
+      <button class="close" data-act="closePlace" aria-label="Close">✕</button>
+      <h3 id="pName"></h3>
+      <div class="sub" id="pSub"></div>
+      <button class="watch" data-act="watch" id="a-watch"></button>
+      <div class="seg" id="seg"></div>
+      <div id="rows"></div>
+      <div class="pbtns">
+        <a class="b-maps" id="a-maps" href="#" target="_blank" rel="noopener">Google Maps</a>
+        <button class="b-save" data-act="save" id="a-save">Save</button>
+        <button class="b-share" data-act="sharePlace">Share</button>
+      </div>
+    </div>
+
+    <div class="viewer" id="viewer">
+      <button class="close" data-act="closeWatch" aria-label="Close reel">✕</button>
+      <div class="vbg" id="vbg"></div>
+      <div class="bar"><i></i></div>
+      <div class="cap" id="vcap"></div>
+    </div>
+
+    <div class="sheet picker" id="picker">
+      <div class="grab"></div>
+      <h4>Save to collection</h4>
+      <button class="opt" data-act="grad" id="a-grad"><span class="sw" style="background:#1E9C8E"></span><span><b>Grad Trip</b><small id="gradCount">5 places · Europe</small></span></button>
+      <button class="opt" data-act="noop"><span class="sw" style="background:#E9A92A"></span><span><b>Someday</b><small>12 places</small></span></button>
+      <button class="opt" data-act="noop"><span class="sw" style="background:#D5E2E0"></span><span><b>+ New collection</b></span></button>
+    </div>
+
+    <div class="holiday" id="holiday">
+      <button class="close" data-act="closeHoliday" aria-label="Close">✕</button>
+      <h4>Take me on a holiday</h4>
+      <div class="field"><label for="budget">Budget per person <output id="budgetOut"></output></label><input type="range" id="budget" min="300" max="2500" step="50" value="900"></div>
+      <div class="field"><label>Dates</label><div class="dates"><input type="date" id="d1" value="2027-06-12" aria-label="Start date"><input type="date" id="d2" value="2027-06-17" aria-label="End date"></div></div>
+      <div class="field"><label>Style</label><div class="seg" id="seg2"></div></div>
+      <button class="find" data-act="find" id="a-find">Find my trip</button>
+      <div id="hres"></div>
+    </div>
+  </section>
+</template>
+
+<script>
+const MASK="000003c034003fff00000006007ff80080008040007c6fe01ffe000000061dfffff7f80007ffffd43b381ff80001fe05ebfffffffffff3fffffffc3e1fc04007fd3fffffffffffff00fffffff51c1f00800f7ffffffffffffffe03ffffffc0600e00003e7ffffffffffffef801e07fffe07e0000003e7fffffffffff808000801ffff87e00000214fffffffffffe038000000ffffeff80000d1fffffffffffff0300000007ffffffc00003ffffffffffffff0000000003fffff4e00003ffffffffffffff0000000003fffffc000001fff5f7fffffffe0000000003fffff0000001ebe0effffffffc4000000003ffffe000000f86f6f3fffffff08000000001ffffc000000f029ff3fffffe208000000001ffffc0000000f007ffffffff1300000000007fff80000007f003ffffffff0400000000005ffe0000000ffeebffffffff8000000000003fc10000000fffffefffffff8000000000000f810000003ffffdf3ffffff00000000000007800000003ffffdfe1ffffe80000000000003880000007ffffeff0fe7e000000000000003d81800003ffffefe07c3d000000000000000780000007fffff780781e0800000000000000e0000007fffffe00301f0c0000000000000002800003fffff9003016000000000000000017f00001ffffff000010020000000000000007f80000fbffff000808000000000000000007ff000000fffe00001860000000000000000fff000000fffc00000ce0000000000000000fffc00000fff800000ce8c00000000000000ffff80000fff0000004083c0000000000000ffffc00007ff0000002001e0000000000000ffffc00007ff00000001a0800000000000007fff800007ff0000000000000000000000007fff000007ff100000000c000000000000001fff000007ff300000007e400000000000000fff000007fc300000007fe00000000000000fff000007fc60000003fff00000000000000ffc000003fc60000007fff00000000000000ff8000003f800000007fff80000000000001ff0000001f800000003fff80000000000001ff0000001f000000003fff80000000000001fe0000001c000000003c3f80000000000001f80000000000000000000f00000000000001f00000000000000000000200200000000003c00000000000000000000200400000000001c00000000000000000000000800000000003800000000000000000000001000000000003800000000000000000000000000000000003080000000000000000000000000000000001800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000200000000000600004400000000000000000400000000047ff1fffffff80000000000003e000005ffffffe7fffffffff000000101ffbf00007fffffffffffffffffe0";
+const TIERS=["Budget","Standard","Comfort+"], FLIGHT=[0.8,1,1.6];
+const STAY_NAMES=["Budget room nearby","3-star hotel nearby","4–5-star hotel nearby"];
+const P={
+  santorini:{name:"Oia, Santorini",country:"Greece",type:"Village",desc:"Cliffside village known for sunsets and blue domes",lat:36.46,lng:25.38,fl:260,via:"Flights Prague ↔ Santorini",stay:[70,140,260],day:[40,70,120],months:[5,6,7,8,9,10],
+    stays:["Hostel bed in Fira · 1.5 km","Cave hotel with caldera view · 250 m","Suite with plunge pool · 100 m"],from:"from your reel by @aegean.wanders"},
+  machu:{name:"Machu Picchu",country:"Peru",type:"Monument",desc:"15th-century Inca citadel high in the Andes",lat:-13.16,lng:-72.54,fl:1100,via:"Flights Prague ↔ Cusco",stay:[40,90,250],day:[40,70,130],months:[5,6,7,8,9]},
+  inari:{name:"Fushimi Inari, Kyoto",country:"Japan",type:"Shrine",desc:"Mountain trail lined with thousands of red torii gates",lat:34.97,lng:135.77,fl:850,via:"Flights Prague ↔ Osaka",stay:[45,110,260],day:[45,75,140],months:[3,4,5,10,11]},
+  burj:{name:"Burj Khalifa, Dubai",country:"UAE",type:"Landmark",desc:"The world's tallest building, with a deck on floor 148",lat:25.2,lng:55.27,fl:380,via:"Flights Prague ↔ Dubai",stay:[60,150,350],day:[50,90,180],months:[11,12,1,2,3]},
+  taj:{name:"Taj Mahal, Agra",country:"India",type:"Monument",desc:"White marble mausoleum on the Yamuna river",lat:27.18,lng:78.04,fl:520,via:"Flights Prague ↔ Delhi",stay:[25,70,200],day:[25,45,100],months:[10,11,12,1,2,3]},
+  plitvice:{name:"Plitvice Lakes",country:"Croatia",type:"National park",desc:"Sixteen terraced lakes joined by waterfalls",lat:44.87,lng:15.58,fl:90,via:"Bus Prague ↔ Plitvice",stay:[45,100,180],day:[30,55,95],months:[5,6,7,8,9,10]},
+  europa:{name:"Europa-Park",country:"Germany",type:"Theme park",desc:"Germany's biggest theme park, with 100+ rides",lat:48.27,lng:7.72,fl:110,via:"Train Prague ↔ Rust",stay:[60,150,260],day:[75,95,140],months:[4,5,6,7,8,9,10,11]},
+  sagrada:{name:"Sagrada Família, Barcelona",country:"Spain",type:"Monument",desc:"Gaudí's basilica, under construction since 1882",lat:41.4,lng:2.17,fl:140,via:"Flights Prague ↔ Barcelona",stay:[55,110,220],day:[35,60,110],months:[4,5,6,9,10]},
+  disney:{name:"Disneyland Paris",country:"France",type:"Theme park",desc:"Two parks of rides, parades and fireworks",lat:48.87,lng:2.78,fl:150,via:"Flights Prague ↔ Paris",stay:[80,160,320],day:[90,120,170],months:[4,5,6,9,10,12]},
+  rijks:{name:"Rijksmuseum, Amsterdam",country:"Netherlands",type:"Museum",desc:"Dutch masters, from Rembrandt to Vermeer",lat:52.36,lng:4.89,fl:130,via:"Flights Prague ↔ Amsterdam",stay:[75,150,290],day:[45,75,130],months:[4,5,6,7,8,9]},
+  szechenyi:{name:"Széchenyi Baths, Budapest",country:"Hungary",type:"Thermal baths",desc:"Huge outdoor thermal pools in a yellow palace",lat:47.52,lng:19.08,fl:40,via:"Train Prague ↔ Budapest",stay:[35,75,160],day:[25,45,90],months:[3,4,5,6,7,8,9,10,11]},
+  colosseum:{name:"Colosseum, Rome",country:"Italy",type:"Monument",desc:"Ancient Roman amphitheatre for 50,000 people",lat:41.89,lng:12.49,fl:120,via:"Flights Prague ↔ Rome",stay:[55,115,230],day:[35,60,110],months:[3,4,5,6,9,10,11]}
+};
+const PRE=["machu","inari","burj","taj","plitvice","europa"];
+const GRAD=["sagrada","disney","rijks","szechenyi","colosseum"];
+const VB={all:[0,-7.5,144,74.9],grad:[63,3.5,26,13.52]};
+const STEPS=["Watch the reel and tap Share","Tap Send to DM the business account","Get the reply and open the link","Compare trip estimates","Save it to Grad Trip","Take me on a holiday"];
+const cost=(k,t,n)=>{const p=P[k];return Math.round(p.fl*FLIGHT[t]+n*(p.stay[t]+p.day[t]))};
+const eur=v=>"€"+v.toLocaleString("en-US");
+const short=k=>P[k].name.split(",")[0];
+const $=id=>document.getElementById(id);
+let S,timers=[],maxStep=0;
+const later=(ms,fn)=>timers.push(setTimeout(fn,ms));
+
+function setStep(i){S.step=Math.max(S.step,i);maxStep=Math.max(maxStep,S.step);
+  $("steps").innerHTML=STEPS.map((s,j)=>`<li class="${j===S.step?"now":j<maxStep?"done":""}"><button data-i="${j}" ${j<=maxStep?"":"disabled"}><span class="n">${j<maxStep&&j!==S.step?"✓":j+1}</span>${s}</button></li>`).join("")}
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");clearTimeout(S.tt);S.tt=setTimeout(()=>e.classList.remove("show"),1800)}
+function show(id){document.querySelectorAll(".scene").forEach(s=>s.classList.toggle("on",s.id===id))}
+const saves=()=>[...PRE,...GRAD,...(S.inSaves?["santorini"]:[])];
+const gradKeys=()=>[...GRAD,...(S.saved?["santorini"]:[])];
+
+/* map */
+const xy=p=>[(p.lng+180)/2.5,(75-p.lat)/2.5];
+function dots(svg){let i=0,h="";for(let r=0;r<60;r++)for(let c=0;c<144;c+=4){const n=parseInt(MASK[i++],16);
+  for(let b=0;b<4;b++)if(n&(8>>b))h+=`<circle class="dot" cx="${c+b+.5}" cy="${r+.5}" r=".38"/>`}
+  svg.insertAdjacentHTML("beforeend",h+'<g class="pins"></g>')}
+function pinSvg(k,s,color,cls,delay,label){const [x,y]=xy(P[k]);
+  return `<g class="${cls}" style="transform-box:fill-box;transform-origin:center bottom;animation-delay:${delay}ms" data-act="pin" data-k="${k}">
+  <path d="M${x-s*.7} ${y-s*.8}L${x} ${y}L${x+s*.7} ${y-s*.8}Z" fill="${color}"/><circle cx="${x}" cy="${y-s*1.2}" r="${s}" fill="${color}" stroke="#fff" stroke-width="${s*.2}"/>
+  ${label?`<text class="pinlabel" x="${x+s*1.3}" y="${y-s*.9}" style="font-size:${s*1.3}px">${short(k).replace("Disneyland ","Disney ").replace("Széchenyi Baths","Széchenyi")}</text>`:""}</g>`}
+function setVB(vb){S.vb=vb;$("bigMap").setAttribute("viewBox",vb.join(" "));renderPins()}
+function renderPins(anim){const s=Math.max(S.vb[2]/(S.view==="grad"?42:60),.85),g=$("bigMap").querySelector(".pins");
+  const keys=S.view==="grad"?gradKeys():saves();
+  g.innerHTML=keys.map((k,i)=>pinSvg(k,s,k===S.sel?"#F2603F":"#1E9C8E",anim&&(anim.all||anim.k===k)?anim.cls:"",anim&&anim.all?i*120:0,false)).join("")}
+function zoomTo(to,ms,done){const from=S.vb.slice(),t0=performance.now();
+  const f=now=>{const k=Math.min(1,(now-t0)/ms),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    setVB(from.map((v,i)=>v+(to[i]-v)*e));k<1?requestAnimationFrame(f):done&&done()};requestAnimationFrame(f)}
+
+/* app lists */
+function renderApp(){const all=saves(),shown=S.view==="grad"?gradKeys():all,countries=new Set(shown.map(k=>P[k].country)).size;
+  $("appSub").textContent=(S.view==="grad"?"Grad Trip · ":"All saves · ")+`${shown.length} places in ${countries} countries`;
+  $("views").innerHTML=`<button data-act="view" data-v="all" class="${S.view==="all"?"sel":""}">All saves · ${all.length}</button>`+
+    `<button data-act="view" data-v="grad" class="${S.view==="grad"?"sel":""}">Grad Trip · ${gradKeys().length}</button>`;
+  if(S.view==="grad"){$("below").innerHTML=`<div class="coll"><h4>Grad Trip</h4><small>${gradKeys().length} places · ${S.nights} nights, ${TIERS[S.tier]}</small>
+     ${gradKeys().map(k=>`<div class="citem" data-act="pin" data-k="${k}"><i></i><span>${short(k)} <small>${P[k].country}</small><br><span class="type">${P[k].type}</span></span><b>${eur(cost(k,S.tier,S.nights))}</b></div>`).join("")}</div>`}
+  else{$("below").innerHTML=all.slice().reverse().map(k=>`<div class="citem" data-act="pin" data-k="${k}"><i></i><span>${short(k)} <small>${P[k].country}</small><br><span class="type">${P[k].type}</span></span><small>›</small></div>`).join("")}}
+function setView(v,anim){S.view=v;renderApp();if(anim)zoomTo(VB[v],900,()=>renderPins(v==="grad"?{all:true,cls:"pop"}:null));else setVB(VB[v])}
+
+/* place card */
+function focusVB(k){const [x,y]=xy(P[k]),w=20,h=w*26/50;return [x-w/2,y-h*.6,w,h]}
+function openPlace(k,instant){S.sel=k;renderPlace();$("place").classList.add("up");if(instant)setVB(focusVB(k));else zoomTo(focusVB(k),800)}
+function thumbBg(k){const h=[...k].reduce((a,c)=>a+c.charCodeAt(0),0)%360;return `background:linear-gradient(160deg,hsl(${h},55%,45%),hsl(${(h+50)%360},60%,25%))`}
+function renderPlace(){const k=S.sel,t=S.tier,p=P[k],n=S.nights;if(!k)return;
+  $("pName").textContent=p.name;
+  const creator=k==="santorini"?"@aegean.wanders":"@"+short(k).toLowerCase().replace(/[^a-z]/g,"")+".travels";
+  $("a-watch").innerHTML=`<span class="th" style="${thumbBg(k)}">${k==="santorini"?'<svg width="22" height="34"><use href="#santorini"/></svg>':"▶"}</span><span>Watch the original reel<br><small>${creator}</small></span>`;
+  S.creator=creator;
+  $("pSub").textContent=`${p.country} · ${p.type} · ${p.desc} · ${p.from||"from a reel you saved"}`;
+  $("a-maps").href=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name+", "+p.country)}`;
+  const inGrad=S.saved&&gradKeys().includes(k);$("a-save").textContent=inGrad?"Saved ✓":"Save";
+  $("seg").innerHTML=TIERS.map((x,i)=>`<button data-act="tier" data-t="${i}" class="${i===t?"sel":""}">${x}</button>`).join("");
+  $("rows").innerHTML=`<div class="row"><span>${(p.stays||STAY_NAMES)[t]}</span><b>${eur(p.stay[t])}/night</b></div>
+   <div class="row"><span>${p.via}, return<span class="est">est</span></span><b>${eur(Math.round(p.fl*FLIGHT[t]))}</b></div>
+   <div class="row"><span>Stay + daily costs, ${n} nights<span class="est">est</span></span><b>${eur(n*(p.stay[t]+p.day[t]))}</b></div>
+   <div class="row tot"><span><b>Total, 1 traveler</b></span><b>${eur(cost(k,t,n))}</b></div>`}
+
+/* holiday finder */
+function renderSeg2(){$("seg2").innerHTML=TIERS.map((x,i)=>`<button data-act="tier2" data-t="${i}" class="${i===S.tier2?"sel":""}">${x}</button>`).join("")}
+function find(){const b=+$("budget").value,d1=new Date($("d1").value),d2=new Date($("d2").value),out=$("hres");
+  const n=Math.round((d2-d1)/864e5);
+  if(!(n>0)){out.innerHTML='<p class="err">Pick an end date after the start date.</p>';return}
+  const m=d1.getMonth()+1;S.hNights=n;
+  const r=saves().map(k=>{const c=cost(k,S.tier2,n),fits=c<=b,season=P[k].months.includes(m);
+    return {k,c,fits,season,score:(fits?2:0)+(season?1:0)}}).sort((a,b2)=>b2.score-a.score||a.c-b2.c).slice(0,3);
+  const mon=d1.toLocaleString("en-US",{month:"long"});
+  out.innerHTML=`<div class="res">${r.map((x,i)=>{const p=P[x.k];
+    const why=[x.fits?`${eur(b-x.c)} under budget`:`${eur(x.c-b)} over budget`, x.season?`${mon} is a great month to go`:`${mon} is off-season`].join(" · ");
+    return `<div class="r ${i===0?"best":""}" data-act="pick" data-k="${x.k}" role="button" tabindex="0" style="animation-delay:${i*150}ms"><div class="top"><span>${i===0?'<span class="badge">Best fit</span>':""}${short(x.k)}</span><span>${eur(x.c)}</span></div><p>${p.country} · ${n} nights, ${TIERS[S.tier2]} · ${why}</p><span class="go">View trip ›</span></div>`}).join("")}</div>`;
+  if(S.step<6)setStep(6)}
+
+/* taps */
+function playDM(instant){show("s-dm");const m=[...document.querySelectorAll(".msg")];
+  const pin=()=>$("miniMap").querySelector(".pins").innerHTML=pinSvg("santorini",1.1,"#F2603F","drop",0);
+  if(instant){m.forEach(x=>x.classList.add("show"));m[1].hidden=true;pin();return}
+  m[0].classList.add("show");later(400,()=>m[1].classList.add("show"));
+  later(1600,()=>{m[1].hidden=true;m[2].classList.add("show");pin()});
+  later(2400,()=>m[3].classList.add("show"));later(3100,()=>m[4].classList.add("show"))}
+function openApp(instant){S.inSaves=true;S.view="all";renderApp();openPlace("santorini",true);show("s-app");
+  if(!instant){renderPins({k:"santorini",cls:"drop"});later(400,()=>toast("Oia, Santorini saved"))}}
+function act(a,el){
+  switch(a){
+    case "share": $("sheet").classList.add("up");setStep(1);break;
+    case "send": if(!$("a-send").classList.contains("ready")||S.sent)return;S.sent=true;$("a-send").textContent="Sent";
+      later(700,()=>{setStep(2);playDM(false)});break;
+    case "open": setStep(3);openApp(false);break;
+    case "pin": openPlace(el.dataset.k);break;
+    case "tier": S.tier=+el.dataset.t;renderPlace();renderApp();if(S.step===3)setStep(4);break;
+    case "closePlace": $("place").classList.remove("up");S.sel=null;zoomTo(VB[S.view],800);break;
+    case "view": $("place").classList.remove("up");S.sel=null;setView(el.dataset.v,true);break;
+    case "save": $("picker").classList.add("up");break;
+    case "grad": $("picker").classList.remove("up");
+      if(S.saved&&gradKeys().includes(S.sel)){toast("Already in Grad Trip");break}
+      if(S.sel!=="santorini"){toast("Added to Grad Trip");break}
+      $("place").classList.remove("up");S.saved=true;S.sel=null;toast("Added to Grad Trip");setView("grad",true);setStep(5);break;
+    case "watch": {const k=S.sel;$("vbg").setAttribute("style",thumbBg(k));
+      $("vbg").innerHTML=k==="santorini"?'<svg class="art"><use href="#santorini"/></svg>':`<div class="vtitle">${P[k].name}</div>`;
+      $("vcap").innerHTML=`<b>${S.creator}</b>${k==="santorini"?"Sunset in Oia never gets old #santorini #greece":P[k].desc+" #travel"}`;
+      $("viewer").classList.add("on");break}
+    case "closeWatch": $("viewer").classList.remove("on");break;
+    case "sharePlace": toast("Sharing is off in this demo");break;
+    case "holiday": renderSeg2();$("place").classList.remove("up");$("holiday").classList.add("up");break;
+    case "tier2": S.tier2=+el.dataset.t;renderSeg2();break;
+    case "find": find();break;
+    case "pick": break;
+    case "closeHoliday": $("holiday").classList.remove("up");break;
+  }
+}
+function pickResult(k){$("holiday").classList.remove("up");S.tier=S.tier2;S.nights=S.hNights;
+  const target=S.view==="grad"&&gradKeys().includes(k)?"grad":"all";
+  S.view=target;renderApp();openPlace(k)}
+
+/* jump to a step */
+function goto(i){start(true);
+  if(i===0)return setStep(0);
+  if(i===1){$("sheet").classList.add("up");return setStep(1)}
+  if(i===2){S.sent=true;playDM(true);return setStep(2)}
+  setStep(3);openApp(true);
+  if(i===3)return;
+  setStep(4);if(i===4){$("picker").classList.add("up");return}
+  S.saved=true;S.sel=null;$("place").classList.remove("up");setView("grad");setStep(5);
+  renderSeg2();$("holiday").classList.add("up")}
+
+function start(keepMax){timers.forEach(clearTimeout);timers=[];if(!keepMax)maxStep=0;
+  $("screen").innerHTML=$("tpl").innerHTML;
+  S={step:0,tier:1,tier2:1,nights:4,hNights:5,saved:false,inSaves:false,sel:null,view:"all",sent:false,vb:VB.all};
+  dots($("miniMap"));dots($("bigMap"));setVB(S.vb);setStep(0);
+  $("dmCost").innerHTML=`Trip from Prague, 4 nights: about <b>${eur(cost("santorini",1,4))}</b> (estimated)`;
+  const bo=()=>$("budgetOut").textContent=eur(+$("budget").value);bo();$("budget").addEventListener("input",bo)}
+$("screen").addEventListener("click",e=>{const el=e.target.closest("[data-act]");if(!el)return;
+  if(el.dataset.act==="pick"&&el.classList.contains("r"))return pickResult(el.dataset.k);act(el.dataset.act,el)});
+$("screen").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("[role=button]")){e.preventDefault();e.target.click()}});
+$("steps").addEventListener("click",e=>{const b=e.target.closest("button");if(b&&!b.disabled)goto(+b.dataset.i)});
+$("screen").addEventListener("scroll",e=>{e.currentTarget.scrollTop=0;e.currentTarget.scrollLeft=0});
+$("restart").onclick=()=>start(false);
+start(false);
+</script>
+
+</body></html>
