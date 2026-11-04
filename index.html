@@ -17,7 +17,7 @@
 --disp:'Fraunces',Georgia,'Times New Roman',serif;--body:'DM Sans',system-ui,sans-serif;--hand:'Caveat','Segoe Script',cursive;--gut:clamp(1.1rem,4vw,3.5rem);
 --ph:min(78svh,720px);--pw:calc(var(--ph)*.47);--ease:cubic-bezier(.7,0,.2,1);--spring:cubic-bezier(.3,1.5,.5,1)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-snap-type:y proximity;-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%}
 body{background:var(--night);color:var(--paper);font:400 1rem/1.55 var(--body);overflow-x:hidden;transition:--c1 0.62s,--c2 0.62s}
 body[data-s="0"]{--c1:#ff6b4a;--c2:#7a3cf0}body[data-s="1"]{--c1:#ff4f9a;--c2:#3a5bff}body[data-s="2"]{--c1:#27c9b8;--c2:#2b4bd6}
 body[data-s="3"]{--c1:#ffb23e;--c2:#ff5a3c}body[data-s="4"]{--c1:#6fd37a;--c2:#1c8fb0}body[data-s="5"]{--c1:#4fa2ff;--c2:#7a3cf0}body[data-s="6"]{--c1:#ff6b4a;--c2:#ffb23e}
@@ -43,7 +43,7 @@ a{color:inherit}
 
 /* story */
 .story{position:relative;height:calc(var(--n)*100svh)}
-.snaps div{position:absolute;left:0;width:100%;height:100svh;top:calc(var(--i)*100svh);scroll-snap-align:start;pointer-events:none}
+.snaps div{position:absolute;left:0;width:100%;height:100svh;top:calc(var(--i)*100svh);pointer-events:none}
 .stage{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:clamp(1rem,4vw,4.5rem);padding:0 var(--gut)}
 .bg{position:absolute;inset:0;background:radial-gradient(60% 50% at 18% 20%,color-mix(in srgb,var(--c1) 38%,transparent),transparent 70%),radial-gradient(55% 55% at 85% 80%,color-mix(in srgb,var(--c2) 42%,transparent),transparent 70%),var(--night);z-index:0}
 .bg::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.4px);background-size:26px 26px;mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent)}
@@ -66,10 +66,11 @@ a{color:inherit}
 .card{background:rgba(23,21,31,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:22px;padding:1.2rem 1.3rem}
 .card h3{font:600 1.15rem var(--disp);margin-bottom:.7rem}
 .card small{color:var(--mute)}
-.fall{position:relative;height:190px;overflow:hidden}
-.fall i{position:absolute;left:calc(var(--x)*1%);top:-60px;width:54px;height:72px;border-radius:10px;overflow:hidden;animation:fall 5s linear infinite;animation-delay:var(--d)}
-.fall svg{width:100%;height:100%}
-@keyframes fall{to{transform:translateY(300px) rotate(var(--r));opacity:.2}}
+.lib{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;width:min(100%,216px);margin:0 auto .5rem}
+.lib i{display:block;aspect-ratio:4/5;border-radius:8px;overflow:hidden;transition:transform .45s var(--ease),opacity .35s,filter .35s;transform-origin:50% 130%}
+.lib i svg{width:100%;height:100%;display:block}
+.lib i.gone{transform:translateY(120px) scale(.08);opacity:0;filter:blur(2px)}
+.globe{display:block;width:176px;height:176px;margin:0 auto}
 .big{font:600 3.2rem/1 var(--disp);display:block}
 .reads li{list-style:none;display:flex;gap:.6rem;align-items:flex-start;padding:.5rem 0;border-top:1px solid var(--line);opacity:0;transform:translateX(14px);transition:opacity 0.31s,transform 0.31s var(--spring)}
 .reads li:first-child{border-top:0}
@@ -271,12 +272,12 @@ a{color:inherit}
 
 /* tail */
 .tail{position:relative;z-index:2;background:var(--night)}
-.sec{padding:clamp(4rem,9vw,7.5rem) var(--gut);max-width:1280px;margin:0 auto}
+.sec{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(1.6rem,4.5svh,4rem) var(--gut);max-width:1280px;margin:0 auto}
 .sec h2{font:600 clamp(2.2rem,5.5vw,4.6rem)/1 var(--disp);font-variation-settings:'opsz' 144,'SOFT' 40;letter-spacing:-.02em;text-wrap:balance;max-width:16ch}
 .sec .lead{color:var(--mute);font-size:1.15rem;max-width:50ch;margin-top:1rem}
 .manifest{font:500 clamp(1.7rem,4vw,3.3rem)/1.18 var(--disp);letter-spacing:-.015em;max-width:26ch;margin-top:1.5rem}
 .manifest span{opacity:.3;transition:opacity 0.15s}.manifest span.lit{opacity:1}
-.vals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:3rem}
+.vals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:clamp(.8rem,3svh,2.4rem)}
 .team{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;margin-top:2.4rem}
 .tm{display:flex;align-items:center;gap:.8rem}.tm .av{width:52px;height:52px;border-radius:50%;background:var(--coral);color:#1a0d09;display:grid;place-items:center;font:600 1.4rem var(--disp)}.tm .av.l{background:var(--lagoon)}
 .tm b{display:block}.tm small{color:var(--mute)}.hand{font:500 1.5rem var(--hand);color:var(--lagoon)}
@@ -347,6 +348,27 @@ a{color:inherit}
 .tap{position:absolute;z-index:60;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,.3);pointer-events:none;animation:tapc .5s ease-out forwards}
 @keyframes tapc{0%{transform:scale(.3);opacity:0}30%{transform:scale(.75);opacity:1}100%{transform:scale(1.6);opacity:0}}
 .pressed{transform:scale(.93);filter:brightness(1.15);transition:transform 0.06s,filter 0.06s}
+
+/* paging: wheel and keys are handled in JS on desktop; touch phones use native snapping, one swipe per step */
+@media (pointer:coarse){
+  html{scroll-snap-type:y mandatory}
+  .snaps div{scroll-snap-align:start;scroll-snap-stop:always}
+  .tail .sec{scroll-snap-align:start}
+  .foot{scroll-snap-align:end}
+}
+
+/* one screen per section on desktop: sizes follow the screen height */
+@media (min-width:761px){
+  .sec h2{font-size:clamp(2rem,min(5.5vw,8.5svh),4.6rem)}
+  .sec .lead{margin-top:.6rem}
+  .manifest{font-size:clamp(1.4rem,min(3.4vw,4.8svh),2.8rem);margin-top:1rem}
+  .vals .card{padding:.9rem 1.1rem}
+  .team{margin-top:1.4rem}
+  .plan{gap:.7rem;padding:1rem 1.2rem}
+  .price b{font-size:clamp(2.4rem,6svh,3.3rem)}
+  .plan ul{gap:.3rem}
+  .billing{margin:.8rem 0}
+}
 
 </style>
 </head>
@@ -474,7 +496,7 @@ a{color:inherit}
     </div></div>
 
     <aside class="side" id="side" aria-hidden="true">
-      <div class="sdi"><div class="card"><h3>Where saved Reels go</h3><div class="fall" id="fall"></div><small>Saved: lots. Visited: ask again later.</small></div></div>
+      <div class="sdi"><div class="card"><h3>Where saved Reels go</h3><div class="lib" id="lib" aria-hidden="true"></div><canvas class="globe" id="globe" role="img" aria-label="A globe where each saved Reel becomes a pin"></canvas><small>Each saved Reel becomes a pin on your own globe.</small></div></div>
       <div class="sdi"><div class="card"><h3>Same share sheet</h3><p class="fm">No new app to open. No link to copy. Send it, and you're done.</p></div></div>
       <div class="sdi"><div class="card"><h3>What it reads</h3><ul class="reads"><li style="--i:0"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg><div><b>Caption</b><span id="rdCap">"Ten thousand gates at dawn"</span></div></li><li style="--i:1"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg><div><b>Tags</b><span id="rdTags">#kyoto #fushimiinari #japan</span></div></li><li style="--i:2"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg><div><b>Scenery</b><span id="rdScen">Red gates on a forested hill</span></div></li></ul></div></div>
       <div class="sdi"><div class="card"><h3>Where the money goes</h3><div class="bar2" id="sbar"></div><div class="leg" id="sleg"></div></div></div>
@@ -816,7 +838,58 @@ window.UP = (function () {
     var t0 = performance.now(); dur = dur || 800;
     (function step(t) { var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3); node.textContent = fmt(from + (to - from) * e); if (p < 1) node._r = requestAnimationFrame(step); })(t0);
   }
-  function go(i) { i = Math.max(0, Math.min(N - 1, i)); window.scrollTo({ top: i * innerHeight, behavior: reduced ? 'auto' : 'smooth' }); }
+  var paging = false;
+  function maxY() { var h = document.documentElement; return h.scrollHeight - h.clientHeight; }
+  function animateTo(y) {
+    y = Math.max(0, Math.min(maxY(), y)); var y0 = window.scrollY, d = y - y0;
+    if (Math.abs(d) < 2) return;
+    if (reduced) { window.scrollTo(0, y); return; }
+    var t0 = performance.now(), dur = Math.min(850, 380 + Math.abs(d) * 0.14); paging = true;
+    (function step(t) { var p = Math.min(1, (t - t0) / dur), e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; window.scrollTo(0, y0 + d * e); if (p < 1) requestAnimationFrame(step); else setTimeout(function () { paging = false; }, 50); })(t0);
+  }
+  function go(i) { i = Math.max(0, Math.min(N - 1, i)); animateTo(i * innerHeight); }
+  /* every resting place: the 7 demo steps, then each section; a section taller than the screen gets extra stops */
+  function stops() {
+    var H = innerHeight, out = [], i, mx = maxY();
+    for (i = 0; i < N; i++) out.push(i * H);
+    $$('.tail .sec').forEach(function (sec) {
+      var top = sec.getBoundingClientRect().top + window.scrollY, h = sec.offsetHeight, k = 0;
+      out.push(top); while (top + (k + 1) * H * 0.9 + H * 0.45 < top + h) { k++; out.push(top + k * H * 0.9); }
+    });
+    out.push(mx);
+    return out.filter(function (y) { return y <= mx + 1; }).sort(function (a, b) { return a - b; }).filter(function (y, j, a) { return j === 0 || y - a[j - 1] > 24; });
+  }
+  function step(dir) {
+    var y = window.scrollY, st = stops(), t = null, j;
+    if (dir > 0) { for (j = 0; j < st.length; j++) if (st[j] > y + 4) { t = st[j]; break; } }
+    else { for (j = st.length - 1; j >= 0; j--) if (st[j] < y - 4) { t = st[j]; break; } }
+    if (t != null) animateTo(t);
+  }
+  function innerScroll(node, dy) {
+    for (; node && node !== document.body; node = node.parentNode) {
+      if (node.nodeType !== 1) continue; var cs = getComputedStyle(node);
+      if (/(auto|scroll)/.test(cs.overflowY) && node.scrollHeight > node.clientHeight + 1 && ((dy > 0 && node.scrollTop + node.clientHeight < node.scrollHeight - 1) || (dy < 0 && node.scrollTop > 0))) return true;
+    }
+    return false;
+  }
+  var lastWheel = 0, lastAbs = 0;
+  window.addEventListener('wheel', function (e) {
+    if (e.ctrlKey || e.metaKey || Math.abs(e.deltaY) < Math.abs(e.deltaX) || !matchMedia('(pointer:fine)').matches) return;
+    if (innerScroll(e.target, e.deltaY)) return;
+    e.preventDefault();
+    var now = performance.now(), abs = Math.abs(e.deltaY), quiet = now - lastWheel > 130, rising = abs > lastAbs * 1.4 + 6;
+    lastWheel = now; lastAbs = abs;
+    if (paging || abs < 3) return;
+    if (!quiet && !rising) return; // the tail of a trackpad flick: one gesture is one step
+    step(e.deltaY > 0 ? 1 : -1);
+  }, { passive: false });
+  window.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || /INPUT|SELECT|TEXTAREA|BUTTON|SUMMARY|A/.test(e.target.tagName) && e.target !== document.body) return;
+    var k = e.key;
+    if (k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) { e.preventDefault(); if (!paging) step(1); }
+    else if (k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) { e.preventDefault(); if (!paging) step(-1); }
+    else if (k === 'Home') { e.preventDefault(); animateTo(0); } else if (k === 'End') { e.preventDefault(); animateTo(maxY()); }
+  });
 
   /* ---------- build static bits ---------- */
   var snaps = $('#snaps'); for (var i = 0; i < N; i++) { var d = el('div'); d.style.setProperty('--i', i); snaps.appendChild(d); }
@@ -839,8 +912,45 @@ window.UP = (function () {
   });
   var stage = $('#stage');
   if (!reduced) stage.addEventListener('pointermove', function (e) { if (e.pointerType === 'touch') return; stage.style.setProperty('--mx', ((e.clientX / innerWidth) - 0.5).toFixed(3)); stage.style.setProperty('--my', ((e.clientY / innerHeight) - 0.5).toFixed(3)); });
-  // aside: falling saved reels
-  var fall = $('#fall'); ['inari', 'bali', 'amalfi', 'machu', 'santorini', 'taj'].forEach(function (k, n) { var f = el('i', '', SC[k]()); f.style.cssText = '--x:' + (4 + n * 15) + ';--d:-' + (n * 0.85).toFixed(2) + 's;--r:' + (n % 2 ? 24 : -24) + 'deg'; fall.appendChild(f); });
+  // aside: a library of saved Reels turns into pins on a slowly turning globe (drawn on a canvas from the same dot map as "My map")
+  var GL = (function () {
+    var keys = ['inari', 'bali', 'amalfi', 'machu', 'santorini', 'taj'], lib = $('#lib'), cv = $('#globe'), ctx = cv.getContext('2d');
+    var thumbs = keys.map(function (k) { var t = el('i', '', SC[k]()); lib.appendChild(t); return t; });
+    var land = [], m = UP.MASK, ix = 0, r, c, b, n;
+    for (r = 0; r < 60; r++) for (c = 0; c < 144; c += 4) { n = parseInt(m[ix++], 16); for (b = 0; b < 4; b++) if (n & (8 >> b)) land.push([(75 - (r + 0.5) * 2.5) * Math.PI / 180, ((c + b + 0.5) * 2.5 - 180) * Math.PI / 180]); }
+    var pts = keys.map(function (k) { return [PL[k].lat * Math.PI / 180, PL[k].lng * Math.PI / 180]; });
+    var PERIOD = 10600, FIRST = 700, GAP = 1000, TILT = 0.38, lam = 0.5, last = 0, t0 = 0, raf = 0, W = 176, dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = W * dpr; cv.height = W * dpr;
+    function proj(la, lo) { var d = lo - lam, cl = Math.cos(la); return [cl * Math.sin(d), Math.cos(TILT) * Math.sin(la) - Math.sin(TILT) * cl * Math.cos(d), Math.sin(TILT) * Math.sin(la) + Math.cos(TILT) * cl * Math.cos(d)]; }
+    function draw(t, still) {
+      var R = W / 2 - 6, cx = W / 2, cy = W / 2, i, p, x, y;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, W);
+      var g = ctx.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.1, cx, cy, R); g.addColorStop(0, '#2a3358'); g.addColorStop(1, '#0d0f1d');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 7); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,.18)'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.55)';
+      for (i = 0; i < land.length; i++) { p = proj(land[i][0], land[i][1]); if (p[2] > 0.05) ctx.fillRect(cx + p[0] * R - 0.7, cy - p[1] * R - 0.7, 1.5, 1.5); }
+      keys.forEach(function (k, j) {
+        var born = still ? 0 : FIRST + j * GAP + 250; if (!still && t < born) return;
+        p = proj(pts[j][0], pts[j][1]); if (p[2] <= 0.02) return; x = cx + p[0] * R; y = cy - p[1] * R;
+        var age = still ? 9999 : t - born;
+        if (age < 800) { ctx.strokeStyle = 'rgba(255,107,74,' + (1 - age / 800).toFixed(2) + ')'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x, y, 4 + age / 800 * 16, 0, 7); ctx.stroke(); }
+        ctx.fillStyle = '#FF6B4A'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(x, y, age < 250 ? 2 + age / 250 * 2.6 : 4.6, 0, 7); ctx.fill(); ctx.stroke();
+      });
+    }
+    function frame(now) {
+      raf = requestAnimationFrame(frame);
+      var dt = Math.min(50, now - last); last = now; var t = (now - t0) % PERIOD, latest = -1, j;
+      for (j = 0; j < keys.length; j++) if (t >= FIRST + j * GAP) latest = j;
+      thumbs.forEach(function (th, k) { th.classList.toggle('gone', t >= FIRST + k * GAP && t < PERIOD - 500); });
+      if (latest >= 0 && t < FIRST + latest * GAP + 900) { var d = pts[latest][1] - lam; d = Math.atan2(Math.sin(d), Math.cos(d)); lam += d * (1 - Math.exp(-dt / 240)); } else lam += dt * 0.00022;
+      draw(t, false);
+    }
+    return {
+      start: function () { if (reduced) { thumbs.forEach(function (t) { t.classList.add('gone'); }); lam = 0.4; draw(0, true); return; } if (raf) return; t0 = last = performance.now(); raf = requestAnimationFrame(frame); },
+      stop: function () { cancelAnimationFrame(raf); raf = 0; }
+    };
+  })();
 
   /* ---------- scene 0 & 1: reel and share ---------- */
   var like = $('#likeBtn'), hearts = $('#hearts');
@@ -864,11 +974,11 @@ window.UP = (function () {
   function chat() {
     th.innerHTML = ''; var typing;
     function add(cls, h) { var m = el('div', 'msg ' + cls, h); th.appendChild(m); return m; }
-    later(function () { add('me', '<div class="thumb">' + SC[S.k]() + '</div>'); }, 200);
-    later(function () { typing = el('div', 'typing', '<i></i><i></i><i></i>'); th.appendChild(typing); }, 750);
-    later(function () { if (typing) typing.remove(); add('them', '<b>Found it 📍</b>' + PL[S.k].title + ' ' + PL[S.k].flag + '<br><span class="conf">Caption, tags and scenery agree</span>'); }, 1450);
-    later(function () { add('them', 'A trip from ' + UP.ORIGINS[S.origin].n + ' costs about <b>' + usd(est(S.k).total) + '</b> for ' + S.nights + ' nights.'); }, 1950);
-    later(function () { var m = add('them', '<button type="button" class="go">See the trip</button>'); var g = $('.go', m); g.addEventListener('click', function () { go(3); }); tap(g, 350); }, 2400);
+    later(function () { add('me', '<div class="thumb">' + SC[S.k]() + '</div>'); }, 150);
+    later(function () { typing = el('div', 'typing', '<i></i><i></i><i></i>'); th.appendChild(typing); }, 550);
+    later(function () { if (typing) typing.remove(); add('them', '<b>Found it 📍</b>' + PL[S.k].title + ' ' + PL[S.k].flag + '<br><span class="conf">Caption, tags and scenery agree</span>'); }, 1000);
+    later(function () { add('them', 'A trip from ' + UP.ORIGINS[S.origin].n + ' costs about <b>' + usd(est(S.k).total) + '</b> for ' + S.nights + ' nights.'); }, 1350);
+    later(function () { var m = add('them', '<button type="button" class="go">See the trip</button>'); $('.go', m).addEventListener('click', function () { go(3); }); }, 1650);
   }
 
   /* ---------- scene 3: trip card ---------- */
@@ -931,6 +1041,7 @@ window.UP = (function () {
   $('#s-go').addEventListener('pointermove', function (e) { if (reduced || e.pointerType === 'touch') return; var r = tk.getBoundingClientRect(); tk.style.setProperty('--tx', (((e.clientX - r.left) / r.width - 0.5) * 14).toFixed(1) + 'deg'); tk.style.setProperty('--ty', ((0.5 - (e.clientY - r.top) / r.height) * 10).toFixed(1) + 'deg'); });
   $('#s-go').addEventListener('pointerleave', function () { tk.style.setProperty('--tx', '0deg'); tk.style.setProperty('--ty', '0deg'); });
 
+  var NEXT_TAP = { 0: '#shareBtn', 1: '#sendBtn', 2: '#s-chat .go', 3: '#saveBtn', 4: '#nextBtn', 5: '#matchNext' };
   /* ---------- a small "click" showing what to press next ---------- */
   function tap(node, after) {
     if (reduced || !node) return;
@@ -945,20 +1056,21 @@ window.UP = (function () {
   /* ---------- scene switching ---------- */
   function enter(i) {
     token++;
-    if (i === 0) later(function () { tap($('#shareBtn')); }, 900);
-    if (i === 1) { pick(null); later(function () { tap($('.p3b', ppl)); }, 450); later(function () { pick('p3'); }, 600); later(function () { tap(send); }, 1250); }
+    if (i === 1) { pick(null); later(function () { tap($('.p3b', ppl)); pick('p3'); }, 120); }
     if (i === 2) chat();
-    if (i === 3) { paintCard(true); later(function () { tap($('#saveBtn')); }, 1100); }
+    if (i === 3) { paintCard(true); }
     if (i === 4) {
       var first = !S.kyoto; S.kyoto = true; S.coll = 'all'; $$('button', mchips).forEach(function (x) { x.setAttribute('aria-pressed', x.dataset.c === 'all'); });
       if (first) { S.kyoto = false; paintMap(false); later(function () { S.kyoto = true; paintMap(true); }, 300); } else paintMap(false);
-      later(function () { tap($('#nextBtn')); }, 1300);
     }
-    if (i === 5) { paintMatch(); later(function () { tap($('#matchNext')); }, 1400); }
+    if (i === 5) { paintMatch(); }
     if (i === 6) { paintReel(false); tk.style.animation = 'none'; void tk.offsetWidth; tk.style.animation = ''; }
   }
   function setScene(i) {
     if (i === cur) return; var prev = cur; cur = i; document.body.dataset.s = i;
+    // the click that moves the demo on happens as you scroll to the next step, on the screen you are leaving
+    if (prev >= 0 && i === prev + 1 && NEXT_TAP[prev]) tap($(NEXT_TAP[prev]));
+    if (i === 0) GL.start(); else GL.stop();
     var si = SCR_LIST.indexOf(SCR[i]);
     scrs.forEach(function (s, j) { s.dataset.st = j < si ? 'before' : j === si ? 'now' : 'after'; s.inert = j !== si; if (j !== si) s.scrollTop = 0; });
     ex.forEach(function (x, j) { x.dataset.st = j < i ? 'before' : j === i ? 'now' : 'after'; x.inert = j !== i; });
@@ -1002,7 +1114,7 @@ window.UP = (function () {
   window.addEventListener('resize', function () { var c = cur; cur = -1; setScene(c < 0 ? 0 : c); });
   document.addEventListener('mousemove', function (e) { if (e.clientY <= 56) top.classList.remove('away'); }, { passive: true });
   $$('.top a[href^="#"], .gobtns a[href^="#"], .exi a[href^="#"], .tail a[href^="#"]').forEach(function (a) {
-    a.addEventListener('click', function (e) { var t = $(a.getAttribute('href')); if (!t) return; e.preventDefault(); t.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' }); });
+    a.addEventListener('click', function (e) { var t = $(a.getAttribute('href')); if (!t) return; e.preventDefault(); animateTo(t.getBoundingClientRect().top + window.scrollY); });
   });
   $('.wm').addEventListener('click', function (e) { e.preventDefault(); go(0); });
 
