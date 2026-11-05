@@ -1167,7 +1167,7 @@ window.UP = (function () {
   });
   var fl = $('#faql'); fl.addEventListener('toggle', function (e) { if (e.target.open) $$('details', fl).forEach(function (d) { if (d !== e.target) d.open = false; }); }, true);
   /* set to a URL (for example a Cloud Function) to POST sign-ups as JSON; empty keeps them in this browser */
-  var WAITLIST_ENDPOINT = '', KEY = 'up3000.waitlist';
+  var WAITLIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwakXNqz8sywK4Tu1efCbxf7UCPn_7VmcPpa8ROOmGOBeJUGhEWBlDFCj_9ef4i-I86BQ/exec', KEY = 'up3000.waitlist';
   var wf = $('#wlf'), wok = $('#wlok'), wer = $('#wlerr');
   $('#wlnote').textContent = WAITLIST_ENDPOINT ? 'One email at launch. Nothing else.' : 'Prototype note: the waitlist is not connected yet, so your details are saved in this browser only.';
   function store(rec) { try { var l = JSON.parse(localStorage.getItem(KEY) || '[]'); if (!l.some(function (x) { return x.email === rec.email; })) l.push(rec); localStorage.setItem(KEY, JSON.stringify(l)); } catch (e) { /* storage unavailable: the sign-up still shows as received for this prototype */ } }
