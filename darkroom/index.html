@@ -268,6 +268,7 @@ body:not(.h) .print.hung{width:min(60vw,260px)}
 body:not(.h) .real,body:not(.h) .hang,body:not(.h) .dev{min-width:0}
 body:not(.h) .pol{width:min(42vw,200px)}
 body:not(.h) .stamp{right:2%}body:not(.h) .tray{overflow:hidden}
+html{overflow-x:clip}body:not(.h) .tray{overflow:hidden}body:not(.h) .stamp{right:2%}
 
 </style>
 </head>
@@ -401,7 +402,7 @@ body:not(.h) .stamp{right:2%}body:not(.h) .tray{overflow:hidden}
  <p class="lede">Leave your email and we’ll write when Reel 2 Real is ready.</p>
  <form class="wlf" id="wl" novalidate><label for="wle">Email</label><input id="wle" type="email" autocomplete="email" placeholder="you@example.com" required><label for="wlo">Where do you travel from?</label><select id="wlo"></select><div class="wlerr" id="wlerr" role="alert"></div><button class="btn red" type="submit">Join the waitlist</button></form>
  <div class="ok2" id="wlok" hidden role="status"><b>You’re on the strip.</b><span class="small" id="wlnote"></span><button class="btn" id="rew" type="button" style="color:var(--paper);border-color:var(--paper)">Rewind to the start</button></div>
- <p class="end">That’s a wrap.</p>
+ <p class="end">That’s a wrap.</p><p class="small" style="margin-top:1rem;color:#b9ae9a"><a href="../about/">About</a> · <a href="../terms/">Terms and privacy</a></p>
 </section>
 
 </div></main>
@@ -928,7 +929,7 @@ window.UP = (function () {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { err.textContent = 'Enter an email like you@example.com.'; $('#wle').focus(); return; }
     err.textContent = '';
     var saved = true;
-    try {
+    if (!WAITLIST_ENDPOINT) try {
       var list = JSON.parse(localStorage.getItem('up3000.waitlist') || '[]');
       if (!list.some(function (x) { return x.email === em; })) list.push({ email: em, from: wlo.value, at: new Date().toISOString() });
       localStorage.setItem('up3000.waitlist', JSON.stringify(list));

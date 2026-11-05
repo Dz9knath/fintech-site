@@ -18,7 +18,7 @@
 --ph:min(78svh,720px);--pw:calc(var(--ph)*.47);--ease:cubic-bezier(.7,0,.2,1);--spring:cubic-bezier(.3,1.5,.5,1)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{background:var(--night);color:var(--paper);font:400 1rem/1.55 var(--body);overflow-x:hidden;transition:--c1 0.62s,--c2 0.62s}
+body{background:var(--night);color:var(--paper);font:400 1rem/1.55 var(--body);overflow-x:hidden}
 body[data-s="0"]{--c1:#ff6b4a;--c2:#7a3cf0}body[data-s="1"]{--c1:#ff4f9a;--c2:#3a5bff}body[data-s="2"]{--c1:#27c9b8;--c2:#2b4bd6}
 body[data-s="3"]{--c1:#ffb23e;--c2:#ff5a3c}body[data-s="4"]{--c1:#6fd37a;--c2:#1c8fb0}body[data-s="5"]{--c1:#4fa2ff;--c2:#7a3cf0}body[data-s="6"]{--c1:#ff6b4a;--c2:#ffb23e}
 button,input,select{font:inherit;color:inherit}
@@ -45,7 +45,10 @@ a{color:inherit}
 .story{position:relative;height:calc(var(--n)*100svh)}
 .snaps div{position:absolute;left:0;width:100%;height:100svh;top:calc(var(--i)*100svh);pointer-events:none}
 .stage{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:clamp(1rem,4vw,4.5rem);padding:0 var(--gut)}
-.bg{position:absolute;inset:0;background:radial-gradient(60% 50% at 18% 20%,color-mix(in srgb,var(--c1) 38%,transparent),transparent 70%),radial-gradient(55% 55% at 85% 80%,color-mix(in srgb,var(--c2) 42%,transparent),transparent 70%),var(--night);z-index:0}
+.bg{position:absolute;inset:0;z-index:0;background:var(--night);contain:strict}
+.bg i{position:absolute;inset:0;opacity:0;transition:opacity .6s var(--ease);will-change:opacity;background:radial-gradient(60% 50% at 18% 20%,color-mix(in srgb,var(--a) 38%,transparent),transparent 70%),radial-gradient(55% 55% at 85% 80%,color-mix(in srgb,var(--b) 42%,transparent),transparent 70%),radial-gradient(26% 38% at 50% 52%,color-mix(in srgb,var(--a) 24%,transparent),transparent 80%)}
+.bg i:nth-child(1){--a:#ff6b4a;--b:#7a3cf0}.bg i:nth-child(2){--a:#ff4f9a;--b:#3a5bff}.bg i:nth-child(3){--a:#27c9b8;--b:#2b4bd6}.bg i:nth-child(4){--a:#ffb23e;--b:#ff5a3c}.bg i:nth-child(5){--a:#6fd37a;--b:#1c8fb0}.bg i:nth-child(6){--a:#4fa2ff;--b:#7a3cf0}.bg i:nth-child(7){--a:#ff6b4a;--b:#ffb23e}
+body[data-s="0"] .bg i:nth-child(1),body[data-s="1"] .bg i:nth-child(2),body[data-s="2"] .bg i:nth-child(3),body[data-s="3"] .bg i:nth-child(4),body[data-s="4"] .bg i:nth-child(5),body[data-s="5"] .bg i:nth-child(6),body[data-s="6"] .bg i:nth-child(7){opacity:1}
 .bg::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.4px);background-size:26px 26px;mask-image:radial-gradient(70% 70% at 50% 50%,#000,transparent)}
 @keyframes bob{to{translate:0 -14px}}
 .ex,.side{position:relative;z-index:2;height:min(64svh,520px)}
@@ -84,7 +87,7 @@ a{color:inherit}
 
 /* phone */
 .phonewrap{position:relative;z-index:3;display:grid;place-items:center}
-.phone{--pf:calc(var(--pw)/22);position:relative;width:var(--pw);height:var(--ph);border-radius:calc(var(--pw)*.14);background:#000;padding:calc(var(--pw)*.025);box-shadow:0 0 0 2px #2a2833,0 40px 100px rgba(0,0,0,.6),0 0 120px color-mix(in srgb,var(--c1) 30%,transparent);font-size:var(--pf);transition:box-shadow 0.62s}
+.phone{--pf:calc(var(--pw)/22);position:relative;width:var(--pw);height:var(--ph);border-radius:calc(var(--pw)*.14);background:#000;padding:calc(var(--pw)*.025);box-shadow:0 0 0 2px #2a2833,0 40px 100px rgba(0,0,0,.6);font-size:var(--pf);transition:box-shadow 0.62s}
 .screen{position:relative;width:100%;height:100%;border-radius:calc(var(--pw)*.115);overflow:hidden;overflow:clip;background:#101016;isolation:isolate}
 .notch{position:absolute;z-index:30;top:calc(var(--pw)*.045);left:50%;width:30%;height:calc(var(--pw)*.07);border-radius:99px;background:#000;transform:translateX(-50%)}
 .segs{position:absolute;z-index:29;left:5%;right:5%;top:calc(var(--pw)*.15);display:flex;gap:3px}
@@ -311,7 +314,7 @@ a{color:inherit}
 .wlok{background:var(--paper);color:var(--night);border-radius:26px;padding:2rem;box-shadow:12px 12px 0 var(--night);text-align:center;display:grid;justify-items:center;gap:.8rem}
 .wlok h3{font:600 2.2rem var(--disp)}.wlok p{color:#62625D}
 .wlok .t{width:64px;height:64px;border-radius:50%;background:var(--coral);display:grid;place-items:center;animation:pop 0.37s var(--spring)}
-.foot{padding:3rem var(--gut) 2.4rem;color:var(--mute);font-size:.92rem;display:grid;grid-template-columns:1.6fr 1fr 1fr 1.4fr;gap:2rem;max-width:1280px;margin:0 auto;border-top:1px solid var(--line)}
+.foot{padding:3rem var(--gut) 2.4rem;color:var(--mute);font-size:.92rem;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1.4fr;gap:2rem;max-width:1280px;margin:0 auto;border-top:1px solid var(--line)}
 .fcol{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}.fcol h4{font:600 .8rem var(--body,inherit);letter-spacing:.04em;color:var(--paper);margin-bottom:.2rem}.fbrand b{color:var(--paper);font:600 1.3rem var(--disp)}.fbrand small{font-size:.8rem;max-width:34ch}.fcol a{color:var(--paper);opacity:.8;text-decoration:none}.fcol a:hover{opacity:1;text-decoration:underline}
 @media (max-width:760px){.foot{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}}
 [data-rv]{opacity:0;transform:translateY(26px);transition:opacity 0.43s var(--ease),transform 0.43s var(--ease);transition-delay:calc(var(--d,0)*90ms)}[data-rv].in{opacity:1;transform:none}
@@ -435,7 +438,7 @@ a{color:inherit}
 </section>
 <div class="story" id="story" style="--n:7">
   <div class="stage" id="stage">
-    <div class="bg" aria-hidden="true"></div>
+    <div class="bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
     <aside class="ex" id="ex" aria-live="polite">
       <section class="exi"><span class="step">1 of 7</span><h2>You saved it. That was the easy part.</h2><p>Every Reel you save is a trip you meant to take. Pick one on the phone, then scroll like you would on Reels: each swipe moves the demo one step forward.</p><span class="note"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-down"/></svg>Swipe up, or tap share on the phone</span></section>
@@ -563,6 +566,7 @@ a{color:inherit}
 <footer class="foot">
   <div class="fcol fbrand"><b>Reel 2 Real</b><p>Send a Reel. Get a trip.</p><small>A prototype with example data. Prices are illustrative US dollar estimates. Illustrations are drawn, not photos.</small></div>
   <nav class="fcol" aria-label="Footer"><h4>Explore</h4><a href="#pricing">Pricing</a><a href="#about">About</a><a href="#faq">FAQ</a><a href="#waitlist">Join the waitlist</a><a href="demo.html">Try the live demo</a></nav>
+  <nav class="fcol" aria-label="About and legal"><h4>Company</h4><a href="about/">About us</a><a href="terms/">Terms and privacy</a><a href="terms/#privacy">Privacy notice</a></nav>
   <nav class="fcol" aria-label="Other versions"><h4>Other versions</h4><a href="classic/">The original site</a><a href="darkroom/">Darkroom prototype</a></nav>
   <div class="fcol"><h4>Contact</h4><span>Caden George, co-founder</span><span>Benjamin Hejda, co-founder</span><a href="https://github.com/Dz9knath/fintech-site/issues" rel="noopener">Questions or ideas: open an issue on GitHub</a></div>
 </footer>
@@ -1118,6 +1122,8 @@ window.UP = (function () {
      so the demo morphs as you scroll instead of switching at a threshold */
   function place(node, a, b, move, unit, fade) {
     fade = fade || 1;
+    if (P < a - 1.05 || P > b + 1.05) { if (!node._h) { node._h = 1; node.style.opacity = '0'; } return; } // far from view: set once, then skip
+    node._h = 0;
     var t = P < a ? P - a : P > b ? P - b : 0, ty, op, sc = 1;
     if (t < 0) { ty = -t * move; op = Math.min(1, 1 + t * 1.6 * fade); } else { ty = -t * move * 0.35; op = Math.max(0, 1 - t * 1.5 * fade); sc = 1 - t * 0.07; }
     node.style.translate = '0 ' + ty.toFixed(2) + unit; node.style.opacity = op.toFixed(3); node.style.scale = sc.toFixed(3);
@@ -1139,9 +1145,9 @@ window.UP = (function () {
     else if (dy > 1 && !top.querySelector(':focus-visible')) top.classList.add('away');
     else if (dy < -1) top.classList.remove('away');
     lastY = y;
+    litManifest(); // reads layout, so it runs before the writes below
     layout();
     setScene(Math.round(P));
-    litManifest();
   }
   window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(function () { tick = false; onScroll(); }); } }, { passive: true });
   window.addEventListener('resize', function () { var c = cur; cur = -1; setScene(c < 0 ? 0 : c); });
@@ -1156,7 +1162,12 @@ window.UP = (function () {
   /* ---------- tail: manifesto, reveals, pricing, faq, waitlist ---------- */
   var man = $('#manifest'), words = man.textContent.trim().split(/\s+/); man.innerHTML = words.map(function (w) { return '<span>' + w + '</span>'; }).join(' ');
   var ws = $$('span', man);
-  function litManifest() { var r = man.getBoundingClientRect(), p = (innerHeight * 0.92 - r.top) / (innerHeight * 0.38 + r.height * 0.3); var n = Math.round(Math.max(0, Math.min(1, p)) * ws.length); ws.forEach(function (w, j) { w.classList.toggle('lit', j < n); }); }
+  var litN = -1, manTop = 0;
+  function litManifest() {
+    if (window.scrollY < base() + (N - 1) * innerHeight - innerHeight) return; // the manifesto is far below the demo: nothing to read yet
+    var r = man.getBoundingClientRect(), p = (innerHeight * 0.92 - r.top) / (innerHeight * 0.38 + r.height * 0.3), n = Math.round(Math.max(0, Math.min(1, p)) * ws.length);
+    if (n === litN) return; litN = n; ws.forEach(function (w, j) { w.classList.toggle('lit', j < n); });
+  }
   var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' }) : null;
   $$('[data-rv]').forEach(function (n) { n.style.setProperty('--d', $$('[data-rv]', n.parentNode).indexOf(n)); if (io) io.observe(n); else n.classList.add('in'); });
   var bill = $('.billing');
@@ -1178,8 +1189,7 @@ window.UP = (function () {
     wer.textContent = ''; var ig = $('#wli').value.trim().replace(/^@+/, ''), nm = $('#wln').value.trim();
     var rec = { name: nm, email: em, instagram: ig, source: 'main', at: new Date().toISOString() }, btn = $('button', wf); btn.disabled = true;
     function done(sent) { btn.disabled = false; wf.hidden = true; wok.hidden = false; $('#wlokp').textContent = sent ? (nm ? nm + ', we' : 'We') + ' will email ' + em + ' when Reel 2 Real opens.' : 'Saved in this browser as ' + em + '. The waitlist is not connected yet, so nothing was sent.'; }
-    store(rec);
-    if (!WAITLIST_ENDPOINT) { done(false); return; }
+    if (!WAITLIST_ENDPOINT) { store(rec); done(false); return; } // a local copy is kept only when nothing is sent anywhere
     /* a Google Apps Script web app only answers cross-origin posts opaquely, so success means the request was sent */
     fetch(WAITLIST_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(rec) })
       .then(function () { done(true); })
