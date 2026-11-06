@@ -10,3 +10,8 @@ The website is static, so it needs somewhere to send sign-ups. This uses a Googl
 
 Each sign-up becomes a row: time, name, email, Instagram, source. Duplicate emails are ignored.
 Note: the browser cannot read the script's reply, so the site treats "request sent" as success.
+
+## If rows do not appear
+1. In the script editor choose `testSetup` in the function dropdown and press Run. A row should appear in the `Waitlist` tab. If it errors, the message says why (usually: the script was created outside the sheet, so paste the sheet id into `SHEET_ID`).
+2. After any change: Deploy > Manage deployments > pencil icon > Version: New version > Deploy. The link stays the same.
+3. Opening the `/exec` link in a browser now shows `{"ok":true,"sheet":"<your sheet name>"}` when everything is connected.
