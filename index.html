@@ -396,6 +396,11 @@ input[type=range]{touch-action:none}
 .cdn{display:grid;grid-template-columns:repeat(4,auto);gap:.8rem}
 .cdn div{display:grid;justify-items:center;min-width:3.2rem}.cdn b{font:600 clamp(1.8rem,3vw,2.6rem)/1 var(--disp);font-variant-numeric:tabular-nums}.cdn span{font-size:.78rem;color:var(--mute)}
 
+/* announcement set from /admin (config/announcement); hidden unless the console has switched it on */
+.announce{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:60;display:flex;gap:.7rem;align-items:center;max-width:min(92vw,34rem);padding:.6rem .6rem .6rem 1rem;border-radius:99px;background:rgba(23,21,31,.92);border:1px solid var(--line);color:var(--paper);font-size:.9rem;line-height:1.3;backdrop-filter:blur(8px)}
+.announce[hidden]{display:none}
+.announce button{flex:none;width:28px;height:28px;border-radius:50%;border:0;background:rgba(246,241,231,.12);color:var(--paper);cursor:pointer}
+
 </style>
 </head>
 <body data-s="0">
@@ -587,6 +592,7 @@ input[type=range]{touch-action:none}
 </footer>
 </div>
 </main>
+<div class="announce" id="announce" role="status" hidden><span id="announceT"></span><button type="button" id="announceX" aria-label="Dismiss announcement">✕</button></div>
 <script>
 window.UP = (function () {
   'use strict';
@@ -1257,6 +1263,20 @@ window.UP = (function () {
       setTimeout(function () { ti = (ti + 1) % TK.length; paint(TK[ti]); ttx.classList.add('pre'); void ttx.offsetWidth; ttx.classList.remove('out'); ttx.classList.remove('pre'); }, 420);
     }, 2800);
   } else if (tkr) { thum.innerHTML = SC.inari(); ttx.textContent = 'Next stop: ' + PL.inari.city + ' ' + PL.inari.flag; }
+
+  /* ---------- announcement from the admin console ---------- */
+  // A plain fetch of one public document (no Firebase code is loaded for visitors). Nothing happens until the config is filled in.
+  import('./firebase-config.js').then(function (m) {
+    var cfg = m.APP_FIREBASE_CONFIG; if (!cfg) return;
+    return fetch('https://firestore.googleapis.com/v1/projects/' + cfg.projectId + '/databases/(default)/documents/config/announcement').then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      var f = d && d.fields; if (!f || !f.active || f.active.booleanValue !== true) return;
+      var text = f.text && f.text.stringValue, aud = f.audience && f.audience.stringValue;
+      if (!text || (aud !== 'site' && aud !== 'both')) return;
+      try { if (localStorage.getItem('r2r.ann') === text) return; } catch (e) { /* show it anyway */ }
+      $('#announceT').textContent = text; $('#announce').hidden = false;
+      $('#announceX').addEventListener('click', function () { $('#announce').hidden = true; try { localStorage.setItem('r2r.ann', text); } catch (e) { /* not saved */ } });
+    });
+  }).catch(function () { /* no config module (preview from file) or offline: no banner */ });
 
   /* ---------- launch countdown ---------- */
   var LAUNCH = Date.parse('2026-11-10T00:00:00+01:00'), cdE = ['d', 'h', 'm', 's'].map(function (k) { return $('#cd-' + k); });

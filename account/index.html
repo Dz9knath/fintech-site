@@ -44,6 +44,7 @@ footer{border-top:1px solid var(--line);padding:1.6rem var(--gut);color:var(--mu
 .acct .err{color:#ff9d8a;min-height:1.4em;margin-top:.8rem}
 .acct .ok{color:var(--lagoon)}
 .acct .linkbtn{background:none;border:0;color:var(--lagoon);cursor:pointer;font:inherit;text-decoration:underline;padding:0}
+.acct .del{margin-top:2rem;border-top:1px solid var(--line);padding-top:1rem}.acct .del summary{cursor:pointer;color:var(--mute)}.acct .del input{width:100%;padding:.75rem .9rem;border-radius:12px;border:1px solid var(--line);background:rgba(246,241,231,.06);color:var(--paper);font:inherit;margin-top:.6rem}.acct .btn[disabled]{opacity:.45;cursor:not-allowed}
 </style></head><body>
 <header class="top"><a class="wm" href="../"><i><svg width="14" height="14" viewBox="0 0 14 14"><path d="M4 2v10l8-5z" fill="#0B0A10"/></svg></i>Reel 2 Real</a>
 <nav aria-label="Pages"><a href="../">Home</a><a href="../about/">About</a><a href="../terms/">Terms and privacy</a><a href="../#waitlist">Join the waitlist</a></nav></header>
@@ -61,7 +62,7 @@ const MSG = {
   "auth/invalid-credential": "That email and password do not match.", "auth/wrong-password": "That email and password do not match.", "auth/user-not-found": "That email and password do not match.",
   "auth/email-already-in-use": "An account with this email already exists. Try signing in.", "auth/weak-password": "Use at least 8 characters.",
   "auth/invalid-email": "That email address does not look right.", "auth/too-many-requests": "Too many attempts. Wait a few minutes and try again.",
-  "auth/network-request-failed": "No connection. Check your internet and try again.", "auth/account-exists-with-different-credential": "This email is already used with another sign-in method.",
+  "functions/internal": "We could not delete your account. Please try again.", "functions/unauthenticated": "Please sign in again, then retry.", "auth/network-request-failed": "No connection. Check your internet and try again.", "auth/account-exists-with-different-credential": "This email is already used with another sign-in method.",
 };
 const say = e => MSG[e && e.code] || "Something went wrong. Please try again.";
 
@@ -72,7 +73,7 @@ if (!APP_FIREBASE_CONFIG) {
 } else {
   const [appM, authM] = await Promise.all([import(FB + "firebase-app.js"), import(FB + "firebase-auth.js")]);
   const app = appM.getApps().find(a => a.name === "r2r") || appM.initializeApp(APP_FIREBASE_CONFIG, "r2r"), auth = authM.getAuth(app);
-  let mode = "in";
+  let mode = "in", deleted = false;
   const err = el("div", { class: "err", role: "alert" });
   const run = async fn => { err.textContent = ""; err.classList.remove("ok"); try { await fn(); } catch (e) { if (e.code !== "auth/popup-closed-by-user" && e.code !== "auth/cancelled-popup-request") err.textContent = say(e); } };
 
@@ -105,9 +106,24 @@ if (!APP_FIREBASE_CONFIG) {
     u.emailVerified || !u.email ? el("p", { class: "ok" }, "Email verified.") : el("p", {}, "Your email is not verified yet. Check your inbox. ", el("button", { class: "linkbtn", onclick: () => run(async () => { await authM.sendEmailVerification(u); err.classList.add("ok"); err.textContent = "Verification email sent."; }) }, "Send it again")),
     el("p", {}, "The app is not out yet. When it is, this is the account you will use there."),
     el("button", { class: "btn alt", onclick: () => authM.signOut(auth) }, "Sign out"), err,
-    el("p", { class: "small", style: "margin-top:1.5rem" }, "To have your account and data deleted, email ", el("a", { href: "mailto:reel2real.app@gmail.com?subject=Delete my account" }, "reel2real.app@gmail.com"), " from this address."),
+    deleteBox(u),
   ];
-  const render = u => { root.replaceChildren(...(u ? userView(u) : formView())); };
+  const deleteBox = u => {
+    const word = el("input", { type: "text", id: "delw", autocomplete: "off", placeholder: "Type DELETE", "aria-label": "Type DELETE to confirm" });
+    const go = el("button", { class: "btn alt", type: "button", disabled: "" }, "Delete everything");
+    word.oninput = () => { if (word.value.trim() === "DELETE") go.removeAttribute("disabled"); else go.setAttribute("disabled", ""); };
+    go.onclick = () => run(async () => {
+      go.setAttribute("disabled", ""); go.textContent = "Deleting…";
+      try {
+        const fnM = await import(FB + "firebase-functions.js");
+        await fnM.httpsCallable(fnM.getFunctions(app), "deleteAccount", { timeout: 310000 })({ confirm: true });
+      } catch (e) { go.removeAttribute("disabled"); go.textContent = "Delete everything"; throw e; }
+      deleted = true; await authM.signOut(auth);
+    });
+    return el("details", { class: "del" }, el("summary", {}, "Delete my account"),
+      el("p", {}, "This permanently deletes your account and everything saved in it, including trips and lists. It cannot be undone."), word, go);
+  };
+  const render = u => { root.replaceChildren(...(u ? userView(u) : [...(deleted ? [el("p", { class: "ok" }, "Your account and its data have been deleted.")] : []), ...formView()])); };
   let wasIn = false;
   authM.onAuthStateChanged(auth, u => { err.textContent = ""; if (!u && wasIn) mode = "in"; wasIn = !!u; render(u); });
 }

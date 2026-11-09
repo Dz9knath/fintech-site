@@ -9,13 +9,17 @@ One Firebase project holds everything: **travel-app-d799b** (Caden owns it). The
 
 Both read their settings from `firebase-config.js`. While it says `null`, `/account/` shows "Accounts open when the app launches" and `/admin/` runs in this browser only; neither touches a server.
 
+## What the console controls on the site
+- **Announcement banner:** the console's Announcement section writes `config/announcement`. The home page reads that one public document with a plain fetch (no Firebase code loads for visitors) and shows a dismissible pill when it is active and its audience is `site` or `both`.
+- **Waitlist:** still the Google Sheet. The app repo's `waitlist` collection (PR #49) is ready when we decide to move it; the form would then need a name field added to that rule.
+
 ## Privacy model
 - **Passwords:** never seen or stored by us. Firebase Authentication stores a salted hash. Google sign-in gives us an email and a name, never a password.
 - **What the website stores per account:** nothing beyond the Firebase Auth record (email, uid, sign-up time). No profile document is created by the site; the app creates its own profile when someone first uses it, so the strict `users/{uid}` rules in the app repo stay untouched.
 - **Admin data** (the board, presence, columns) lives in `adminTasks`, `adminPresence` and `adminMeta`, readable and writable only with the `admin` claim.
 - **Region:** make sure Firestore is in an EU location (it cannot be changed after creation).
 - The Firebase SDK loads only on `/account/` and `/admin/`, never on the main page, so ordinary visitors do not contact Google for it (they still do for fonts, see the privacy notice).
-- Account deletion is by email for now. The app repo plans a Cloud Function for it; when it exists, add a Delete button to `/account/`.
+- Account deletion: the `/account/` page has a Delete button (type DELETE to confirm) that calls the app's `deleteAccount` callable, the same one the mobile app uses. It removes the sign-in, the user's documents and their files.
 
 ## What Caden does (nothing here can be done from the website repo)
 1. **Firebase console > Project settings > Your apps > Web app:** copy the config into `firebase-config.js` (public by design).
