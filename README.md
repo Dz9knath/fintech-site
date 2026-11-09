@@ -26,3 +26,6 @@ GitHub Pages: Settings, Pages, Deploy from a branch, `main` / root. After a depl
 ## Waitlist
 
 Sign-ups are sent to a Google Sheet through a small Google Apps Script. Setup takes about 5 minutes: see `waitlist/README.md`. Until `WAITLIST_ENDPOINT` is set (a constant in the scripts of `/` and `/darkroom/`), sign-ups are saved in the visitor's own browser only, and the form says so.
+
+## Accounts and admin
+`/account/` (public sign-in) and `/admin/` (the Cowork board and console, merged from the Dz9knath/Cowork repo) share `firebase-config.js`. While it says `null` neither touches a server. How to connect them to the app's Firebase project, the rules to deploy and the privacy model are in `docs/BACKEND.md`.
