@@ -1,0 +1,9 @@
+# Reel 2 Real
+User-agent: *
+Allow: /
+# setup files served from the repo, not pages
+Disallow: /waitlist/
+Disallow: /docs/
+Disallow: /qr/
+
+Sitemap: https://www.reel2real.app/sitemap.xml

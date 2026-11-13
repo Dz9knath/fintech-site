@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Reel 2 Real: Send a reel. Get a trip.</title>
-<meta name="description" content="Discover incredible destinations, find holidays that fit your budget and turn travel inspiration into real trips.">
-<meta property="og:title" content="Reel 2 Real: Send a reel. Get a trip.">
-<meta property="og:description" content="Your next adventure starts with a scroll.">
-<meta property="og:type" content="website">
+<title>Classic version | Reel 2 Real</title>
+<meta name="description" content="The first version of the Reel 2 Real website, kept as an archive.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://www.reel2real.app/classic/">
+<link rel="icon" href="../favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" href="../icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
 <meta name="theme-color" content="#0B3C49">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230B3C49'/%3E%3Ccircle cx='16' cy='13' r='5.5' fill='%23F2603F'/%3E%3Cpath d='M10.5 15l5.5 11 5.5-11z' fill='%23F2603F'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
@@ -46,7 +48,6 @@ p{margin:0}
 section{position:relative}
 .pad{padding:96px 0}
 @media (max-width:700px){.pad{padding:64px 0}}
-
 /* buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:15px 26px;font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s;white-space:nowrap}
 .btn:hover{transform:translateY(-2px)}
@@ -57,7 +58,6 @@ section{position:relative}
 .btn.sm{padding:10px 18px;font-size:14px}
 .btn.lg{padding:18px 32px;font-size:18px}
 .btn svg{width:18px;height:18px}
-
 /* nav */
 .nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
 .nav.scrolled{border-color:var(--line)}
@@ -79,7 +79,6 @@ section{position:relative}
   .links .mtry{display:inline-flex;margin-top:8px}}
 .links .mtry{display:none}
 @media (max-width:900px){.links .mtry{display:inline-flex}}
-
 /* hero */
 .hero{overflow:hidden;padding:56px 0 88px;background:
   radial-gradient(60% 50% at 88% 8%,color-mix(in srgb,var(--coral) 20%,transparent),transparent 70%),
@@ -142,7 +141,6 @@ section{position:relative}
 @keyframes bob{50%{transform:translateY(-10px)}}
 @media (max-width:1100px){.chipf.one{left:-2%}.chipf.two{right:0}}
 @media (max-width:620px){.chipf.two{display:none}.chipf.one{left:0;top:6%}.chipf.three{left:0;bottom:4%}.stage{min-height:520px}}
-
 .t-teal{background:color-mix(in srgb,var(--teal) 17%,transparent);color:var(--teal)}
 .t-coral{background:color-mix(in srgb,var(--coral) 16%,transparent);color:var(--coral)}
 .t-sun{background:color-mix(in srgb,#E9A92A 20%,transparent);color:#C98A12}
@@ -151,13 +149,11 @@ section{position:relative}
 .chipf svg,.step .ico svg,.feat .ico svg,.perks svg,.btn svg,.heart svg{width:1em;height:1em}
 .chipf .ic svg{width:18px;height:18px}.step .ico svg{width:26px;height:26px}.feat .ico svg{width:24px;height:24px}.perks svg{width:22px;height:22px}.btn svg{width:18px;height:18px}.heart svg{width:18px;height:18px}
 .reel .side svg{width:26px;height:26px}
-
 /* shared section head */
 .head{max-width:680px;margin-bottom:48px}
 .head h2{margin:14px 0 14px}
 .head.center{text-align:center;margin-inline:auto}
 .head.center .lede{margin-inline:auto}
-
 /* how it works */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
 @media (max-width:960px){.steps{grid-template-columns:repeat(2,1fr)}}
@@ -168,7 +164,6 @@ section{position:relative}
 .step .ico{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;margin-bottom:34px}
 .step .ico svg{width:26px;height:26px}
 .step p{color:var(--muted);margin-top:8px;font-size:15px}
-
 /* holiday finder */
 .finder{background:var(--deep);color:var(--on-deep);border-radius:44px;margin:0 16px;overflow:hidden}
 @media (min-width:1260px){.finder{margin:0 auto;max-width:1260px}}
@@ -205,7 +200,6 @@ input[type=date]:focus,input[type=number]:focus,select:focus{outline:none;border
 .extra{display:none;border-top:1px dashed var(--line);padding-top:18px;margin-bottom:6px}
 .extra.show{display:block}
 .form .btn{width:100%}
-
 /* destinations */
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
 .dgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
@@ -231,7 +225,6 @@ input[type=date]:focus,input[type=number]:focus,select:focus{outline:none;border
 .heart svg{width:18px;height:18px}
 .heart[aria-pressed=true]{background:var(--coral);color:#fff}
 .heart[aria-pressed=true] svg{fill:currentColor}
-
 /* profiles */
 .prof-top{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin-bottom:28px}
 .prof-top .fld{margin:0;min-width:200px}
@@ -250,7 +243,6 @@ input[type=date]:focus,input[type=number]:focus,select:focus{outline:none;border
 .pc li b{color:var(--ink);font-variant-numeric:tabular-nums;font-weight:500}
 .pc p{color:var(--muted);font-size:14px}
 .note{font-size:13px;color:var(--muted);margin-top:18px}
-
 /* map */
 .mapsec{background:var(--deep);color:var(--on-deep);border-radius:44px;margin:0 16px;overflow:hidden}
 @media (min-width:1260px){.mapsec{margin:0 auto;max-width:1260px}}
@@ -280,7 +272,6 @@ input[type=date]:focus,input[type=number]:focus,select:focus{outline:none;border
 .colls .chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff}
 .colls .chip[aria-pressed=true]{background:var(--sun);border-color:var(--sun);color:#13262D}
 @media (prefers-color-scheme:dark){.colls .chip{color:var(--ink)}}
-
 /* features */
 .fgrid2{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 @media (max-width:960px){.fgrid2{grid-template-columns:repeat(2,1fr)}}
@@ -290,7 +281,6 @@ input[type=date]:focus,input[type=number]:focus,select:focus{outline:none;border
 .feat .ico{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;margin-bottom:20px}
 .feat .ico svg{width:24px;height:24px}
 .feat p{color:var(--muted);margin-top:8px;font-size:15px}
-
 /* cta + footer */
 .cta{margin:0 16px;border-radius:44px;padding:92px 24px;text-align:center;color:#fff;background:linear-gradient(135deg,#0B3C49 0%,#1E9C8E 55%,#F2603F 130%);position:relative;overflow:hidden}
 @media (min-width:1260px){.cta{margin:0 auto;max-width:1260px}}
@@ -305,7 +295,6 @@ footer{padding:56px 0 40px;color:var(--muted);font-size:14px}
 footer nav{display:flex;gap:18px;flex-wrap:wrap}
 footer a{text-decoration:none}footer a:hover{color:var(--ink)}
 footer .legal{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);max-width:60em}
-
 /* reveal */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
 .rv.in{opacity:1;transform:none}
@@ -313,7 +302,6 @@ footer .legal{margin-top:28px;padding-top:20px;border-top:1px solid var(--line);
   *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .rv,.mapbig .pin{opacity:1;transform:none}
   .lay.b,.lay.c{display:none}.lay.a{opacity:1}}
-
 </style>
 </head>
 <body>

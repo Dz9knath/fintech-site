@@ -1,0 +1,21 @@
+{
+ "name": "Reel 2 Real",
+ "short_name": "Reel 2 Real",
+ "description": "Share a saved Instagram Reel and Reel 2 Real finds the destination, prices the whole trip and pins it to your map. Join the waitlist.",
+ "start_url": "/",
+ "display": "browser",
+ "background_color": "#0B0A10",
+ "theme_color": "#0B0A10",
+ "icons": [
+  {
+   "src": "/icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ]
+}

@@ -29,3 +29,6 @@ Sign-ups are sent to a Google Sheet through a small Google Apps Script. Setup ta
 
 ## Accounts and admin
 `/account/` (public sign-in) and `/admin/` (the Cowork board and console, merged from the Dz9knath/Cowork repo) share `firebase-config.js`. While it says `null` neither touches a server. How to connect them to the app's Firebase project, the rules to deploy and the privacy model are in `docs/BACKEND.md`.
+
+## Search and sharing
+Built by `seo/seo.py` in the source folder, run at the end of every build: titles, descriptions, canonical URLs and robots rules per page, Open Graph and X/Twitter previews (`og.png`), icons, `site.webmanifest`, JSON-LD (Organization, WebSite, FAQ from the visible FAQ, About and breadcrumbs), `robots.txt`, `sitemap.xml` and `404.html`. Only `/`, `/about/` and `/terms/` are indexed; the prototypes, demo, account and admin pages are `noindex`.
