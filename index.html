@@ -402,11 +402,11 @@ input[type=range]{touch-action:none}
 .announce button{flex:none;width:28px;height:28px;border-radius:50%;border:0;background:rgba(246,241,231,.12);color:var(--paper);cursor:pointer}
 /* handwritten note on the sign-up box, shown to people who arrived via the #waitlist link or have just joined */
 .wlbox{position:relative}
-.wlhint{position:absolute;z-index:2;right:-.4rem;top:-4.6rem;display:flex;align-items:flex-start;gap:.15rem;color:var(--night);font:700 1.75rem/1 var(--hand);text-decoration:none;rotate:-6deg;transform-origin:70% 100%;animation:wlpop .55s cubic-bezier(.3,1.6,.5,1) both,wlwig 4.2s 1.4s ease-in-out infinite}
+.wlhint{position:absolute;z-index:2;right:.4rem;top:-4.9rem;display:flex;align-items:flex-start;gap:.15rem;color:var(--night);font:700 1.75rem/1 var(--hand);text-decoration:none;rotate:-6deg;transform-origin:70% 100%;animation:wlpop .55s cubic-bezier(.3,1.6,.5,1) both,wlwig 4.2s 1.4s ease-in-out infinite}
 .wlhint[hidden]{display:none}
-.wlnt{background:var(--paper);padding:.45rem .8rem .5rem;border-radius:14px 14px 14px 4px;box-shadow:4px 4px 0 var(--night);text-align:left}
+.wlnt{text-align:left;padding:0 .1rem}
 .wlna{flex:none;margin-top:-.6rem}
-.wlhint:hover .wlnt,.wlhint:focus-visible .wlnt{background:#fff}
+.wlhint:hover .wlnt{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
 .wlhint:focus-visible{outline:2px solid var(--night);outline-offset:4px;border-radius:14px}
 @keyframes wlpop{from{opacity:0;scale:.4}to{opacity:1;scale:1}}
 @keyframes wlwig{0%,82%,100%{rotate:-6deg}86%{rotate:-1deg}90%{rotate:-10deg}94%{rotate:-4deg}}
