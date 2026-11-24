@@ -400,10 +400,18 @@ input[type=range]{touch-action:none}
 .announce{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:60;display:flex;gap:.7rem;align-items:center;max-width:min(92vw,34rem);padding:.6rem .6rem .6rem 1rem;border-radius:99px;background:rgba(23,21,31,.92);border:1px solid var(--line);color:var(--paper);font-size:.9rem;line-height:1.3;backdrop-filter:blur(8px)}
 .announce[hidden]{display:none}
 .announce button{flex:none;width:28px;height:28px;border-radius:50%;border:0;background:rgba(246,241,231,.12);color:var(--paper);cursor:pointer}
-/* the waitlist is often opened straight from a shared link: this points back to the demo above it */
-.wlback{display:inline-flex;align-items:center;gap:.45rem;margin-bottom:1.1rem;padding:.5rem .95rem;border-radius:99px;background:var(--night);color:var(--paper);font:600 .92rem var(--body);text-decoration:none}
-.wlback:hover{background:#2a2730}.wlback:focus-visible{outline:2px solid var(--night);outline-offset:3px}
-.wlback svg{transition:transform .2s}.wlback:hover svg{transform:translateY(-2px)}
+/* handwritten note on the sign-up box, shown to people who arrived via the #waitlist link or have just joined */
+.wlbox{position:relative}
+.wlhint{position:absolute;z-index:2;right:-.4rem;top:-4.6rem;display:flex;align-items:flex-start;gap:.15rem;color:var(--night);font:700 1.75rem/1 var(--hand);text-decoration:none;rotate:-6deg;transform-origin:70% 100%;animation:wlpop .55s cubic-bezier(.3,1.6,.5,1) both,wlwig 4.2s 1.4s ease-in-out infinite}
+.wlhint[hidden]{display:none}
+.wlnt{background:var(--paper);padding:.45rem .8rem .5rem;border-radius:14px 14px 14px 4px;box-shadow:4px 4px 0 var(--night);text-align:left}
+.wlna{flex:none;margin-top:-.6rem}
+.wlhint:hover .wlnt,.wlhint:focus-visible .wlnt{background:#fff}
+.wlhint:focus-visible{outline:2px solid var(--night);outline-offset:4px;border-radius:14px}
+@keyframes wlpop{from{opacity:0;scale:.4}to{opacity:1;scale:1}}
+@keyframes wlwig{0%,82%,100%{rotate:-6deg}86%{rotate:-1deg}90%{rotate:-10deg}94%{rotate:-4deg}}
+@media (max-width:899px){.wlbox{margin-top:4.6rem}.wlhint{right:.2rem;font-size:1.55rem}}
+@media (prefers-reduced-motion:reduce){.wlhint{animation:none}}
 </style>
 </head>
 <body data-s="0">
@@ -582,8 +590,8 @@ input[type=range]{touch-action:none}
   </div></div>
 </section>
 
-<section class="sec wl" id="waitlist"><div class="wlin"><div><a class="wlback" id="wlBack" href="#story"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg>New here? Try the demo first</a><h2>Be first on the plane.</h2><p class="lead">Join the waitlist and we'll email you when Reel 2 Real opens. One email at launch, nothing else.</p></div>
-  <div><form class="wlf" id="wlf" novalidate><label for="wln">First name</label><input id="wln" type="text" autocomplete="given-name" maxlength="60" placeholder="Alex"><label for="wle">Email</label><div class="wlrow"><input id="wle" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required><button class="btn" type="submit">Join the waitlist</button></div><label for="wli">Instagram handle <span class="opt">(optional)</span></label><input id="wli" type="text" autocapitalize="none" autocomplete="off" maxlength="40" placeholder="@yourname"><input class="hp" type="text" name="website" id="wlhp" tabindex="-1" autocomplete="off" aria-hidden="true"><p class="wlerr" id="wlerr" role="alert"></p><p class="wlnote" id="wlnote"></p></form>
+<section class="sec wl" id="waitlist"><div class="wlin"><div><h2>Be first on the plane.</h2><p class="lead">Join the waitlist and we'll email you when Reel 2 Real opens. One email at launch, nothing else.</p></div>
+  <div class="wlbox"><a class="wlhint" id="wlBack" href="#story" hidden><span class="wlnt">psst… new here?<br>try the demo first!</span><svg class="wlna" width="46" height="52" viewBox="0 0 46 52" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 48c4-14 10-28 28-40"/><path d="M24 7l12 1-3 12"/></svg></a><form class="wlf" id="wlf" novalidate><label for="wln">First name</label><input id="wln" type="text" autocomplete="given-name" maxlength="60" placeholder="Alex"><label for="wle">Email</label><div class="wlrow"><input id="wle" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required><button class="btn" type="submit">Join the waitlist</button></div><label for="wli">Instagram handle <span class="opt">(optional)</span></label><input id="wli" type="text" autocapitalize="none" autocomplete="off" maxlength="40" placeholder="@yourname"><input class="hp" type="text" name="website" id="wlhp" tabindex="-1" autocomplete="off" aria-hidden="true"><p class="wlerr" id="wlerr" role="alert"></p><p class="wlnote" id="wlnote"></p></form>
   <div class="wlok" id="wlok" hidden><span class="t"><svg width="34" height="34" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check"/></svg></span><h3>You're on the list.</h3><p id="wlokp"></p><button type="button" class="btn line sm" id="wlagain" style="color:var(--night);border-color:var(--night)">Add another email</button></div></div></div></section>
 
 <footer class="foot">
@@ -1252,6 +1260,8 @@ window.UP = (function () {
   $('.wm').addEventListener('click', function (e) { e.preventDefault(); jump(0); try { history.replaceState(null, '', location.pathname); } catch (x) { /* file:// */ } });
   function intro() { if (hz) { jump(base()); pageTo(0); } else animateTo(base()); }
   $('#introGo').addEventListener('click', intro);
+  // only for people who came in through a shared #waitlist link, or who have just joined
+  var wlb = $('#wlBack'); if (location.hash === '#waitlist') wlb.hidden = false;
   $('#wlBack').addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); jump(base()); if (hz) pageTo(0); else { P = 0; onScroll(); } try { history.replaceState(null, '', location.pathname); } catch (x) { /* file:// */ } });
   $('#introCue').addEventListener('click', intro);
 
@@ -1321,7 +1331,7 @@ window.UP = (function () {
     if ($('#wlhp').value) { wer.textContent = ''; wf.hidden = true; wok.hidden = false; return; } // hidden trap field: bots fill it, people never see it
     wer.textContent = ''; var ig = $('#wli').value.trim().replace(/^@+/, ''), nm = $('#wln').value.trim();
     var rec = { name: nm, email: em, instagram: ig, source: 'main', at: new Date().toISOString() }, btn = $('button', wf); btn.disabled = true;
-    function done(sent) { btn.disabled = false; wf.hidden = true; wok.hidden = false; $('#wlokp').textContent = sent ? (nm ? nm + ', we' : 'We') + ' will email ' + em + ' when Reel 2 Real opens.' : 'Saved in this browser as ' + em + '. The waitlist is not connected yet, so nothing was sent.'; }
+    function done(sent) { btn.disabled = false; wf.hidden = true; wok.hidden = false; $('.wlnt', wlb).innerHTML = 'while you wait…<br>try the demo!'; wlb.hidden = false; $('#wlokp').textContent = sent ? (nm ? nm + ', we' : 'We') + ' will email ' + em + ' when Reel 2 Real opens.' : 'Saved in this browser as ' + em + '. The waitlist is not connected yet, so nothing was sent.'; }
     if (!WAITLIST_ENDPOINT) { store(rec); done(false); return; } // a local copy is kept only when nothing is sent anywhere
     /* a Google Apps Script web app only answers cross-origin posts opaquely, so success means the request was sent */
     fetch(WAITLIST_ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(rec) })
